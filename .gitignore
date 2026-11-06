@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Build output and caches
+dist/
+dist-ssr/
+.vite/
+.cache/
+coverage/
+*.tsbuildinfo
+
+# Local environment and secrets (keep the shared example)
+.env
+.env.*
+!.env.example
+
+# Logs and temporary QA output
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.qa/
+playwright-report/
+test-results/
+
+# Blender automatic backups (keep master .blend and exported assets)
+*.blend[0-9]*
+*.blend@
+
+# Local editor and OS files
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini
