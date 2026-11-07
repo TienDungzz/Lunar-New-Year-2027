@@ -1,0 +1,90 @@
+[
+    {
+        "id":  "wish-01",
+        "title":  {
+                      "vi":  "Bình an",
+                      "en":  "Peace"
+                  },
+        "body":  {
+                     "vi":  "Chúc một năm bình an, mỗi ngày đều có nơi để trở về.",
+                     "en":  "May your year be peaceful, with a place to call home every day."
+                 }
+    },
+    {
+        "id":  "wish-02",
+        "title":  {
+                      "vi":  "Sức khỏe",
+                      "en":  "Good health"
+                  },
+        "body":  {
+                     "vi":  "Chúc bạn và gia đình mạnh khỏe, an nhiên qua bốn mùa.",
+                     "en":  "Wishing you and your family good health and ease through every season."
+                 }
+    },
+    {
+        "id":  "wish-03",
+        "title":  {
+                      "vi":  "Hạnh phúc",
+                      "en":  "Happiness"
+                  },
+        "body":  {
+                     "vi":  "Mong niềm vui nhỏ luôn ghé thăm ngôi nhà của bạn.",
+                     "en":  "May little moments of joy always find their way into your home."
+                 }
+    },
+    {
+        "id":  "wish-04",
+        "title":  {
+                      "vi":  "Tài lộc",
+                      "en":  "Prosperity"
+                  },
+        "body":  {
+                     "vi":  "Chúc công việc thuận lợi, tài lộc đủ đầy và bền vững.",
+                     "en":  "May your work flourish and bring lasting prosperity."
+                 }
+    },
+    {
+        "id":  "wish-05",
+        "title":  {
+                      "vi":  "Thành công",
+                      "en":  "Success"
+                  },
+        "body":  {
+                     "vi":  "Mong những cố gắng của bạn nở hoa trong năm mới.",
+                     "en":  "May all your efforts blossom in the new year."
+                 }
+    },
+    {
+        "id":  "wish-06",
+        "title":  {
+                      "vi":  "Gia đình",
+                      "en":  "Family"
+                  },
+        "body":  {
+                     "vi":  "Chúc những bữa cơm sum họp luôn đầy ắp tiếng cười.",
+                     "en":  "May every meal together be filled with warmth and laughter."
+                 }
+    },
+    {
+        "id":  "wish-07",
+        "title":  {
+                      "vi":  "Tình yêu",
+                      "en":  "Love"
+                  },
+        "body":  {
+                     "vi":  "Chúc trái tim luôn được trân trọng và yêu thương.",
+                     "en":  "May your heart always be cherished and loved."
+                 }
+    },
+    {
+        "id":  "wish-08",
+        "title":  {
+                      "vi":  "Bạn bè",
+                      "en":  "Friendship"
+                  },
+        "body":  {
+                     "vi":  "Mong những tình bạn tốt đẹp tiếp tục đồng hành.",
+                     "en":  "May good friendships walk beside you in the years ahead."
+                 }
+    }
+]

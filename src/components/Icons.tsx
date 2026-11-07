@@ -1,0 +1,39 @@
+import { GOAT_STROKES } from '../lib/goatShape.mjs';
+
+export default function Icon({ name, className = '' }: { name: string; className?: string }) {
+  const common = { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.4, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, className, 'aria-hidden': true as const };
+  if (name === 'minus') return <svg {...common}><path d="M5 12h14" /></svg>;
+  if (name === 'greeting') return <svg {...common}><path d="M3 4h18v16H3zM6 2v4m12-4v4" /><text x="12" y="12" textAnchor="middle" fill="currentColor" stroke="none" fontSize="6">CM</text><text x="12" y="18" textAnchor="middle" fill="currentColor" stroke="none" fontSize="6">NM</text></svg>;
+  if (name === 'year') return <svg {...common}><text x="12" y="11" textAnchor="middle" fill="currentColor" stroke="none" fontSize="10">20</text><text x="12" y="21" textAnchor="middle" fill="currentColor" stroke="none" fontSize="10">27</text></svg>;
+  if (name === 'plus') return <svg {...common}><path d="M5 12h14M12 5v14" /></svg>;
+  if (name === 'volume') return <svg {...common}><path d="M5 3v18m7-18v18m7-18v18" /><path d="M2 8h6m1 8h6m1-10h6" strokeWidth="3" /></svg>;
+  if (name.startsWith('dock-')) return <svg {...common}><rect x="3" y="4" width="18" height="16" rx="1" />{name === 'dock-bottom' ? <path d="M3 15h18M7 18h1m3 0h1m3 0h1" /> : name === 'dock-left' ? <path d="M9 4v16M6 8v1m0 3v1m0 3v1" /> : <path d="M15 4v16m3-12v1m0 3v1m0 3v1" />}</svg>;
+  if (name === 'goat') return <svg {...common}><g transform="translate(12 13) scale(4 -4)" strokeWidth={.27}>{GOAT_STROKES.map((points,i) => <polyline key={i} points={points.map(p => p.join(',')).join(' ')} />)}</g></svg>;
+  if (name === 'rocket') return <svg {...common}><path d="M12 14V3m-4 5 4-5 4 5M9 17l-3 5m6-4v5m3-6 3 5" /><circle cx="12" cy="14" r="2" /></svg>;
+  if (name === 'cluster') return <svg {...common}><circle cx="12" cy="12" r="2" /><path d="m10 10-4-4m8 4 4-4m-4 8 4 4m-8-4-4 4M5 2v6M2 5h6m11-3v6m-3-3h6M5 16v6m-3-3h6m11-3v6m-3-3h6" /></svg>;
+  if (name === 'willow') return <svg {...common}><path d="M12 3v18M12 4C2 4 2 11 2 20m10-16C22 4 22 11 22 20M12 4C6 5 7 14 7 22m5-18c6 1 5 10 5 18" /></svg>;
+  if (name === 'crackle') return <svg {...common}><path d="m12 2 1 5 4-2-2 5 6 2-6 2 2 5-4-2-1 5-1-5-4 2 2-5-6-2 6-2-2-5 4 2Z" /><path d="m3 3 1 1m16-1-1 1m1 16-1-1M3 20l1-1" /></svg>;
+  if (name === 'fan') return <svg {...common}><path d="M12 22 2 8m10 14L7 4m5 18V2m0 20 5-18m-5 18L22 8M1 5l2-3m3 0L7 1m4 0h2m4 1 1 1m3 1 2 2" /></svg>;
+  if (name === 'pause') return <svg {...common}><path d="M8 5v14M16 5v14" /></svg>;
+  if (name === 'play') return <svg {...common}><path d="m7 4 13 8-13 8Z" /></svg>;
+  if (name === 'text') return <svg {...common}><path d="M3 6h12M9 6v15M5 21h8m3-12 5 12m-8 0 5-12m-3 8h5" /></svg>;
+  if (name === 'star') return <svg {...common}><path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1Z" /></svg>;
+  if (name === 'spiral') return <svg {...common}><path d="M11 12c-2-3 3-5 5-2s-1 8-6 7S2 10 6 5s15-2 15 6-6 13-13 10" /></svg>;
+  if (name === 'double-ring') return <svg {...common}><circle cx="12" cy="12" r="9" strokeDasharray="1 2" /><circle cx="12" cy="12" r="5" strokeDasharray="1 2" /></svg>;
+  if (name === 'palm') return <svg {...common}><path d="M12 21V8m0 3Q1 0 2 15m10-4Q23 0 22 15M12 9Q5-3 5 10m7-1Q19-3 19 10" /></svg>;
+  if (name === 'comet') return <svg {...common}><circle cx="17" cy="7" r="4" /><path d="M13 6 2 17m12-5L5 21m6-6-2 6" /></svg>;
+  if (name === 'butterfly') return <svg {...common}><path d="M12 7v14m0-13Q0-6 3 11q-3 12 9 4m0-7Q24-6 21 11q3 12-9 4M9 2l3 5 3-5" /></svg>;
+  if (name === 'flower') return <svg {...common}><path d="M12 9C4-2 0 10 8.5 12 0 17 11 23 12 15.5 17 24 24 13 15.5 12 25 7 14-1 12 9Z" /><circle cx="12" cy="12" r="2" /></svg>;
+  if (name === 'heart') return <svg {...common}><path d="M20.8 4.8a5.3 5.3 0 0 0-7.5 0L12 6.1l-1.3-1.3a5.3 5.3 0 0 0-7.5 7.5L12 21l8.8-8.7a5.3 5.3 0 0 0 0-7.5Z" /></svg>;
+  if (name === 'ring') return <svg {...common}><circle cx="12" cy="12" r="7" strokeDasharray="1 3" /><circle cx="12" cy="12" r="10" strokeDasharray=".1 7" /></svg>;
+  if (name === 'waterfall') return <svg {...common}><path d="M3 7Q12-2 21 7M5 10v6m4-8v13m6-13v13m4-11v6M12 6v12" /></svg>;
+  if (name === 'burst') return <svg {...common}><path d="M12 2v6m0 8v6M2 12h6m8 0h6M5 5l4 4m6 6 4 4M5 19l4-4m6-6 4-4" /><circle cx="12" cy="12" r="2" /></svg>;
+  if (name === 'arrow') return <svg {...common}><path d="M4 12h15m-6-6 6 6-6 6" /></svg>;
+  if (name === 'sound') return <svg {...common}><path d="M11 5 6 9H3v6h3l5 4V5Zm4 3a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14" /></svg>;
+  if (name === 'muted') return <svg {...common}><path d="M11 5 6 9H3v6h3l5 4V5Zm5 5 5 5m0-5-5 5" /></svg>;
+  if (name === 'close') return <svg {...common}><path d="m6 6 12 12M6 18 18 6" /></svg>;
+  if (name === 'reset') return <svg {...common}><path d="M4 9a8 8 0 1 1 0 7M4 3v6h6" /></svg>;
+  if (name === 'check') return <svg {...common}><path d="m5 12 4 4L19 6" /></svg>;
+  if (name === 'moon') return <svg {...common}><path d="M20 15A9 9 0 0 1 9 4a9 9 0 1 0 11 11Z" /></svg>;
+  return <svg {...common}><circle cx="12" cy="12" r="9" /><path d="M12 8v5m0 3v.1" /></svg>;
+}
