@@ -6,10 +6,11 @@ import FireworksControls from './components/FireworksControls';
 import useFireworkShow from './hooks/useFireworkShow';
 import useWishContent, { type Language } from './hooks/useWishContent';
 import { useMedia, useSeen } from './hooks/usePreferences';
-import { fireworkTypes, flowReducer, getRemaining, initialFlow, readStorage, writeStorage } from './lib/experience.mjs';
+import { fireworkTypes, flowReducer, getRemaining, initialFlow, readStorage, writeStorage, TET_MS } from './lib/experience.mjs';
 import { playLaunch, resumeAudio, setAudioEnabled, setAudioVolume, stopFireworkAudio, suspendAudio } from './lib/audio';
 import { DEFAULT_VOLUME, normalizeVolume } from './lib/audioPreferences.mjs';
 import type { Launch } from './scenes/Fireworks';
+import { createOpeningTextSalvo, createPresetTextSalvo, type TextSalvo } from './lib/fireworkText';
 import { BURST_LIFETIME_MS, MAX_ACTIVE_BURSTS } from './lib/fireworkShow.mjs';
 
 const World = lazy(() => import('./scenes/World'));
@@ -39,6 +40,12 @@ export default function App() {
   const [reset, setReset] = useState(0);
   const [listOpen, setListOpen] = useState(false);
   const [lastType, setLastType] = useState('goat');
+  const openingText = useRef<TextSalvo | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    void createPresetTextSalvo('new-year').then(salvo => { if (!cancelled) openingText.current = salvo; }).catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
   const reduced = useMedia('(prefers-reduced-motion: reduce)');
   const content = useWishContent();
   const { seen, mark } = useSeen(content.namespace);
@@ -46,9 +53,18 @@ export default function App() {
   const phase = flow.phase, tree = phase === 'TREE_EXPLORE', fireworks = phase === 'FIREWORKS', transition = phase.endsWith('TRANSITION');
   const remaining = getRemaining(now), preview = previewTarget !== null && !remaining.done;
   const display = preview ? getRemaining(now, previewTarget) : remaining;
+  const preparingSky = phase === 'COUNTDOWN' && !display.done && !display.days && !display.hours && !display.minutes && display.seconds <= 3;
+  const visualPhase = preparingSky ? 'COUNTDOWN_PREPARE' : phase;
   const ready = useCallback(() => dispatch({ type: 'READY' }), []);
   const finishTransition = useCallback(() => dispatch({ type: 'TRANSITION_DONE' }), []);
   const sceneError = useCallback(() => { setFallback(true); dispatch({ type: 'READY' }); }, []);
+  useEffect(() => {
+    if (phase !== 'COUNTDOWN' || !visible) return;
+    const target = previewTarget ?? TET_MS;
+    const timers = [target-3000,target].filter(at => at > Date.now() && at-Date.now() < 2147483647)
+      .map(at => setTimeout(() => setNow(Date.now()),at-Date.now()));
+    return () => timers.forEach(clearTimeout);
+  }, [phase, visible, previewTarget]);
   useEffect(() => {
     const tick = () => setNow(Date.now());
     const timer = setInterval(tick, 250);
@@ -79,9 +95,9 @@ export default function App() {
   const openedBeforeMidnight = useRef(!getRemaining().done);
   useEffect(() => { if (remaining.done && openedBeforeMidnight.current && visible && phase === 'COUNTDOWN') dispatch({ type: 'MIDNIGHT' }); }, [remaining.done, visible, phase]);
   useEffect(() => {
-    if (phase !== 'MIDNIGHT_REVEAL') return;
+    if (!flow.revealing) return;
     const timer = setTimeout(() => dispatch({ type: 'REVEAL_DONE' }), reduced ? 150 : 1800); return () => clearTimeout(timer);
-  }, [phase, reduced]);
+  }, [flow.revealing, reduced]);
   useEffect(() => {
     setLaunch(null); launchHistory.current = []; lastManual.current = -Infinity;
     stopFireworkAudio();
@@ -95,7 +111,7 @@ export default function App() {
     const timer = setTimeout(finishTransition, reduced ? 50 : 600); return () => clearTimeout(timer);
   }, [fallback, transition, finishTransition, reduced]);
   const shoot = useCallback((type: string, automated = false, extra: Omit<Launch, 'id' | 'type'> = {}) => {
-    if (document.hidden || !visible || !fireworks || !fireworkTypes.some(preset => preset.id === type)) return false;
+    if (document.hidden || !visible || !fireworks || !(type === 'opening' || fireworkTypes.some(preset => preset.id === type))) return false;
     if (type === 'text' && (!extra.points?.length || !extra.glyphs?.length)) return false;
     const time = performance.now();
     launchHistory.current = launchHistory.current.filter(entry => time-entry.at < BURST_LIFETIME_MS);
@@ -103,7 +119,7 @@ export default function App() {
     if (launchHistory.current.length >= (automated ? MAX_ACTIVE_BURSTS-2 : MAX_ACTIVE_BURSTS)) return false;
     if (!automated && time-lastManual.current < 380) return false;
     if (type === 'text' && launchHistory.current.some(entry => entry.text)) return false;
-    launchHistory.current.push({ at: time, automatic: automated, text: type === 'text' });
+    launchHistory.current.push({ at: time, automatic: automated, text: type === 'text' || type === 'opening' });
     const id = ++nextLaunch.current;
     setLaunch({ id, type, ...extra }); playLaunch(type,id*37,reduced,extra.glyphs);
     if (!automated) {
@@ -114,7 +130,14 @@ export default function App() {
     }
     return true;
   }, [visible, fireworks, reduced]);
-  const automaticShot = useCallback((type: string, strength: number) => { shoot(type, true, { strength }); }, [shoot]);
+  const automaticShot = useCallback((type: string, strength: number) => {
+    if (type === 'opening') {
+      try {
+        const salvo = openingText.current ?? createOpeningTextSalvo();
+        shoot(type,true,{ strength, text: 'Chúc mừng năm mới', ...salvo });
+      } catch { shoot('goat',true,{ strength }); }
+    } else shoot(type, true, { strength });
+  }, [shoot]);
   const show = useFireworkShow({ active: fireworks, visible, reduced, onLaunch: automaticShot });
   const openWish = (index: number) => { if (phase !== 'TREE_EXPLORE' || content.loading) return; mark(content.wishes[index].id); setSelected(index); };
   const startPreview = () => { setPreviewTarget(Date.now()+10000); dispatch({ type: 'PREVIEW' }); try { sessionStorage.setItem('tet-preview-played', 'true'); } catch {} };
@@ -130,7 +153,7 @@ export default function App() {
   };
   return <main className={`experience experience--${tree ? 'tree' : fireworks ? 'fireworks' : 'home'}`}>
     <div className="world" aria-hidden="true">
-      {fallback ? <FallbackScene phase={phase} launch={launch} reduced={reduced} visible={visible} /> : <SceneBoundary key={sceneKey} onError={sceneError}><Suspense fallback={null}><World phase={phase} reduced={reduced} seen={seen} launch={launch} onOpen={openWish} onReady={ready} onTransition={finishTransition} onError={sceneError} modalOpen={selected !== null || content.loading} reset={reset} visible={visible} /></Suspense></SceneBoundary>}
+      {fallback ? <FallbackScene phase={visualPhase} launch={launch} reduced={reduced} visible={visible} /> : <SceneBoundary key={sceneKey} onError={sceneError}><Suspense fallback={null}><World phase={visualPhase} reduced={reduced} seen={seen} launch={launch} onOpen={openWish} onReady={ready} onTransition={finishTransition} onError={sceneError} modalOpen={selected !== null || content.loading} reset={reset} visible={visible} /></Suspense></SceneBoundary>}
     </div>
     <div className="experience__vignette" />
     <header className="header">
@@ -155,7 +178,7 @@ export default function App() {
       <button className="button button--primary welcome__cta" disabled={preview} onClick={remaining.done ? () => dispatch({ type: 'OPEN_FIREWORKS' }) : startPreview}><Icon name="burst" />{preview ? t('Khoảnh khắc đang đến…', 'The moment is coming…') : remaining.done ? t('Thắp sáng bầu trời', 'Light up the sky') : t('Xem trước giao thừa', 'Preview New Year’s Eve')}<Icon name="arrow" /></button>
       <p className="welcome__note">{t('Không cần chờ đến Tết để cảm nhận mùa xuân.', 'You don’t have to wait for spring to feel it.')}</p>
     </section>}
-    {phase === 'MIDNIGHT_REVEAL' && <section className="reveal" role="status"><p className="eyebrow">XUÂN ĐINH MÙI · 2027</p><h1 aria-label={t('Chúc Mừng Năm Mới', 'Happy Lunar New Year')}>{t('Chúc Mừng', 'Happy')}<br /><em>{t('Năm Mới', 'Lunar New Year')}</em></h1><p>{t('Mong mọi điều tốt đẹp sẽ nở hoa.', 'May good things blossom.')}</p></section>}
+    {flow.revealing && <section className="reveal" role="status"><p className="eyebrow">XUÂN ĐINH MÙI · 2027</p><h1 aria-label={t('Chúc Mừng Năm Mới', 'Happy Lunar New Year')}>{t('Chúc Mừng', 'Happy')}<br /><em>{t('Năm Mới', 'Lunar New Year')}</em></h1><p>{t('Mong mọi điều tốt đẹp sẽ nở hoa.', 'May good things blossom.')}</p></section>}
     {(fireworks || tree || transition) && <>
       <section className="chapter">
         <p className="eyebrow">{tree || phase === 'TREE_TRANSITION' ? t('02 / GỬI NHAU ĐIỀU TỐT ĐẸP','02 / A LITTLE KINDNESS') : t('01 / THẮP SÁNG KHOẢNH KHẮC','01 / LIGHT UP THE MOMENT')}</p>

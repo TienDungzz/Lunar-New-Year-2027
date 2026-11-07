@@ -1,5 +1,5 @@
 export const SHOW_DURATION_MS = 5 * 60 * 1000;
-export const MAX_TEXT_CHARACTERS = 12;
+export const MAX_TEXT_CHARACTERS = 24;
 export const MAX_ACTIVE_BURSTS = 8;
 export const BURST_LIFETIME_MS = 9000;
 
@@ -15,6 +15,7 @@ export function validateFireworkText(value) {
   return { valid: true, text, count, error: null };
 }
 export function getShowCue(elapsed, index, reduced = false) {
+  if (index === 0 && elapsed < 30000) return { type: 'opening', interval: reduced ? 3200 : 1150, strength: 1 };
   const opening = ['goat', 'rocket', 'cluster', 'fan', 'willow', 'burst', 'flower'];
   const main = ['goat', 'rocket', 'cluster', 'heart', 'crackle', 'double-ring', 'fan', 'butterfly', 'willow', 'waterfall', 'star', 'spiral', 'comet', 'flower', 'burst', 'palm'];
   const finale = ['fan', 'goat', 'cluster', 'rocket', 'crackle', 'willow', 'double-ring', 'burst'];

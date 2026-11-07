@@ -8,6 +8,8 @@ afterEach(() => { cleanup(); vi.useRealTimers(); });
 it('runs for exactly five active minutes, stops launching, and can replay', () => {
   const onLaunch = vi.fn();
   const { result } = renderHook(() => useFireworkShow({ active: true, visible: true, reduced: false, onLaunch }));
+  expect(onLaunch).toHaveBeenCalledTimes(1);
+  expect(onLaunch).toHaveBeenLastCalledWith('opening',1);
   act(() => vi.advanceTimersByTime(299800));
   expect(result.current.complete).toBe(false);
   expect(result.current.remaining).toBe(1);

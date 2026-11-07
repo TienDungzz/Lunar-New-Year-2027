@@ -2,6 +2,35 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { composeGlyphSalvo, getTextScale, TEXT_SALVO_POINT_BUDGET, TEXT_FLIGHT_SECONDS } from '../src/lib/textSalvo.mjs';
 import { createFireworkPlan, getFireworkSoundCues, sampleFlight, sampleSpark } from '../src/lib/fireworkDynamics.mjs';
+import { FIREWORK_PALETTE } from '../src/lib/fireworkPalette.mjs';
+
+test('letters have distinct neighboring colors that change on the next launch while the opening goat stays gold', () => {
+  const glyphs = Array.from({ length: 17 }, (_, i) => ({ character: 'A', center: [i*.1,0,0], points: [[0,0,0]] }));
+  const first = createFireworkPlan('opening',37,2400,false,undefined,glyphs);
+  const next = createFireworkPlan('opening',74,2400,false,undefined,glyphs);
+  const colors = first.stages.filter(s => s.glyph).map(s => s.color);
+  assert.ok(colors.every((color,i) => FIREWORK_PALETTE[color] && (!i || color !== colors[i-1])));
+  assert.notDeepEqual(colors,next.stages.filter(s => s.glyph).map(s => s.color));
+  assert.equal(first.stages.find(s => s.shape === 'goat').color,'gold');
+  assert.deepEqual(colors,createFireworkPlan('text',37,2400,false,undefined,glyphs).stages.map(s => s.color));
+});
+
+test('opening combines a goat above the greeting with simultaneous ignition and detonation', () => {
+  const glyphs = ['C','M'].map((character,i) => ({ character, center: [i-.5,0,0], points: [[0,0,0],[.1,.1,0]] }));
+  for (const reduced of [false,true]) {
+    const plan = createFireworkPlan('opening',27,2400,reduced,undefined,glyphs);
+    assert.equal(plan.stages.length,3);
+    const goat = plan.stages.find(s => s.shape === 'goat');
+    assert.equal(goat.points.length,420);
+    assert.ok(goat.center[1] > plan.stages[0].center[1]);
+    assert.ok(plan.stages.every(s => s.launchAt === 0 && s.at === (reduced ? 0 : 1.5)));
+    assert.ok(plan.pointCount <= 6000);
+    assert.ok(plan.duration <= 9);
+  }
+  const cues = getFireworkSoundCues('opening',false,glyphs);
+  assert.equal(cues.filter(c => c.kind === 'lift' && c.at === 0).length,3);
+  assert.equal(cues.filter(c => c.kind === 'boom' && c.at === 1.5).length,3);
+});
 
 function bitmap(character, top = 4, blank = false) {
   const width = 24, height = 32, pixels = new Uint8ClampedArray(width*height*4);

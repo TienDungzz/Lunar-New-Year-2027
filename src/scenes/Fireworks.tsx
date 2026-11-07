@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { seededRandom, fireworkTypes } from '../lib/experience.mjs';
@@ -6,6 +6,7 @@ import { MAX_ACTIVE_BURSTS } from '../lib/fireworkShow.mjs';
 import { createFireworkPlan, sampleFlight, sampleSpark } from '../lib/fireworkDynamics.mjs';
 import type { TextGlyph } from '../lib/fireworkText';
 import { getTextScale } from '../lib/textSalvo.mjs';
+import { FIREWORK_PALETTE } from '../lib/fireworkPalette.mjs';
 
 export type Launch = { id: number; type: string; points?: number[][]; glyphs?: TextGlyph[]; text?: string; strength?: number };
 const MAX = 30000;
@@ -26,7 +27,7 @@ export default function Fireworks({ launch, active, reduced }: { launch: Launch 
     });
     return { geometry, material, right: new THREE.Vector3(), up: new THREE.Vector3(), forward: new THREE.Vector3(), point: new THREE.Vector3(),
       flight: [0,0,0], spark: { x: 0, y: 0, z: 0, alpha: 0, size: 0 },
-      palette: { gold: new THREE.Color('#ffd477'), red: new THREE.Color('#ff6856'), white: new THREE.Color('#fff2d6') } };
+      palette: Object.fromEntries(Object.entries(FIREWORK_PALETTE).map(([name,color]) => [name,new THREE.Color(color)])) };
   }, []);
   useEffect(() => () => { state.geometry.dispose(); state.material.dispose(); }, [state]);
   useEffect(() => { bursts.current = []; state.geometry.setDrawRange(0, 0); }, [active, reduced, state]);
@@ -34,7 +35,7 @@ export default function Fireworks({ launch, active, reduced }: { launch: Launch 
     if (!active || !launch) return;
     const rng = seededRandom(launch.id*37), count = launch.points?.length ?? (size.width < 700 ? 240 : 420);
     const plan = createFireworkPlan(launch.type, launch.id*37, count, reduced, launch.points, launch.glyphs);
-    const text = launch.type === 'text';
+    const text = launch.type === 'text' || launch.type === 'opening';
     const height = 2*Math.tan(THREE.MathUtils.degToRad((camera as THREE.PerspectiveCamera).fov/2))*20, width = height*size.width/size.height;
     const right = new THREE.Vector3(1,0,0).applyQuaternion(camera.quaternion), up = new THREE.Vector3(0,1,0).applyQuaternion(camera.quaternion);
     const center = camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(20).add(camera.position)

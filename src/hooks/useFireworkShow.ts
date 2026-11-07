@@ -5,7 +5,7 @@ export default function useFireworkShow({ active, visible, reduced, onLaunch }: 
   const [playing, setPlaying] = useState(true);
   const [elapsed, setElapsed] = useState(0);
   const [generation, setGeneration] = useState(0);
-  const clock = useRef({ elapsed: 0, next: 1800, index: 0, generation: 0 });
+  const clock = useRef({ elapsed: 0, next: 0, index: 0, generation: 0 });
   const callback = useRef(onLaunch); callback.current = onLaunch;
   useEffect(() => {
     if (!active || !visible || !playing || clock.current.elapsed >= SHOW_DURATION_MS) return;
@@ -23,6 +23,7 @@ export default function useFireworkShow({ active, visible, reduced, onLaunch }: 
         clock.current.next = clock.current.elapsed+cue.interval;
       }
     };
+    advance();
     const timer = setInterval(advance, 200);
     return () => {
       clearInterval(timer);
@@ -36,7 +37,7 @@ export default function useFireworkShow({ active, visible, reduced, onLaunch }: 
   const toggle = useCallback(() => setPlaying(value => !value), []);
   const restart = useCallback(() => {
     const nextGeneration = clock.current.generation+1;
-    clock.current = { elapsed: 0, next: 1800, index: 0, generation: nextGeneration };
+    clock.current = { elapsed: 0, next: 0, index: 0, generation: nextGeneration };
     setElapsed(0); setPlaying(true); setGeneration(nextGeneration);
   }, []);
   return { playing, elapsed, remaining: Math.max(0, Math.ceil((SHOW_DURATION_MS-elapsed)/1000)), complete: elapsed >= SHOW_DURATION_MS, toggle, restart };

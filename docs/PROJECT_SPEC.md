@@ -1,4 +1,4 @@
-﻿# XUÂN AN YÊN — Đặc tả sản phẩm Tết Đinh Mùi 2027
+# XUÂN AN YÊN — Đặc tả sản phẩm Tết Đinh Mùi 2027
 
 **Trạng thái:** đã có triển khai nền tảng; đang chờ QA hình ảnh và benchmark thiết bị thật. **Múi giờ:** Asia/Ho_Chi_Minh. **Giao thừa:** 2027-02-06T00:00:00+07:00.
 
@@ -6,11 +6,11 @@
 Ngôi nhà Việt ấm áp dưới bầu trời đêm, đèn lồng và cây mai. Pháo hoa tương tác là cảnh trọng tâm: người dùng bấm nút để bắn từng kiểu theo ý muốn. Tại cây mai, nhấn các vật trang trí treo để đọc 8 lời chúc. Không có cảnh bàn lì xì, rút thưởng hay kết quả ngẫu nhiên. Dự án tập trung vào khung cảnh, ánh sáng và hiệu ứng; không sử dụng mô hình nhân vật, rig hoặc animation nhân vật.
 
 ## Luồng chính
-`LOADING → COUNTDOWN → MIDNIGHT_REVEAL → FIREWORKS → TREE_TRANSITION → TREE_EXPLORE`.
+`LOADING → COUNTDOWN → FIREWORKS → TREE_TRANSITION → TREE_EXPLORE`.
 
 - **LOADING:** che Canvas đến khi môi trường/GPU sẵn sàng; lỗi có Retry.
 - **COUNTDOWN:** tính ngày/giờ/phút/giây từ thời gian thực, nhà hiện phía sau; có bật âm thanh và “Xem trước giao thừa”.
-- **MIDNIGHT_REVEAL:** lời chúc năm mới, camera ngẩng lên; tự kích hoạt một lần nếu tab đang hoạt động.
+- **3 giây cuối:** visual phase COUNTDOWN_PREPARE ngẩng camera lên bầu trời, countdown tiếp tục. Tại 0 giây chuyển thẳng FIREWORKS, bắn lượt đầu ngay; lời chúc năm mới hiện đồng thời dưới dạng overlay không chặn tương tác, không có pha reveal trì hoãn màn diễn.
 - **FIREWORKS:** màn tự bắn 5 phút có tạm dừng/phát lại; vẫn bắn thêm bằng 11 icon hình hoặc nhập pháo chữ tối đa 12 ký tự tiếng Việt. Không tự rời cảnh; có “Khám phá cây mai”. Chi tiết tại FIREWORKS_SPEC.md.
 - **TREE_TRANSITION:** camera về cây; khóa điều khiển trong transition, ánh trời dịu đi.
 - **TREE_EXPLORE:** xoay cây, chọn 8 vật trang trí treo có ID cố định để mở thiệp VI/EN, lưu tiến độ; có danh sách DOM thay thế.

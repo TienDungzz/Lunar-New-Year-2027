@@ -42,7 +42,7 @@ Không có lỗi chặn luồng; nội dung/bản dịch đủ; countdown chuẩ
 
 
 ## Kết quả local — 2026-11-07
-- npm.cmd run check: TypeScript, 22 kiểm thử logic/content API/pháo hoa/cảnh và 24 kiểm thử tích hợp React trong jsdom.
+- npm.cmd run check: TypeScript, 24 kiểm thử logic/content API/pháo hoa/cảnh và 26 kiểm thử tích hợp React trong jsdom.
 - Tích hợp đã kiểm tra: preview/reveal, màn tự bắn 5 phút/pause/replay, các nút hình/chữ và cooldown, không tự chuyển cảnh, đọc đủ 8 lời chúc, VI/EN, quay lại pháo hoa, storage hỏng, API chậm/timeout và bỏ phản hồi cũ khi đổi ID.
 - npm.cmd run check:assets: checksum, nguồn/giấy phép, GLB header, giải mã bằng Three.js, gộp geometry theo material và tỷ lệ/trục xuất.
 - npm.cmd run check:docs: liên kết cục bộ và đủ danh mục README; check:bem: cú pháp tên class CSS.
@@ -55,7 +55,7 @@ Bộ nội dung hiện có 8 lời chúc. Kiểm thử tích hợp bao gồm vò
 
 
 ## Bổ sung kiểm tra pháo hoa
-Đã kiểm tra đồng hồ đúng 300.000ms đang xem, dừng phát sau kết thúc, replay và không phát dồn khi tab ẩn hoặc quay lại cây. Kiểm tra 17 preset và timeline, giới hạn điểm chữ, NFC/grapheme tiếng Việt, từ chối chữ rỗng/quá 12 ký tự/emoji/markup; giao diện truyền điểm chữ vào renderer và bỏ thao tác chuẩn bị chữ nếu rời cảnh. jsdom mock phần rasterize UI; kiểm tra bitmap dùng dữ liệu alpha tổng hợp. Vẫn cần QA thực tế chữ tiếng Việt, clipping, shader, nhịp sáng, layout 18 icon/ô nhập và GPU xuyên suốt 5 phút trên desktop/mobile.
+Đã kiểm tra đồng hồ đúng 300.000ms đang xem, dừng phát sau kết thúc, replay và không phát dồn khi tab ẩn hoặc quay lại cây. Kiểm tra 17 preset và timeline, giới hạn điểm chữ, NFC/grapheme tiếng Việt, từ chối chữ rỗng/quá 24 ký tự/emoji/markup; giao diện truyền điểm chữ vào renderer và bỏ thao tác chuẩn bị chữ nếu rời cảnh. jsdom mock phần rasterize UI; kiểm tra bitmap dùng dữ liệu alpha tổng hợp. Vẫn cần QA thực tế chữ tiếng Việt, clipping, shader, nhịp sáng, layout 18 icon/ô nhập và GPU xuyên suốt 5 phút trên desktop/mobile.
 
 
 

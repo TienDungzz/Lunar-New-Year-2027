@@ -1,10 +1,11 @@
-﻿import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import type { Launch } from '../scenes/Fireworks';
 import { fireworkTypes, seededRandom } from '../lib/experience.mjs';
 import { MAX_ACTIVE_BURSTS } from '../lib/fireworkShow.mjs';
 import { createFireworkPlan, sampleFlight, sampleSpark } from '../lib/fireworkDynamics.mjs';
 import { isFireworksSky } from '../lib/sceneVisibility.mjs';
 import { getTextScale } from '../lib/textSalvo.mjs';
+import { FIREWORK_PALETTE } from '../lib/fireworkPalette.mjs';
 
 type Effect = { x: number; y: number; text: boolean; plan: ReturnType<typeof createFireworkPlan>; color: string; born: number };
 export default function FallbackScene({ phase, launch, reduced, visible }: { phase: string; launch: Launch | null; reduced: boolean; visible: boolean }) {
@@ -13,17 +14,17 @@ export default function FallbackScene({ phase, launch, reduced, visible }: { pha
   useEffect(() => {
     if (!launch || phase !== 'FIREWORKS') return;
     const rng = seededRandom(launch.id*37);
-    const text = launch.type === 'text';
+    const text = launch.type === 'text' || launch.type === 'opening';
     particles.current.push({ x: text ? .5 : .26+rng()*.48, y: text ? .5 : .34+rng()*.08, text,
       plan: createFireworkPlan(launch.type, launch.id*37, launch.points?.length ?? 240, reduced, launch.points, launch.glyphs),
-      color: fireworkTypes.find(x => x.id === launch.type)!.color, born: performance.now() });
+      color: fireworkTypes.find(x => x.id === launch.type)?.color ?? '#ffd477', born: performance.now() });
     particles.current = particles.current.slice(-MAX_ACTIVE_BURSTS);
   }, [launch, phase]);
   useEffect(() => {
     if (!visible) return;
     const el = canvas.current!, ctx = el.getContext('2d');
     if (!ctx) return;
-    const palette = { gold: '#ffd477', red: '#ff6856', white: '#fff2d6' }, flight = [0,0,0], scratch = { x: 0, y: 0, z: 0, alpha: 0, size: 0 };
+    const palette = FIREWORK_PALETTE, flight = [0,0,0], scratch = { x: 0, y: 0, z: 0, alpha: 0, size: 0 };
     let raf = 0;
     const draw = (now: number) => {
       const w = el.clientWidth, h = el.clientHeight;

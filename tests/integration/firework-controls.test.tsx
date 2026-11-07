@@ -35,19 +35,25 @@ it('exposes seventeen named icon buttons and allows manual shots during the auto
   expect(onSound).toHaveBeenCalledTimes(1);
 });
 
-it('validates the twelve-character limit before generating and launching actual particle targets', async () => {
+it('validates the twenty-four-character limit before generating and launching actual particle targets', async () => {
   const onText = vi.fn(() => true);
   render(<FireworksControls lang="vi" show={show} cooldown={false} lastType="burst" onShoot={() => true} onText={onText} />);
   fireEvent.click(screen.getByRole('button', { name: 'Mở pháo hoa chữ' }));
   const input = screen.getByLabelText('Viết điều bạn muốn gửi lên trời');
-  fireEvent.change(input, { target: { value: 'A'.repeat(13) } });
-  expect(screen.getByText('13/12')).toBeTruthy();
+  fireEvent.change(input, { target: { value: 'A'.repeat(25) } });
+  expect(screen.getByText('25/24')).toBeTruthy();
   expect((screen.getByRole('button', { name: 'Bắn chữ' }) as HTMLButtonElement).disabled).toBe(true);
   expect(createTextSalvo).not.toHaveBeenCalled();
   fireEvent.change(input, { target: { value: 'TẾT 2027'.normalize('NFD') } });
   await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Bắn chữ' })));
   expect(createTextSalvo).toHaveBeenCalledWith('TẾT 2027');
   expect(onText).toHaveBeenCalledWith('TẾT 2027', { points: [[0,0,0], [1,1,0]], glyphs: [{ character: 'A', center: [0,0,0], points: [[0,0,0], [1,1,0]] }] });
+  fireEvent.click(screen.getByRole('button', { name: 'Mở pháo hoa chữ' }));
+  fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Chúc mừng năm mới' } });
+  expect(screen.getByText('17/24')).toBeTruthy();
+  await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Bắn chữ' })));
+  expect(createTextSalvo).toHaveBeenLastCalledWith('Chúc mừng năm mới');
+  expect(onText).toHaveBeenLastCalledWith('Chúc mừng năm mới',expect.anything());
 });
 
 it('does not launch stale text if the visitor leaves while the font is preparing', async () => {

@@ -1,12 +1,12 @@
 # Pháo hoa — màn diễn chính 5 phút
 
 ## Mốc thời gian và luồng
-Giao thừa: `2027-02-06T00:00:00+07:00`. Countdown thật và preview 10 giây vẫn tách biệt. Sau reveal, hoặc khi người dùng mở cảnh sau giao thừa, màn pháo hoa tự chạy trong **5 phút đang xem**. Không còn đoạn intro ngắn khóa các nút bắn.
+Giao thừa: `2027-02-06T00:00:00+07:00`. Countdown thật và preview 10 giây vẫn tách biệt. Ngay tại mốc countdown 0 (đồng thời với lời chúc năm mới), hoặc khi người dùng mở cảnh sau giao thừa, màn pháo hoa tự chạy trong **5 phút đang xem**. Không còn đoạn intro ngắn khóa các nút bắn.
 
 Đồng hồ hiển thị 05:00 → 00:00. Có Tạm dừng / Tiếp tục; sau khi hết màn diễn có Phát lại 5 phút. Hết giờ chỉ dừng tự bắn, người dùng vẫn bắn thủ công và không tự chuyển sang cây. Khi ẩn tab hoặc sang cây mai, dừng đồng hồ/tự bắn và dọn các vụ nổ; quay lại tiếp tục thời lượng còn lại, giữ lựa chọn tạm dừng của người dùng. Không phát dồn các lượt đã lỡ.
 
 ## Biên đạo
-- 0–30 giây: chùm, hoa mai, cọ vàng và vòng tròn mở màn; chờ camera ổn định khoảng 1,8 giây trước lượt đầu.
+- 0–30 giây: chùm, hoa mai, cọ vàng và vòng tròn mở màn; bắn lượt đầu ngay khi vào cảnh, không chờ camera hoặc reveal.
 - 30–180 giây: luân phiên hình trái tim, vòng kép, bướm, thác sáng, sao, xoắn ốc, sao chổi và chùm; phối hợp nhiều vụ nổ.
 - 180–260 giây: tăng nhịp, vẫn giữ vùng trống và giới hạn tải.
 - 260–300 giây: finale dày hơn với chùm/cọ/vòng kép/thác sáng/trái tim/sao, tăng kích thước nhẹ.
@@ -38,7 +38,7 @@ Mỗi kiểu có icon, nhãn VI/EN và accessible name; Enter/Space tương đư
 | text | Pháo chữ / Sky writing | nét chữ tạo bởi hạt sáng từ nội dung nhập |
 
 ## Pháo hoa chữ
-Tối đa **12 ký tự hiển thị**, tính cả khoảng trắng bên trong; bỏ khoảng trắng đầu/cuối. Chuẩn hóa Unicode NFC, đếm grapheme để dấu tiếng Việt không bị tính thành nhiều ký tự. Nhận chữ, số, khoảng trắng và dấu ! ? . & + - cùng dấu nháy đơn; yêu cầu có ít nhất một chữ/số. Không nhận emoji hoặc HTML. Vượt giới hạn/sai ký tự thì hiện hướng dẫn và vô hiệu nút bắn, không cắt nội dung âm thầm.
+Tối đa **24 ký tự hiển thị**, tính cả khoảng trắng bên trong; bỏ khoảng trắng đầu/cuối. Chuẩn hóa Unicode NFC, đếm grapheme để dấu tiếng Việt không bị tính thành nhiều ký tự. Nhận chữ, số, khoảng trắng và dấu ! ? . & + - cùng dấu nháy đơn; yêu cầu có ít nhất một chữ/số. Không nhận emoji hoặc HTML. Vượt giới hạn/sai ký tự thì hiện hướng dẫn và vô hiệu nút bắn, không cắt nội dung âm thầm.
 
 Đợi font tiếng Việt cục bộ sẵn sàng rồi rasterize bằng Canvas2D. Rasterize từng grapheme riêng, giữ chung baseline, dấu tiếng Việt và độ rộng khoảng trắng; tổng tối đa 2.400 điểm. Mỗi ký tự nhìn thấy có một quả pháo riêng, các quả bay thẳng theo hàng và cùng nổ ở giây 1,5; khoảng trắng chỉ tạo khoảng cách. WebGL và Canvas2D dùng cùng dữ liệu glyph/timeline. Sau nổ, chữ giữ ổn định khoảng 4,5 giây rồi tan nhẹ, không rơi sớm làm mất nét. Không dùng DOM overlay để giả hiệu ứng chữ. Không gửi hoặc lưu nội dung nhập lên backend. Nếu rời cảnh khi chuẩn bị chữ thì bỏ kết quả, không bắn muộn.
 
@@ -86,4 +86,9 @@ Desktop chọn dưới/trái/phải bằng nhóm nút vị trí, lưu preference
 Thanh kéo 0–100%, nút giảm/tăng mỗi bước 10%; mặc định 70%. Ghi nhớ bằng tet-sound-volume, kiểm tra và giới hạn giá trị khi đọc. Gain âm lượng đặt sau compressor, chuyển mức trong 40 ms; 0% cho đầu ra im lặng. Đổi mức không tự bật tiếng hay tạo AudioContext; nút bật/tắt tiếng giữ nguyên mức đã chọn. Desktop và mobile đều mở/đóng thanh qua icon riêng, vùng chạm ít nhất 44 px.
 
 
-Hai preset chữ cố định: Chúc mừng năm mới (icon CM/NM) và 2027 (icon 20/27), bấm để tạo và bắn ngay. Preset lời chúc được phép dài hơn giới hạn 12 ký tự dành cho nội dung nhập tay; vẫn dùng cùng ngân sách 2400 hạt, mỗi ký tự một quả và cùng nổ giữa màn hình. Cooldown và âm thanh giữ cùng hành vi pháo chữ; không tạm dừng các pháo khác.
+Hai preset chữ cố định: Chúc mừng năm mới (icon CM/NM) và 2027 (icon 20/27), bấm để tạo và bắn ngay. Nội dung nhập tay cũng hỗ trợ đủ lời chúc này với giới hạn 24 ký tự; vẫn dùng cùng ngân sách 2400 hạt, mỗi ký tự một quả và cùng nổ giữa màn hình. Cooldown và âm thanh giữ cùng hành vi pháo chữ; không tạm dừng các pháo khác.
+
+
+Loạt đầu mỗi màn diễn/phát lại là gói opening: đầu dê vàng phía trên, dòng Chúc mừng năm mới phía dưới, cùng phóng tại mốc 0 và cùng nổ sau 1,5 giây. Chuẩn bị bitmap lời chúc từ lúc mở ứng dụng; nếu font chưa sẵn sàng tại giờ bắn dùng font fallback để không đợi tải. Cả gói dùng chung bố cục ở WebGL/Canvas2D và cùng timeline âm thanh. Reduced motion giữ hình và thời gian đọc, bỏ chuyển động bay.
+
+Chữ dùng Tet Serif nghiêng 500, nét mềm và có chân; raster có padding theo bounding box để không cắt nét nghiêng. Mỗi ký tự có màu khác ký tự liền trước, luân phiên vàng/hồng/xanh lam/đỏ/tím/xanh non/trắng; seed của lần bắn đổi thứ tự màu. Màu ổn định trong cùng một loạt, không nhấp nháy. Dê mở màn giữ màu vàng.

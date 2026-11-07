@@ -52,9 +52,11 @@ Khi đổi kích thước/orientation, ép mobile về bottom nhưng không ghi 
 Khu nhà gồm nhà chính rộng hơn 35%, cao hơn 8%, thêm cửa sổ gian bên; nhà phụ hai gian đặt lùi bên phải, mái thấp, hiên, cửa sáng và đèn lồng riêng. Hàng rào phải và khóm tre được dời ra ngoài, nền sân mở rộng; camera mở đầu bao quát cả hai khối nhà. Nguồn mô hình: art/blender/build_environment.py, xuất GLB chỉ từ scene đang hoạt động để tránh nhân đôi mô hình. Bản fallback SVG cũng có nhà phụ.
 
 
-Bảng pháo hoa dùng nút chỉ icon trên cả desktop và mobile, giữ title/aria-label để nhận biết. Bảng dưới giới hạn rộng 660px, bảng bên rộng 208px; nút tối thiểu 44px. Thanh âm lượng mở/đóng bằng icon trên mọi thiết bị. Ẩn mô tả dài trong cảnh pháo hoa và thu nút chuyển cây mai thành icon để nhường chỗ cho bầu trời.
+Bảng pháo hoa dùng nút chỉ icon trên cả desktop và mobile, giữ title/aria-label để nhận biết. Bảng dưới giới hạn rộng 1280px, bảng bên rộng 208px; nút tối thiểu 44px. Thanh âm lượng mở/đóng bằng icon trên mọi thiết bị. Ẩn mô tả dài trong cảnh pháo hoa và thu nút chuyển cây mai thành icon để nhường chỗ cho bầu trời.
 
 Bảng bên trái/phải có góc bo 18px, nền đỏ trầm trong mờ và viền vàng nhẹ. Nhóm chọn vị trí, đồng hồ căn giữa và ba nút điều khiển được chia rõ; lưới pháo ba cột, nút cao tối thiểu 48px. Hai preset chữ chia đều hàng cuối. Âm lượng mở thành grid riêng, phần trăm ở hàng trên, nút giảm/thanh kéo/nút tăng cùng hàng dưới để không tràn hoặc xuống dòng bất thường. Nội dung cuộn khi màn hình thấp.
 
 
 Góc mở đầu tiến gần khu nhà: desktop camera (10.8, 6.5, 15.5), nhìn về (0.7, 1.65, -2.5); mobile giữ khoảng lùi rộng hơn. Sân 19 × 14 m lát kín 32 × 24 viên gạch đất nung, mạch 18 mm, màu biến thiên nhẹ; dùng một InstancedMesh với 768 viên, thay lối đi 96 viên. Fallback SVG cũng lát toàn bộ sân.
+
+Bảng phía dưới trên desktop mở rộng tối đa 1280px, cách hai mép ít nhất 4%. Đồng hồ/nút điều khiển và chọn vị trí chung một hàng; toàn bộ 20 nút kiểu pháo/preset chung một hàng từ 1200px, hai hàng ở màn nhỏ hơn. Từ 1000px, nhãn nhập chữ nằm cạnh ô nhập; hướng dẫn ngắn phía dưới. Bảng giữ sát đáy để giảm diện tích che bầu trời, mobile và dock hai bên dùng bố cục riêng.

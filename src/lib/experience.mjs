@@ -12,8 +12,8 @@ export function flowReducer(state, event) {
   switch (event.type) {
     case 'READY': return state.phase === 'LOADING' ? { ...state, phase: 'COUNTDOWN' } : state;
     case 'PREVIEW': return state.phase === 'COUNTDOWN' ? { ...state, mode: 'preview' } : state;
-    case 'MIDNIGHT': return state.phase === 'COUNTDOWN' ? { ...state, phase: 'MIDNIGHT_REVEAL' } : state;
-    case 'REVEAL_DONE': return state.phase === 'MIDNIGHT_REVEAL' ? { ...state, phase: 'FIREWORKS' } : state;
+    case 'MIDNIGHT': return state.phase === 'COUNTDOWN' ? { ...state, phase: 'FIREWORKS', revealing: true } : state;
+    case 'REVEAL_DONE': return state.revealing ? { ...state, revealing: false } : state;
     case 'OPEN_FIREWORKS': return state.phase === 'COUNTDOWN' ? { ...state, phase: 'FIREWORKS' } : state.phase === 'TREE_EXPLORE' ? { ...state, phase: 'FIREWORKS_TRANSITION' } : state;
     case 'OPEN_TREE': return state.phase === 'FIREWORKS' ? { ...state, phase: 'TREE_TRANSITION' } : state;
     case 'TRANSITION_DONE': return state.phase === 'TREE_TRANSITION' ? { ...state, phase: 'TREE_EXPLORE' } : state.phase === 'FIREWORKS_TRANSITION' ? { ...state, phase: 'FIREWORKS' } : state;

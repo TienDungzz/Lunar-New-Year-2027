@@ -1,4 +1,4 @@
-﻿import test from 'node:test';
+import test from 'node:test';
 import assert from 'node:assert/strict';
 import { fireworkTypes, sampleShape, seededRandom } from '../src/lib/experience.mjs';
 import { SHOW_DURATION_MS, getShowCue, validateFireworkText, sampleTextBitmap } from '../src/lib/fireworkShow.mjs';
@@ -22,12 +22,14 @@ test('all seventeen icon presets generate finite, bounded targets', () => {
     }
   }
 });
-test('text accepts twelve visible characters with Vietnamese accents, rejects overflow and markup', () => {
+test('text accepts twenty-four visible characters with Vietnamese accents, rejects overflow and markup', () => {
+  assert.equal(validateFireworkText('Chúc mừng năm mới').valid, true);
+  assert.equal(validateFireworkText('Chúc mừng năm mới'.normalize('NFD')).count, 17);
   assert.equal(validateFireworkText('XUÂN AN YÊN').valid, true);
-  assert.equal(validateFireworkText('á'.normalize('NFD').repeat(12)).count, 12);
-  assert.equal(validateFireworkText('á'.normalize('NFD').repeat(12)).valid, true);
+  assert.equal(validateFireworkText('á'.normalize('NFD').repeat(24)).count, 24);
+  assert.equal(validateFireworkText('á'.normalize('NFD').repeat(24)).valid, true);
   assert.equal(validateFireworkText('A B C D E F!').valid, true);
-  assert.equal(validateFireworkText('A'.repeat(13)).error, 'length');
+  assert.equal(validateFireworkText('A'.repeat(25)).error, 'length');
   for (const value of ['', '    ', '!!!', '🧨', '<img>']) assert.equal(validateFireworkText(value).valid, false);
 });
 test('bitmap particles preserve aspect ratio, center glyphs, and honor the point budget', () => {

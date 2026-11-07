@@ -18,6 +18,27 @@ async function enterFireworks() {
 }
 
 describe('complete experience with the 2D fallback', () => {
+  it.each(['preview','real'])('prepares the sky at three seconds and launches exactly at zero (%s)', async mode => {
+    vi.setSystemTime(new Date(mode === 'real' ? '2027-02-05T23:59:50+07:00' : '2026-11-07T10:00:00+07:00'));
+    const shots = vi.spyOn(audio,'playLaunch');
+    render(<App />);
+    shots.mockClear();
+    if (mode === 'preview') fireEvent.click(screen.getByRole('button', { name: /Xem trước giao thừa/ }));
+    await advance(6999);
+    expect(document.querySelector('.fallback-scene__moon')).toBeTruthy();
+    expect(shots).not.toHaveBeenCalled();
+    await advance(1);
+    expect(document.querySelector('.fallback-scene__moon')).toBeNull();
+    expect(screen.queryByRole('region', { name: 'Điều khiển pháo hoa' })).toBeNull();
+    await advance(2999);
+    expect(shots).not.toHaveBeenCalled();
+    await advance(1);
+    expect(shots).toHaveBeenCalledTimes(1);
+    expect(shots.mock.calls[0][0]).toBe('opening');
+    expect(shots.mock.calls[0][3]?.length).toBeGreaterThan(0);
+    expect(screen.getByRole('heading', { name: 'Chúc Mừng Năm Mới' })).toBeTruthy();
+    expect(screen.getByRole('region', { name: 'Điều khiển pháo hoa' })).toBeTruthy();
+  });
   beforeEach(() => {
     localStorage.clear(); sessionStorage.clear();
     window.history.replaceState({}, '', '/');

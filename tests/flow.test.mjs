@@ -17,6 +17,8 @@ test('preview does not change the real target; scene navigation is idempotent', 
   assert.equal(getRemaining(TET_MS-30000, TET_MS-20000).seconds, 10);
   assert.equal(real.seconds, 30);
   state = reduce(state, { type: 'MIDNIGHT' });
+  assert.equal(state.phase, 'FIREWORKS');
+  assert.equal(state.revealing, true);
   assert.equal(reduce(state, { type: 'MIDNIGHT' }), state);
   state = reduce(state, { type: 'REVEAL_DONE' });
   assert.equal(state.phase, 'FIREWORKS');

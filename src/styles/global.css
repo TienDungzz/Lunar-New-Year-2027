@@ -379,3 +379,25 @@ button svg { flex-shrink: 0; }
 .firework-dock__presets { display: flex; gap: 7px; margin-top: 7px; }
 .firework-dock__presets .firework-button { width: 44px; color: #ffd579; }
 .firework-dock--text-active .firework-dock__presets { display: none; }
+
+@media (min-width: 700px) {
+  .firework-dock--bottom:not(.firework-dock--mobile) { left: max(4%, calc(50% - 640px)); right: max(4%, calc(50% - 640px)); bottom: 80px; display: grid; grid-template-columns: repeat(20, minmax(0, 1fr)); gap: 8px 6px; padding: 12px; border-radius: 14px; }
+  .firework-dock--bottom:not(.firework-dock--mobile) .dock-position { grid-column: 15 / -1; grid-row: 1; margin: 0; }
+  .firework-dock--bottom:not(.firework-dock--mobile) .firework-dock__show { grid-column: 1 / 15; grid-row: 1; margin: 0; gap: 8px; }
+  .firework-dock--bottom:not(.firework-dock--mobile) .firework-dock__buttons, .firework-dock--bottom:not(.firework-dock--mobile) .firework-dock__presets { display: contents; }
+  .firework-dock--bottom:not(.firework-dock--mobile) .firework-button { grid-column: span 2; width: auto; min-width: 0; min-height: 44px; border-radius: 7px; }
+  .firework-dock--bottom:not(.firework-dock--mobile) .volume-control { grid-column: 1 / -1; margin: 0; padding: 0; }
+  .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing { grid-column: 1 / -1; margin: 2px 0 0; padding-top: 10px; }
+  .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing__input { flex: 1; width: auto; max-width: none; }
+  .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing__submit { width: 44px; min-width: 44px; padding: 10px; }
+  .firework-dock--bottom:not(.firework-dock--mobile) > .sky-writing__error { grid-column: 1 / -1; margin: 0; }
+}
+@media (min-width: 1000px) {
+  .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 4px 14px; align-items: center; }
+  .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing__label { grid-column: 1; grid-row: 1; margin: 0; }
+  .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing__row { grid-column: 2; grid-row: 1; }
+  .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing__help, .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing__error { grid-column: 2; margin: 0; }
+}
+@media (min-width: 1200px) {
+  .firework-dock--bottom:not(.firework-dock--mobile) .firework-button { grid-column: span 1; }
+}

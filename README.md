@@ -24,8 +24,8 @@ Website trải nghiệm Tết Đinh Mùi 2027: khung cảnh nhà Việt 3D, phá
 - Tập trung vào khung cảnh, ánh sáng và hiệu ứng; không sử dụng mô hình nhân vật.
 - Cho phép dùng Blender MCP để dựng/tinh chỉnh cảnh, vật liệu, camera và mẫu hiệu ứng; quy trình tại [LOCAL_3D_TOOLS](docs/LOCAL_3D_TOOLS.md).
 - Một môi trường 3D liên tục: căn nhà → pháo hoa → cây mai; từ cây có thể quay lại pháo hoa.
-- Countdown thật đến 00:00 ngày 06/02/2027, múi giờ Việt Nam; có chế độ preview 10 giây.
-- Pháo hoa là cảnh trọng tâm: màn tự bắn 5 phút, 17 kiểu hình/cơ chế bằng icon, có Dê Đinh Mùi và pháo chữ tối đa 12 ký tự (hỗ trợ tiếng Việt).
+- Countdown thật đến 00:00 ngày 06/02/2027, múi giờ Việt Nam; có chế độ preview 10 giây. Camera bắt đầu chuyển khi còn 3 giây; pháo hoa phóng ngay tại mốc 0.
+- Pháo hoa là cảnh trọng tâm: màn tự bắn 5 phút, 17 kiểu hình/cơ chế bằng icon, có Dê Đinh Mùi và pháo chữ tối đa 24 ký tự (hỗ trợ tiếng Việt).
 - Số 8 gắn với vị trí con dê trong 12 con giáp. Nhấn 8 vật trang trí treo trên cây mai để đọc 8 lời chúc; có VI/EN và fallback không WebGL2.
 - API nội dung tùy chọn cung cấp lời chúc VI/EN theo 8 ID cố định; luôn có nội dung cục bộ khi không có API hoặc tải lỗi.
 - Không có cảnh bàn lì xì hoặc mini game rút lì xì.
@@ -42,7 +42,7 @@ npm.cmd ci
 npm.cmd run dev
 ```
 
-Mở địa chỉ Vite in ra (mặc định http://127.0.0.1:5173). Trước Tết, chọn “Xem trước giao thừa” để chạy preview 10 giây và khám phá đầy đủ trải nghiệm. Pháo hoa tự bắn trong 5 phút, có tạm dừng/phát lại; vẫn bắn thủ công bằng icon trong lúc màn diễn chạy. Chọn Tên lửa để xem bay lên rồi nổ, Nổ liên hoàn để xem quả mẹ tách thành chùm nổ phụ, hoặc Liễu rủ/Lách tách/Quạt liên thanh. Nhấn “Bật âm thanh pháo hoa” để nghe tiếng rít, nổ trầm và nổ phụ theo từng pha. Âm lượng có thanh kéo 0–100% và nút −/+ mỗi bước 10%, tự ghi nhớ mức đã chọn; mobile mở thanh qua icon âm lượng. Hai icon CM/NM và 20/27 bắn ngay “Chúc mừng năm mới” và “2027”. Icon pháo chữ mở ô nhập tối đa 12 ký tự. Chữ hiện lớn giữa màn hình: mỗi ký tự một quả, bay theo hàng và cùng nổ; pháo tự động và bắn tay vẫn tiếp tục đồng thời. Tự chuyển sang cây mai khi muốn, quay lại tiếp tục thời lượng còn lại. Tại cây, chạm vật treo hoặc mở danh sách lời chúc; kéo để xoay, có nút đặt lại góc nhìn. VI/EN, âm thanh opt-in và tiến độ lời chúc được hỗ trợ. Khi 3D không sẵn sàng, ứng dụng chuyển sang cảnh 2D cùng chức năng chính.
+Mở địa chỉ Vite in ra (mặc định http://127.0.0.1:5173). Trước Tết, chọn “Xem trước giao thừa” để chạy preview 10 giây và khám phá đầy đủ trải nghiệm. Pháo hoa tự bắn trong 5 phút, có tạm dừng/phát lại; vẫn bắn thủ công bằng icon trong lúc màn diễn chạy. Chọn Tên lửa để xem bay lên rồi nổ, Nổ liên hoàn để xem quả mẹ tách thành chùm nổ phụ, hoặc Liễu rủ/Lách tách/Quạt liên thanh. Nhấn “Bật âm thanh pháo hoa” để nghe tiếng rít, nổ trầm và nổ phụ theo từng pha. Âm lượng có thanh kéo 0–100% và nút −/+ mỗi bước 10%, tự ghi nhớ mức đã chọn; mobile mở thanh qua icon âm lượng. Hai icon CM/NM và 20/27 bắn ngay “Chúc mừng năm mới” và “2027”. Icon pháo chữ mở ô nhập tối đa 24 ký tự. Chữ hiện lớn giữa màn hình: mỗi ký tự một quả, bay theo hàng và cùng nổ; pháo tự động và bắn tay vẫn tiếp tục đồng thời. Tự chuyển sang cây mai khi muốn, quay lại tiếp tục thời lượng còn lại. Tại cây, chạm vật treo hoặc mở danh sách lời chúc; kéo để xoay, có nút đặt lại góc nhìn. VI/EN, âm thanh opt-in và tiến độ lời chúc được hỗ trợ. Khi 3D không sẵn sàng, ứng dụng chuyển sang cảnh 2D cùng chức năng chính.
 
 ## Kiểm tra và build
 ```powershell
@@ -55,7 +55,7 @@ npm.cmd run check:build
 npm.cmd run preview
 ```
 
-Build tĩnh ở dist/. Có thể phục vụ từ web host hỗ trợ HTTPS. Bản build và 46 kiểm thử tự động đã được kiểm tra; chưa hoàn tất QA hình ảnh trong trình duyệt hoặc benchmark thiết bị thật, chưa coi là release candidate. Three.js vẫn có cảnh báo chunk trên 500 KB.
+Build tĩnh ở dist/. Có thể phục vụ từ web host hỗ trợ HTTPS. Bản build và 50 kiểm thử tự động đã được kiểm tra; chưa hoàn tất QA hình ảnh trong trình duyệt hoặc benchmark thiết bị thật, chưa coi là release candidate. Three.js vẫn có cảnh báo chunk trên 500 KB.
 
 ## Nội dung API
 Sao chép [.env.example](.env.example) thành .env.local nếu cần API. Để trống URL để dùng 8 lời chúc cục bộ; không cần backend để trải nghiệm. Hợp đồng, ID URL, timeout và fallback tại [CONTENT_API](docs/CONTENT_API.md). Chưa xác minh với backend production.

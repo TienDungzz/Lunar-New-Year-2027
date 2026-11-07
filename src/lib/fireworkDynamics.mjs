@@ -1,5 +1,6 @@
 import { sampleShape, seededRandom } from './experience.mjs';
 import { TEXT_FLIGHT_SECONDS, TEXT_SPARK_SECONDS } from './textSalvo.mjs';
+import { getLetterColor } from './fireworkPalette.mjs';
 
 // One timeline drives both renderers and Web Audio. Times are seconds from
 // ignition; secondary shells have their own flight and detonation.
@@ -11,10 +12,15 @@ export function getFireworkTimeline(type, reduced = false, glyphs = undefined) {
     share: 1, color: 'base', sound: 'boom', audibleLift: true, holdShape: false, ...options,
   });
   let stages;
-  if (type === 'text' && glyphs?.length) {
+  if ((type === 'text' || type === 'opening') && glyphs?.length) {
     stages = glyphs.map(glyph => stage({ launchAt: 0, lift: TEXT_FLIGHT_SECONDS, at: TEXT_FLIGHT_SECONDS,
       start: [glyph.center[0],-6,0], center: [...glyph.center], bend: 0, life: TEXT_SPARK_SECONDS, gravity: 0, drag: 8,
       trails: 2, share: 1/glyphs.length, glyph, color: 'gold' }));
+    if (type === 'opening') {
+      stages = stages.map(s => ({ ...s, center: [s.center[0],-.7,0] }));
+      stages.push(stage({ lift: TEXT_FLIGHT_SECONDS, at: TEXT_FLIGHT_SECONDS, center: [0,1.1,0],
+        scale: .34, life: TEXT_SPARK_SECONDS, gravity: 0, drag: 8, trails: 2, holdShape: true, shape: 'goat', color: 'gold' }));
+    }
   } else if (type === 'goat') {
     stages = [stage({ lift: 1.1, at: 1.1, life: 5.4, gravity: 0, drag: 5, trails: 2, holdShape: true, color: 'gold' })];
   } else if (type === 'rocket') {
@@ -41,7 +47,7 @@ export function getFireworkTimeline(type, reduced = false, glyphs = undefined) {
   } else {
     stages = [stage({ trails: type === 'text' ? 2 : 6, gravity: type === 'waterfall' ? .48 : type === 'text' ? 0 : .13 })];
   }
-  if (reduced) stages = stages.map(s => ({ ...s, launchAt: 0, lift: 0, at: 0, life: type === 'text' ? TEXT_SPARK_SECONDS : 1.8, trails: 1, gravity: 0, audibleLift: false }));
+  if (reduced) stages = stages.map(s => ({ ...s, launchAt: 0, lift: 0, at: 0, life: type === 'text' || type === 'opening' ? TEXT_SPARK_SECONDS : 1.8, trails: 1, gravity: 0, audibleLift: false }));
   return stages;
 }
 
@@ -51,11 +57,11 @@ export function createFireworkPlan(type, seed, count = 420, reduced = false, tex
   const mechanics = ['rocket', 'cluster', 'willow', 'crackle', 'fan'].includes(type);
   const stages = getFireworkTimeline(type, reduced, glyphs).map((stage, stageIndex) => {
     const n = Math.max(6, Math.floor(count*stage.share));
-    const points = stage.glyph?.points ?? textPoints ?? Array.from({ length: n }, (_, i) => {
+    const points = stage.shape === 'goat' ? Array.from({ length: 420 }, (_, i) => sampleShape('goat',i,420,rng)) : stage.glyph?.points ?? textPoints ?? Array.from({ length: n }, (_, i) => {
       const p = sampleShape(mechanics ? 'burst' : type, i, n, rng);
       return type === 'willow' ? [p[0], Math.abs(p[1])*.6+.5, p[2]*.5] : p;
     });
-    return { ...stage, points, stageIndex, text: type === 'text' };
+    return { ...stage, color: stage.glyph ? getLetterColor(seed,stageIndex) : stage.color, points, stageIndex, text: type === 'text' || type === 'opening' };
   });
   let halfWidth = .1, halfHeight = .1;
   for (const stage of stages) for (const p of stage.points) { halfWidth = Math.max(halfWidth,Math.abs(stage.center[0]+p[0]*stage.scale)); halfHeight = Math.max(halfHeight,Math.abs(stage.center[1]+p[1]*stage.scale)); }
@@ -92,7 +98,7 @@ export function sampleSpark(stage, age, index, tail = 0, reduced = false, out = 
 /** @param {string} type @param {boolean} reduced @param {any[] | undefined} glyphs */
 export function getFireworkSoundCues(type, reduced = false, glyphs = undefined) {
   if (reduced) return [{ at: 0, kind: 'boom', pan: 0, volume: .45 }];
-  const volume = type === 'text' && glyphs?.length ? 1/Math.sqrt(glyphs.length) : 1;
+  const volume = (type === 'text' || type === 'opening') && glyphs?.length ? 1/Math.sqrt(glyphs.length+1) : 1;
   return getFireworkTimeline(type,false,glyphs).flatMap(stage => [
     ...(stage.audibleLift ? [{ at: stage.launchAt, kind: 'lift', pan: stage.center[0]/4, volume: .7*volume, duration: stage.lift }] : []),
     { at: stage.at, kind: stage.sound, pan: stage.center[0]/4, volume: (stage.sound === 'boom' ? .85 : .55)*volume },
