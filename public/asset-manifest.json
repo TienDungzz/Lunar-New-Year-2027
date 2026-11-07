@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "path": "images/tet-2027-logo.png",
+      "bytes": 98351,
+      "sha256": "1156aa30a85150fd5e5414970b03d999c567efde31cdee83c2fadb5c3d160b61",
+      "source": "art/branding/tet-2027-master.png",
+      "license": "AI-generated project logo based on a user-provided visual reference; no printer branding"
+    },
+    {
+      "path": "images/goat-mark.png",
+      "bytes": 47002,
+      "sha256": "8a8156e3ad03f4e2ea1bc29049e8cfaf5735572353c938700b27fbdb45fa8dc4",
+      "source": "art/branding/goat-master.png",
+      "license": "AI-generated goat-only companion to the project logo"
+    },
+    {
+      "path": "favicon-32.png",
+      "bytes": 2235,
+      "sha256": "2c553f4a4241e06a9129310cba0b616632db09f73e5cc63071fbe2c7ffd3afac",
+      "source": "art/branding/goat-master.png",
+      "license": "Project goat mark resized for browser tabs"
+    },
+    {
+      "path": "apple-touch-icon.png",
+      "bytes": 41818,
+      "sha256": "8899ee2a090e782bc6382b1b84d099b102e071a6f4cbe36c0c4de85b3893e80c",
+      "source": "art/branding/goat-master.png",
+      "license": "Project goat mark resized for home screens"
+    },
+    {
+      "path": "models/tet-house.glb",
+      "bytes": 1116824,
+      "sha256": "544b8018ae5e28489d31ad6522187cbd95140de577c9bcabb93ac658549c070a",
+      "source": "art/blender/build_environment.py",
+      "license": "Original project asset; generated with Blender MCP",
+      "triangles": 17816,
+      "textureBytes": 0
+    },
+    {
+      "path": "models/tet-courtyard.glb",
+      "bytes": 1617964,
+      "sha256": "6121cb7cba40d3d9c5eec3208d308f433522a86cf0b4b40332f29497a04f2c72",
+      "source": "art/blender/build_environment.py",
+      "license": "Original project courtyard and Tet props; generated with Blender MCP",
+      "triangles": 16932,
+      "textureBytes": 0
+    },
+    {
+      "path": "images/courtyard.svg",
+      "bytes": 7673,
+      "sha256": "09149dee4bd281da5e85e8fdc97a66999dfefb801a00207d83895fbfcd9e35ff",
+      "source": "public/images/courtyard.svg",
+      "license": "Original project artwork"
+    },
+    {
+      "path": "fonts/noto-serif.ttf",
+      "bytes": 1887192,
+      "sha256": "4d8e6761424656867019081a1a01336f3cb086982682698714054fc33f782713",
+      "source": "public/fonts/OFL-NotoSerif.txt",
+      "license": "SIL Open Font License 1.1; Google Fonts / Noto Serif"
+    },
+    {
+      "path": "fonts/be-vietnam-pro.ttf",
+      "bytes": 132948,
+      "sha256": "cd1ef6e9d7db28ad5cdb88a65ccbe693870e60d340b791f349d248342b4fe4c3",
+      "source": "public/fonts/OFL-BeVietnamPro.txt",
+      "license": "SIL Open Font License 1.1; Google Fonts / Be Vietnam Pro"
+    }
+  ]
+}
