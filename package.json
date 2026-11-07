@@ -1,0 +1,38 @@
+{
+  "name": "xuan-an-yen",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "check": "tsc --noEmit && node --test tests/*.test.mjs && vitest run",
+    "check:integration": "vitest run",
+    "check:content": "node --test tests/content.test.mjs",
+    "check:flow": "node --test tests/flow.test.mjs",
+    "check:assets": "node scripts/check-assets.mjs",
+    "check:docs": "node scripts/check-docs.mjs",
+    "check:bem": "node scripts/check-bem.mjs",
+    "check:build": "node scripts/check-build.mjs"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.4.0",
+    "gsap": "^3.14.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "three": "^0.181.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.3.3",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/three": "^0.181.0",
+    "@vitejs/plugin-react": "^5.1.0",
+    "jsdom": "^31.0.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.0",
+    "vitest": "^5.1.0"
+  }
+}
