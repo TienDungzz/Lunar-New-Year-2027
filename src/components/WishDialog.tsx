@@ -18,7 +18,7 @@ export default function WishDialog({ wish, index, total, lang, onClose, onChange
     <p className="wish-dialog__number">{String(index+1).padStart(2, '0')} / {total}</p>
     <h2 id="wish-title" className="wish-dialog__title">{wish.title[lang]}</h2>
     <p className="wish-dialog__body">{wish.body[lang]}</p>
-    <div className="wish-dialog__signature">{t('common.to.you.a.year.of.peace')}<span>Xuân Đinh Mùi · 2027</span></div>
+    <div className="wish-dialog__signature"><span>Xuân Đinh Mùi · 2027</span></div>
     <div className="wish-dialog__navigation">
       <button className="text-button" onClick={() => onChange((index+total-1)%total)}>← {t('common.previous')}</button>
       <button className="text-button" onClick={() => onChange((index+1)%total)}>{t('common.next')} →</button>

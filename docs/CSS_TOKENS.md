@@ -20,6 +20,8 @@ Quy tắc mẫu về ưu tiên theme thủ công, bootstrap trước first paint
 
 ## Kiểm tra
 
+Thiệp lời chúc dùng nền đỏ trầm, chữ kem/vàng và họa tiết SVG gốc tại `public/images/wish-ornaments.svg` (hoa mai, pháo hoa, dê và sóng ở viền). Token `--wish-dialog-background` phủ gradient đỏ lên họa tiết để giữ vùng giữa dịu, dễ đọc; không thêm ảnh tham chiếu hoặc watermark vào sản phẩm. Các màu chữ/nút của thiệp nằm trong nhóm `--wish-dialog-*`.
+
 ```powershell
 npm.cmd run check:css
 npm.cmd run check:project

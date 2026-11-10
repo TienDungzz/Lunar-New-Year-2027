@@ -144,9 +144,6 @@ button svg { flex-shrink: 0; }
   .fallback-notice .text-button { font-size: var(--countdown-caption-font-size, 7px); }
   .reveal h1 { font-size: var(--countdown-value-font-size, 44px); }
   .reveal > p:last-child { font-size: var(--text-label, 10px); }
-  .wish-dialog { padding: var(--wish-dialog-padding-2, 44px 25px 16px); }
-  .wish-dialog__title { font-size: var(--wish-dialog-title-font-size, 30px); }
-  .wish-dialog__body { font-size: var(--firework-dock-timer-font-size, 17px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .scene-navigation__indicator { transition: none; }
@@ -274,6 +271,9 @@ button svg { flex-shrink: 0; }
   .sky-writing__input { flex: 1; width: auto; }
   .sky-writing__submit { min-width: 44px; width: 44px; padding: var(--firework-dock-padding, 10px); }
   .sky-writing__help { font-size: var(--text-caption, 9px); }
+  .wish-dialog { padding: var(--wish-dialog-padding-2, 44px 25px 16px); }
+  .wish-dialog__title { font-size: var(--wish-dialog-title-font-size, 30px); }
+  .wish-dialog__body { font-size: var(--firework-dock-timer-font-size, 17px); }
 }
 
 @media (max-height: 750px) and (min-width: 700px) {
@@ -311,6 +311,10 @@ button svg { flex-shrink: 0; }
 .firework-dock--mobile .sky-writing__input { flex: 1; min-width: 80px; width: auto; }
 .firework-dock--mobile .sky-writing__submit { min-width: 44px; width: 44px; padding: var(--firework-dock-padding, 10px); }
 
+@media (prefers-reduced-motion: reduce) {
+  .firework-dock__progress-line { transition: none; }
+}
+
 
 .firework-dock__play { min-width: 44px; min-height: 44px; padding: var(--wish-list-button-padding, 8px); justify-content: center; }
 .experience--fireworks .chapter__description { display: none; }
@@ -327,9 +331,6 @@ button svg { flex-shrink: 0; }
 .firework-dock__progress { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
 .firework-dock__progress rect { width: calc(100% - 4px); height: calc(100% - 4px); rx: var(--firework-progress-radius, 12px); fill: none; stroke-width: 2; }
 .firework-dock__progress-line { stroke: var(--firework-progress-line, #ffdb83); stroke-linecap: round; filter: var(--firework-progress-glow, drop-shadow(0 0 4px #f3c96999)); transition: stroke-dashoffset .2s linear; }
-@media (prefers-reduced-motion: reduce) {
-  .firework-dock__progress-line { transition: none; }
-}
 
 @media (min-width: 700px) {
   .firework-dock--bottom:not(.firework-dock--mobile) { left: max(4%, calc(50% - 640px)); right: max(4%, calc(50% - 640px)); bottom: var(--firework-dock-bottom, max(12px, env(safe-area-inset-bottom))); display: grid; grid-template-columns: repeat(20, minmax(0, 1fr)); gap: var(--firework-dock--bottom-gap, 8px 6px); padding: var(--firework-dock-padding-2, 12px); border-radius: var(--firework-dock--bottom-border-radius, 14px); }
