@@ -17,8 +17,7 @@
   "documentation": {
     "scan": [
       "README.md",
-      "docs",
-      "art/branding"
+      "docs"
     ],
     "required": [
       "README.md",
@@ -142,13 +141,6 @@
     {
       "root": "art",
       "components": [
-        {
-          "paths": [
-            "branding"
-          ],
-          "name": "branding",
-          "required": true
-        },
         {
           "name": "blender-master",
           "paths": [

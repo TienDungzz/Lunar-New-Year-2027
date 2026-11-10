@@ -18,7 +18,5 @@ function Export-BrandPng([string]$source, [string]$target, [int]$size) {
         $original.Dispose()
     }
 }
-Export-BrandPng 'art/branding/tet-2027-master.png' 'public/images/tet-2027-logo.png' 256
-Export-BrandPng 'art/branding/goat-master.png' 'public/images/goat-mark.png' 192
-Export-BrandPng 'art/branding/goat-master.png' 'public/favicon-32.png' 32
-Export-BrandPng 'art/branding/goat-master.png' 'public/apple-touch-icon.png' 180
+Export-BrandPng 'public/images/goat-mark.png' 'public/favicon-32.png' 32
+Export-BrandPng 'public/images/goat-mark.png' 'public/apple-touch-icon.png' 180

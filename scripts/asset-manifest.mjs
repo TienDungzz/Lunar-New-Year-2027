@@ -1,13 +1,14 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 const sources = [
-  ['images/tet-2027-logo.png', 'art/branding/tet-2027-master.png', 'AI-generated project logo based on a user-provided visual reference; no printer branding'],
-  ['images/goat-mark.png', 'art/branding/goat-master.png', 'AI-generated goat-only companion to the project logo'],
-  ['favicon-32.png', 'art/branding/goat-master.png', 'Project goat mark resized for browser tabs'],
-  ['apple-touch-icon.png', 'art/branding/goat-master.png', 'Project goat mark resized for home screens'],
+  ['images/tet-2027-logo.png', 'public/images/tet-2027-logo.png', 'AI-generated project logo based on a user-provided visual reference; no printer branding; only runtime copy retained'],
+  ['images/goat-mark.png', 'public/images/goat-mark.png', 'AI-generated goat-only companion to the project logo; only runtime copy retained'],
+  ['favicon-32.png', 'public/images/goat-mark.png', 'Project goat mark resized for browser tabs'],
+  ['apple-touch-icon.png', 'public/images/goat-mark.png', 'Project goat mark resized for home screens'],
   ['models/tet-house.glb', 'scripts/blender/build_environment.py', 'Original project asset; generated with Blender MCP'],
   ['models/tet-courtyard.glb', 'scripts/blender/build_environment.py', 'Original project courtyard and Tet props; generated with Blender MCP'],
   ['images/courtyard.svg', 'public/images/courtyard.svg', 'Original project artwork'],
+  ['images/wish-ornaments.svg', 'public/images/wish-ornaments.svg', 'Original project vector artwork; goat strokes from src/lib/goatShape.mjs; no reference photograph or watermark embedded'],
   ['fonts/noto-serif.ttf', 'public/fonts/OFL-NotoSerif.txt', 'SIL Open Font License 1.1; Google Fonts / Noto Serif'],
   ['fonts/be-vietnam-pro.ttf', 'public/fonts/OFL-BeVietnamPro.txt', 'SIL Open Font License 1.1; Google Fonts / Be Vietnam Pro'],
 ];
