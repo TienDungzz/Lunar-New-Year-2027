@@ -2,7 +2,7 @@
   "version": 1,
   "project": {
     "reference": "example-standash/",
-    "standardsVersion": "1.0.0-project",
+    "standardsVersion": "1.1.0-project",
     "name": "Xuân An Yên — Tết Đinh Mùi 2027",
     "adoptedOn": "2026-11-10",
     "kind": "frontend-3d"
@@ -11,6 +11,7 @@
     "docs",
     "structure",
     "assets",
+    "css",
     "quality"
   ],
   "documentation": {
@@ -28,7 +29,8 @@
       "docs/TREE_WISHES.md",
       "docs/PERFORMANCE.md",
       "docs/TESTING_AND_ACCEPTANCE.md",
-      "docs/LANGUAGES.md"
+      "docs/LANGUAGES.md",
+      "docs/CSS_TOKENS.md"
     ]
   },
   "structure": [
@@ -192,6 +194,66 @@
       "bem",
       "build",
       "bundle"
+    ]
+  },
+  "css": {
+    "enabled": true,
+    "variablesFile": "src/styles/variables.css",
+    "roots": [
+      "src"
+    ],
+    "properties": [
+      "color",
+      "background-color",
+      "border-color",
+      "border-top-color",
+      "border-right-color",
+      "border-bottom-color",
+      "border-left-color",
+      "outline-color",
+      "fill",
+      "stroke",
+      "box-shadow",
+      "text-shadow",
+      "font-family",
+      "font-size",
+      "font-weight",
+      "line-height",
+      "letter-spacing",
+      "border-radius",
+      "margin",
+      "margin-top",
+      "margin-right",
+      "margin-bottom",
+      "margin-left",
+      "margin-inline",
+      "margin-block",
+      "padding",
+      "padding-top",
+      "padding-right",
+      "padding-bottom",
+      "padding-left",
+      "padding-inline",
+      "padding-block",
+      "margin-inline-start",
+      "margin-inline-end",
+      "margin-block-start",
+      "margin-block-end",
+      "padding-inline-start",
+      "padding-inline-end",
+      "padding-block-start",
+      "padding-block-end",
+      "gap",
+      "row-gap",
+      "column-gap",
+      "background",
+      "border",
+      "border-top",
+      "border-bottom",
+      "border-left",
+      "border-right",
+      "outline",
+      "font"
     ]
   }
 }

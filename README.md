@@ -3,6 +3,7 @@
 Website trải nghiệm Tết Đinh Mùi 2027: khung cảnh nhà Việt 3D, pháo hoa tương tác và 8 lời chúc trên cây mai. React 19 + TypeScript + Vite + Three.js/R3F; môi trường nhà dựng bằng Blender MCP. Không sử dụng mô hình nhân vật.
 
 ## Mục lục
+- [docs/CSS_TOKENS.md](docs/CSS_TOKENS.md)
 - [docs/PROJECT_SPEC.md](docs/PROJECT_SPEC.md)
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - [docs/SCENE_DESIGN.md](docs/SCENE_DESIGN.md)
