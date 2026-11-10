@@ -277,6 +277,9 @@
   --firework-dock--bottom-border-radius: 14px;
   --firework-dock--bottom-margin: 2px 0 0;
   --firework-dock--bottom-gap-2: 4px 14px;
+  --firework-progress-line: #ffdb83;
+  --firework-progress-glow: drop-shadow(0 0 4px #f3c96999);
+  --firework-progress-radius: 12px;
   --header-audio-background: #47101b59;
   --header-audio-border: 1px solid #e6bb6833;
   --header-audio-radius: 12px;

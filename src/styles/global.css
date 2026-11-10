@@ -316,6 +316,13 @@ button svg { flex-shrink: 0; }
 .firework-dock__presets .firework-button { width: 44px; color: var(--welcome-title-color, #ffd579); }
 .firework-dock--text-active .firework-dock__presets { display: none; }
 
+.firework-dock__progress { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.firework-dock__progress rect { width: calc(100% - 4px); height: calc(100% - 4px); rx: var(--firework-progress-radius, 12px); fill: none; stroke-width: 2; }
+.firework-dock__progress-line { stroke: var(--firework-progress-line, #ffdb83); stroke-linecap: round; filter: var(--firework-progress-glow, drop-shadow(0 0 4px #f3c96999)); transition: stroke-dashoffset .2s linear; }
+@media (prefers-reduced-motion: reduce) {
+  .firework-dock__progress-line { transition: none; }
+}
+
 @media (min-width: 700px) {
   .firework-dock.firework-dock--left, .firework-dock.firework-dock--right { top: clamp(180px, 23svh, 240px); bottom: auto; width: 208px; max-height: calc(100svh - 280px); padding: var(--firework-dock-padding-2, 12px); border-radius: var(--firework-dock-border-radius, 18px); border-color: var(--firework-dock-color, #efc77945); background: var(--firework-dock-background-2, linear-gradient(155deg, #4d1724f2, #230e1aeb)); box-shadow: var(--firework-dock-shadow, 0 16px 48px #12051066, inset 0 1px #ffe4ac12); scrollbar-width: thin; scrollbar-color: #bf855b66 transparent; }
   .firework-dock.firework-dock--left { left: 20px; right: auto; }
