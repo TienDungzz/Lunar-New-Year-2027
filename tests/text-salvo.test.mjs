@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { composeGlyphSalvo, getTextScale, TEXT_SALVO_POINT_BUDGET, TEXT_FLIGHT_SECONDS } from '../src/lib/textSalvo.mjs';
+import { composeGlyphSalvo, getTextScale, TEXT_SALVO_POINT_BUDGET, TEXT_FLIGHT_SECONDS, TEXT_SPARK_SECONDS } from '../src/lib/textSalvo.mjs';
 import { createFireworkPlan, getFireworkSoundCues, sampleFlight, sampleSpark } from '../src/lib/fireworkDynamics.mjs';
 import { FIREWORK_PALETTE } from '../src/lib/fireworkPalette.mjs';
 
@@ -26,6 +26,10 @@ test('opening combines a goat above the greeting with simultaneous ignition and 
     assert.ok(plan.stages.every(s => s.launchAt === 0 && s.at === (reduced ? 0 : 1.5)));
     assert.ok(plan.pointCount <= 6000);
     assert.ok(plan.duration <= 9);
+    if (!reduced) for (const stage of plan.stages) {
+      assert.ok(sampleSpark(stage,stage.at+4.5,0).y < sampleSpark(stage,stage.at+1.5,0).y-1);
+      assert.equal(sampleSpark(stage,stage.at+5,0),null);
+    }
   }
   const cues = getFireworkSoundCues('opening',false,glyphs);
   assert.equal(cues.filter(c => c.kind === 'lift' && c.at === 0).length,3);
@@ -63,15 +67,21 @@ test('all character shells fly in a row and burst simultaneously, including soun
   assert.ok(cues.filter(c => c.kind === 'boom').every(c => c.at === TEXT_FLIGHT_SECONDS));
   assert.ok(plan.pointCount <= TEXT_SALVO_POINT_BUDGET*2);
 });
-test('text stays bright and stationary for reading before fading; reduced motion keeps the reading time', () => {
+test('text holds briefly, then falls and fades within five seconds; reduced motion keeps the reading time', () => {
   const { glyphs, points } = salvo();
   const stage = createFireworkPlan('text',27,points.length,false,points,glyphs).stages[0];
-  assert.ok(sampleSpark(stage,stage.at+3,0).alpha > .65);
-  const before = sampleSpark(stage,stage.at+3,0), after = sampleSpark(stage,stage.at+4,0);
-  assert.ok(Math.abs(before.y-after.y) < .001);
+  assert.ok(sampleSpark(stage,stage.at+1.5,0).alpha > .65);
+  const before = sampleSpark(stage,stage.at+1,0), held = sampleSpark(stage,stage.at+1.8,0);
+  assert.ok(Math.abs(before.y-held.y) < .005);
+  const after = sampleSpark(stage,stage.at+4.5,0);
+  assert.ok(after.y < held.y-1);
+  assert.ok(after.alpha < held.alpha);
+  assert.equal(sampleSpark(stage,stage.at+5,0),null);
   const reduced = createFireworkPlan('text',27,points.length,true,points,glyphs);
-  assert.ok(reduced.duration > 6);
+  assert.equal(reduced.duration,TEXT_SPARK_SECONDS);
   assert.ok(reduced.stages.every(s => s.lift === 0));
+  const still = reduced.stages[0];
+  assert.equal(sampleSpark(still,1,0,0,true).y,sampleSpark(still,4,0,0,true).y);
 });
 test('large text fits portrait, desktop and short landscape viewports', () => {
   for (const [width,height] of [[360,800],[1440,900],[800,360]]) {

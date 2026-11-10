@@ -1,5 +1,5 @@
 import { sampleShape, seededRandom } from './experience.mjs';
-import { TEXT_FLIGHT_SECONDS, TEXT_SPARK_SECONDS } from './textSalvo.mjs';
+import { SHAPE_HOLD_SECONDS, TEXT_FLIGHT_SECONDS, TEXT_SPARK_SECONDS } from './textSalvo.mjs';
 import { getLetterColor } from './fireworkPalette.mjs';
 
 // One timeline drives both renderers and Web Audio. Times are seconds from
@@ -14,15 +14,15 @@ export function getFireworkTimeline(type, reduced = false, glyphs = undefined) {
   let stages;
   if ((type === 'text' || type === 'opening') && glyphs?.length) {
     stages = glyphs.map(glyph => stage({ launchAt: 0, lift: TEXT_FLIGHT_SECONDS, at: TEXT_FLIGHT_SECONDS,
-      start: [glyph.center[0],-6,0], center: [...glyph.center], bend: 0, life: TEXT_SPARK_SECONDS, gravity: 0, drag: 8,
+      start: [glyph.center[0],-6,0], center: [...glyph.center], bend: 0, life: TEXT_SPARK_SECONDS, gravity: .35, drag: 8,
       trails: 2, share: 1/glyphs.length, glyph, color: 'gold' }));
     if (type === 'opening') {
       stages = stages.map(s => ({ ...s, center: [s.center[0],-.7,0] }));
       stages.push(stage({ lift: TEXT_FLIGHT_SECONDS, at: TEXT_FLIGHT_SECONDS, center: [0,1.1,0],
-        scale: .34, life: TEXT_SPARK_SECONDS, gravity: 0, drag: 8, trails: 2, holdShape: true, shape: 'goat', color: 'gold' }));
+        scale: .34, life: TEXT_SPARK_SECONDS, gravity: .35, drag: 8, trails: 2, holdShape: true, shape: 'goat', color: 'gold' }));
     }
   } else if (type === 'goat') {
-    stages = [stage({ lift: 1.1, at: 1.1, life: 5.4, gravity: 0, drag: 5, trails: 2, holdShape: true, color: 'gold' })];
+    stages = [stage({ lift: 1.1, at: 1.1, life: 5, gravity: .35, drag: 5, trails: 2, holdShape: true, color: 'gold' })];
   } else if (type === 'rocket') {
     stages = [stage({ lift: 1.5, at: 1.5, bend: .5, life: 4.8 })];
   } else if (type === 'cluster') {
@@ -85,10 +85,12 @@ export function sampleSpark(stage, age, index, tail = 0, reduced = false, out = 
   if (t < 0) return null;
   const p = stage.points[index];
   const expansion = reduced ? 1 : 1-Math.exp(-t*stage.drag);
-  const drop = reduced ? 0 : stage.text ? Math.pow(Math.max(0,t-4.5),2)*.045 : stage.holdShape ? Math.pow(Math.max(0,t-3.2),2)*.04 : t*t*stage.gravity*(.75+(index%7)*.07);
+  const shaped = stage.text || stage.holdShape;
+  const falling = shaped ? Math.max(0,t-SHAPE_HOLD_SECONDS) : t;
+  const drop = reduced ? 0 : falling*falling*stage.gravity*(.75+(index%7)*.07);
   const fade = stage.text || stage.holdShape ? Math.min(1,Math.max(0,(stage.life-elapsed)/2.3)) : Math.pow(Math.max(0, 1-elapsed/stage.life), .65);
   const alpha = fade*(reduced ? 1 : Math.min(1,t*16))*(1-tail/(stage.trails+1))*(.85+.15*Math.sin(index*17+t*9));
-  out.x = stage.center[0]+p[0]*expansion*stage.scale;
+  out.x = stage.center[0]+p[0]*expansion*stage.scale+(shaped && !reduced ? Math.sin(index*12.9898)*falling*.12 : 0);
   out.y = stage.center[1]+p[1]*expansion*stage.scale-drop;
   out.z = stage.center[2]+p[2]*expansion*stage.scale;
   out.alpha = alpha; out.size = stage.text ? .63 : stage.holdShape ? .8 : 1.1-tail*.075;

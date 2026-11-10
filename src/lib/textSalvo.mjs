@@ -1,7 +1,8 @@
 export const TEXT_SALVO_POINT_BUDGET = 2400;
 export const TEXT_FLIGHT_SECONDS = 1.5;
-export const TEXT_SPARK_SECONDS = 6.8;
-export const TEXT_FOCUS_MS = 8500;
+export const TEXT_SPARK_SECONDS = 5;
+export const SHAPE_HOLD_SECONDS = 2;
+export const TEXT_EFFECT_LIFETIME_MS = (TEXT_FLIGHT_SECONDS+TEXT_SPARK_SECONDS)*1000;
 
 export function getTextScale(viewWidth, viewHeight, halfWidth, halfHeight) {
   return Math.min(viewWidth*.43/Math.max(.1,halfWidth),viewHeight*.20/Math.max(.1,halfHeight));
