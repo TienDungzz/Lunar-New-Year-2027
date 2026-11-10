@@ -1,3 +1,5 @@
+import HeaderAudio from './components/HeaderAudio';
+import SceneNavigation from './components/SceneNavigation';
 import { createTranslator, normalizeLocale } from './i18n';
 import { Component, lazy, Suspense, useCallback, useEffect, useReducer, useRef, useState, type ReactNode } from 'react';
 import Icon from './components/Icons';
@@ -13,6 +15,7 @@ import { DEFAULT_VOLUME, normalizeVolume } from './lib/audioPreferences.mjs';
 import type { Launch } from './scenes/Fireworks';
 import { createOpeningTextSalvo, createPresetTextSalvo, type TextSalvo } from './lib/fireworkText';
 import { BURST_LIFETIME_MS, MAX_ACTIVE_BURSTS } from './lib/fireworkShow.mjs';
+import { TEXT_EFFECT_LIFETIME_MS } from './lib/textSalvo.mjs';
 
 const World = lazy(() => import('./scenes/World'));
 function hasWebGL() {
@@ -34,6 +37,7 @@ export default function App() {
   const [sceneKey, setSceneKey] = useState(0);
   const [sound, setSound] = useState(false);
   const [volume, setVolume] = useState(() => normalizeVolume(readStorage('tet-sound-volume',DEFAULT_VOLUME)));
+  const soundRequest = useRef(0);
   const [visible, setVisible] = useState(!document.hidden);
   const [launch, setLaunch] = useState<Launch | null>(null);
   const [cooldown, setCooldown] = useState(false);
@@ -116,7 +120,7 @@ export default function App() {
     if (document.hidden || !visible || !fireworks || !(type === 'opening' || fireworkTypes.some(preset => preset.id === type))) return false;
     if (type === 'text' && (!extra.points?.length || !extra.glyphs?.length)) return false;
     const time = performance.now();
-    launchHistory.current = launchHistory.current.filter(entry => time-entry.at < BURST_LIFETIME_MS);
+    launchHistory.current = launchHistory.current.filter(entry => time-entry.at < (entry.text ? TEXT_EFFECT_LIFETIME_MS : BURST_LIFETIME_MS));
     // Automatic shots reserve two slots for the visitor, and never lock the UI.
     if (launchHistory.current.length >= (automated ? MAX_ACTIVE_BURSTS-2 : MAX_ACTIVE_BURSTS)) return false;
     if (!automated && time-lastManual.current < 380) return false;
@@ -127,7 +131,7 @@ export default function App() {
     if (!automated) {
       lastManual.current = time; setLastType(type); setCooldown(true);
       if (cooldownTimer.current) clearTimeout(cooldownTimer.current);
-      const wait = launchHistory.current.length >= MAX_ACTIVE_BURSTS ? BURST_LIFETIME_MS+50-(time-launchHistory.current[0].at) : 400;
+      const wait = launchHistory.current.length >= MAX_ACTIVE_BURSTS ? Math.min(...launchHistory.current.map(entry => (entry.text ? TEXT_EFFECT_LIFETIME_MS : BURST_LIFETIME_MS)-(time-entry.at)))+50 : 400;
       cooldownTimer.current = setTimeout(() => { setCooldown(false); }, wait);
     }
     return true;
@@ -143,8 +147,16 @@ export default function App() {
   const show = useFireworkShow({ active: fireworks, visible, reduced, onLaunch: automaticShot });
   const openWish = (index: number) => { if (phase !== 'TREE_EXPLORE' || content.loading) return; mark(content.wishes[index].id); setSelected(index); };
   const startPreview = () => { setPreviewTarget(Date.now()+10000); dispatch({ type: 'PREVIEW' }); try { sessionStorage.setItem('tet-preview-played', 'true'); } catch {} };
-  const toggleSound = async () => {
-    try { await setAudioEnabled(!sound); setSound(!sound); writeStorage('tet-sound-enabled', !sound); } catch { setSound(false); }
+  const updateSound = async (enabled: boolean) => {
+    const request = ++soundRequest.current;
+    setSound(enabled); writeStorage('tet-sound-enabled',enabled);
+    try { await setAudioEnabled(enabled); }
+    catch { if (request === soundRequest.current) { setSound(false); writeStorage('tet-sound-enabled',false); } }
+  };
+  const changeVolume = (value: number) => {
+    const next = normalizeVolume(value);
+    setVolume(next); setAudioVolume(next);
+    void updateSound(next > 0);
   };
   const retryScene = async () => {
     if (!hasWebGL()) return;
@@ -153,7 +165,7 @@ export default function App() {
       clearWorldCache(); setSceneKey(k => k+1); setFallback(false);
     } catch { setFallback(true); }
   };
-  return <main className={`experience experience--${tree ? 'tree' : fireworks ? 'fireworks' : 'home'}`}>
+  return <main className={`experience experience--${tree ? 'tree' : fireworks ? 'fireworks' : 'home'}${phase === 'COUNTDOWN' ? ' experience--countdown' : ''}${preparingSky ? ' experience--preparing-sky' : ''}`}>
     <div className="world" aria-hidden="true">
       {fallback ? <FallbackScene phase={visualPhase} launch={launch} reduced={reduced} visible={visible} /> : <SceneBoundary key={sceneKey} onError={sceneError}><Suspense fallback={null}><World phase={visualPhase} reduced={reduced} seen={seen} launch={launch} onOpen={openWish} onReady={ready} onTransition={finishTransition} onError={sceneError} modalOpen={selected !== null || content.loading} reset={reset} visible={visible} /></Suspense></SceneBoundary>}
     </div>
@@ -161,7 +173,7 @@ export default function App() {
     <header className="header">
       <a className="brand" href="/" aria-label="Xuân An Yên"><img className="brand__logo" src="/images/tet-2027-logo.png" width="76" height="76" alt="" /><span className="brand__name">Xuân An Yên<span className="brand__sub">TẾT ĐINH MÙI · 2027</span></span></a>
       <div className="header__actions">
-        <button className="icon-button header__sound" onClick={() => void toggleSound()} aria-label={sound ? t('common.mute.sound') : t('common.enable.sound')} aria-pressed={sound}><Icon name={sound ? 'sound' : 'muted'} /><span>{sound ? t('common.sound.on') : t('common.sound.off')}</span></button>
+        <HeaderAudio lang={lang} enabled={sound} volume={volume} onVolumeChange={changeVolume} />
         <div className="language" aria-label={t('common.language')}><button className={`language__button${vi ? ' language__button--active' : ''}`} aria-pressed={vi} onClick={() => setLang('vi')}>VI</button><span className="language__divider">/</span><button className={`language__button${!vi ? ' language__button--active' : ''}`} aria-pressed={!vi} onClick={() => setLang('en')}>EN</button></div>
       </div>
     </header>
@@ -183,19 +195,18 @@ export default function App() {
     {flow.revealing && <section className="reveal" role="status"><p className="eyebrow">XUÂN ĐINH MÙI · 2027</p><h1 aria-label={t('common.happy.lunar.new.year.2')}>{t('common.happy')}<br /><em>{t('common.lunar.new.year')}</em></h1><p>{t('common.may.good.things.blossom')}</p></section>}
     {(fireworks || tree || transition) && <>
       <section className="chapter">
-        <p className="eyebrow">{tree || phase === 'TREE_TRANSITION' ? t('common.02.a.little.kindness') : t('common.01.light.up.the.moment')}</p>
+        <SceneNavigation lang={lang} active={tree || phase === 'TREE_TRANSITION' ? 'wishes' : 'fireworks'} transitioning={transition} onNavigate={destination => { setSelected(null); dispatch({ type: destination === 'wishes' ? 'OPEN_TREE' : 'OPEN_FIREWORKS' }); }} />
         <h1 className="chapter__title">{tree || phase === 'TREE_TRANSITION' ? t('common.the.spring.wishes.tree') : t('common.the.sky.is.yours')}</h1>
         <p className="chapter__description">{tree || phase === 'TREE_TRANSITION' ? t('common.touch.an.ornament.unfold.a.little.spring') : t('common.a.five.minute.show.add.shapes.write')}</p>
       </section>
-      {fireworks && <FireworksControls lang={lang} show={show} cooldown={cooldown} lastType={lastType} soundEnabled={sound} volume={volume} onVolumeChange={value => setVolume(normalizeVolume(value))} onToggleSound={() => void toggleSound()} onShoot={type => shoot(type)} onText={(text, salvo) => shoot('text', false, { text, points: salvo.points, glyphs: salvo.glyphs })} />}
+      {fireworks && <FireworksControls lang={lang} show={show} cooldown={cooldown} lastType={lastType} onShoot={type => shoot(type)} onText={(text, salvo) => shoot('text', false, { text, points: salvo.points, glyphs: salvo.glyphs })} />}
       {tree && <section className={`tree-panel${listOpen || fallback ? ' tree-panel--expanded' : ''}`}>
         <div className="tree-panel__heading"><Icon name="flower" /><span>{seen.length}/{content.wishes.length} {t('common.wishes.opened')}</span><button className="text-button" onClick={() => setListOpen(!listOpen)} aria-expanded={listOpen || fallback}>{listOpen ? t('common.collapse') : t('common.all.wishes')} {listOpen ? '−' : '+'}</button></div>
         {content.loading && <p className="tree-panel__message" role="status">{t('common.preparing.wishes')}</p>}
         {content.error && <p className="tree-panel__message">{t('common.showing.the.original.wishes')} <button className="text-button" onClick={content.retry}>{t('common.retry')}</button></p>}
         {(listOpen || fallback) && <div className="wish-list">{content.wishes.map((wish, i) => <button key={wish.id} className={`wish-list__button${seen.includes(wish.id) ? ' wish-list__button--seen' : ''}`} disabled={content.loading} onClick={() => openWish(i)}><span>{String(i+1).padStart(2,'0')}</span>{wish.title[lang]}{seen.includes(wish.id) && <Icon name="check" />}</button>)}</div>}
-        <div className="tree-panel__tools"><span>{seen.length === content.wishes.length ? t('common.eight.wishes.carried.into.a.new.year') : t('common.drag.to.turn.tap.an.ornament.to')}</span><button className="icon-button" onClick={() => setReset(r => r+1)} aria-label={t('common.reset.view')}><Icon name="reset" /></button></div>
+        <div className="tree-panel__tools"><span>{seen.length === content.wishes.length ? t('common.eight.wishes.carried.into.a.new.year') : t('common.drag.to.turn.tap.an.ornament.to')}</span><button className="icon-button" onClick={() => setReset(r => r+1)} aria-label={t('common.reset.view')}><Icon name="compass" /></button></div>
       </section>}
-      <nav className="scene-nav" aria-label={t('common.scene.navigation')}><span className="scene-nav__step">{tree ? '02' : '01'}<span> / 02</span></span><button className="button button--outline" disabled={transition} onClick={() => { setSelected(null); dispatch({ type: tree ? 'OPEN_FIREWORKS' : 'OPEN_TREE' }); }}><span className={fireworks ? 'sr-only' : undefined}>{transition ? t('common.moving.into.the.scene') : tree ? t('common.back.to.fireworks') : t('common.explore.the.wishes.tree')}</span><Icon name={tree ? 'burst' : 'arrow'} /></button></nav>
     </>}
     {phase !== 'LOADING' && <footer className="footer"><span>{t('common.a.little.home.a.peaceful.new.year.2')}</span><span><Icon name="moon" />{t('common.a.vietnamese.spring.night')}</span></footer>}
     {fallback && <aside className="fallback-notice">{t('common.2d.scene.mode')}<button className="text-button" onClick={() => void retryScene()}>{t('common.retry.3d')}</button></aside>}

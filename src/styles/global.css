@@ -126,25 +126,6 @@ button svg { flex-shrink: 0; }
   .chapter { left: 26px; top: 122px; right: 20px; }
   .chapter__title { font-size: var(--chapter-title-font-size, 28px); letter-spacing: var(--brand-name-letter-spacing, -.7px); margin-top: var(--tree-panel-tools-margin-top, 10px); }
   .chapter__description { font-size: var(--text-caption, 9px); max-width: 280px; }
-  .firework-dock { left: 16px; right: 16px; bottom: 90px; padding: var(--firework-dock-padding, 10px); }
-  .firework-dock__heading { font-size: var(--text-micro, 8px); letter-spacing: var(--firework-dock-heading-letter-spacing-2, .7px); margin-bottom: var(--firework-dock-margin-bottom, 10px); }
-  .firework-dock__heading .text-button { font-size: var(--text-micro, 8px); }
-  .firework-dock__buttons { grid-template-columns: repeat(auto-fit, minmax(44px, 1fr)); gap: var(--dock-position-gap, 5px); }
-  .firework-button { min-width: 44px; min-height: 44px; padding: var(--firework-button-padding, 6px); gap: 0; align-items: center; }
-  .firework-button svg { width: 24px; height: 24px; }
-  .firework-button__label { display: none; }
-  .firework-button .firework-button__index { top: 6px; right: 6px; font-size: var(--countdown-caption-font-size, 7px); }
-  .firework-dock__hint { display: none; }
-  .firework-dock__show { gap: var(--footer-gap, 8px); margin-bottom: var(--firework-dock-show-margin-bottom-2, 6px); flex-wrap: nowrap; }
-  .firework-dock__actions { width: auto; justify-content: flex-end; gap: var(--dock-position-gap, 5px); }
-  .firework-dock__status { gap: var(--dock-position-gap, 5px); font-size: var(--countdown-caption-font-size, 7px); letter-spacing: var(--header-sound-letter-spacing, .3px); }
-  .firework-dock__timer { font-size: var(--firework-dock-timer-font-size, 17px); margin-left: var(--firework-dock-timer-margin-left-2, 3px); }
-  .firework-dock__play { min-width: 44px; min-height: 44px; justify-content: center; padding: var(--wish-list-button-padding, 8px); }
-  .firework-dock__play svg { width: 21px; height: 21px; }
-  .sky-writing__row { gap: var(--firework-dock-buttons-gap, 7px); flex-wrap: wrap; }
-  .sky-writing__input { flex: 1; width: auto; }
-  .sky-writing__submit { min-width: 44px; width: 44px; padding: var(--firework-dock-padding, 10px); }
-  .sky-writing__help { font-size: var(--text-caption, 9px); }
   .experience--fireworks .chapter { top: 116px; }
   .experience--fireworks .chapter__title { font-size: var(--experience--fireworks-font-size, 27px); }
   .experience--fireworks .chapter__description { max-width: 310px; }
@@ -173,7 +154,7 @@ button svg { flex-shrink: 0; }
 }
 .chapter__title { font: var(--chapter-title-font, 36px/1.35 var(--serif, 'Tet Serif', Georgia, 'Times New Roman', serif)); letter-spacing: var(--chapter-title-letter-spacing, -1px); font-weight: var(--eyebrow-font-weight, 400); margin: var(--chapter-title-margin, 13px 0 10px); color: var(--chapter-title-color, #f0dfbd); }
 .chapter__description { font-size: var(--text-small, 11px); color: var(--chapter-description-color, #ead0b8); line-height: var(--chapter-description-line-height, 1.8); margin: 0; }
-.firework-dock { position: absolute; left: max(5%, calc(50% - 330px)); right: max(5%, calc(50% - 330px)); bottom: 100px; padding: var(--firework-dock-padding, 10px); border: var(--firework-dock-border, 1px solid #e6bb684d); background: var(--firework-dock-background, linear-gradient(120deg, #47101bdd, #240c18dd)); backdrop-filter: blur(14px); max-height: 52svh; overflow-y: auto; }
+.firework-dock { position: absolute; left: max(5%, calc(50% - 330px)); right: max(5%, calc(50% - 330px)); bottom: var(--firework-dock-bottom, max(12px, env(safe-area-inset-bottom))); padding: var(--firework-dock-padding, 10px); border: none; outline: none; box-shadow: none; border-radius: var(--firework-dock--bottom-border-radius, 14px); background: var(--firework-dock-background, linear-gradient(120deg, #47101bdd, #240c18dd)); backdrop-filter: blur(14px); max-height: 52svh; overflow-y: auto; }
 .firework-dock__heading { display: flex; align-items: center; gap: var(--firework-dock-heading-gap, 9px); margin-bottom: var(--firework-dock-heading-margin-bottom, 16px); color: var(--firework-dock-heading-color, #e4c39e); font-size: var(--text-micro, 8px); letter-spacing: var(--firework-dock-heading-letter-spacing, 1.7px); min-height: 26px; }
 .firework-dock__heading .text-button { margin-left: auto; letter-spacing: 0; }
 .firework-dock__buttons { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: var(--firework-dock-buttons-gap, 7px); }
@@ -191,7 +172,7 @@ button svg { flex-shrink: 0; }
 .firework-dock__timer { font: var(--firework-dock-timer-font, 19px var(--serif, 'Tet Serif', Georgia, 'Times New Roman', serif)); font-variant-numeric: tabular-nums; letter-spacing: var(--firework-dock-timer-letter-spacing, 1px); margin-left: var(--firework-dock-timer-margin-left, 10px); color: var(--firework-dock-timer-color, #ffe6aa); }
 .firework-dock__play { display: flex; align-items: center; gap: var(--footer-gap, 8px); min-height: 34px; }
 .firework-dock__play svg { width: 16px; height: 16px; }
-.firework-dock__actions { display: flex; align-items: center; gap: var(--dock-position-gap, 5px); }
+.firework-dock__actions { display: flex; align-items: center; gap: var(--space-control-gap, 5px); }
 .volume-control { display: flex; align-items: center; gap: var(--volume-control-gap, 6px); margin: var(--volume-control-margin, 0 0 12px); padding: var(--text-button-padding, 5px 0); flex-wrap: wrap; }
 .volume-control__button { width: 32px; min-height: 34px; display: grid; place-items: center; border: none; color: var(--firework-dock-status-color, #f4cf8a); }
 .volume-control__button svg { width: 17px; height: 17px; }
@@ -267,10 +248,32 @@ button svg { flex-shrink: 0; }
 @media (max-width: 1050px) {
   .welcome { left: 6%; width: 440px; }
   .welcome__title { font-size: var(--welcome-title-font-size, 48px); }
-  .firework-dock { left: 5%; right: 5%; bottom: 100px; }
+  .firework-dock { left: 5%; right: 5%; bottom: var(--firework-dock-bottom, max(12px, env(safe-area-inset-bottom))); }
   .firework-dock__buttons { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .tree-panel { bottom: 155px; left: 5%; width: 420px; }
   .chapter { left: 5%; }
+}
+
+@media (max-width: 699px) {
+  .firework-dock { left: 16px; right: 16px; bottom: var(--firework-dock-bottom, max(12px, env(safe-area-inset-bottom))); padding: var(--firework-dock-padding, 10px); }
+  .firework-dock__heading { font-size: var(--text-micro, 8px); letter-spacing: var(--firework-dock-heading-letter-spacing-2, .7px); margin-bottom: var(--firework-dock-margin-bottom, 10px); }
+  .firework-dock__heading .text-button { font-size: var(--text-micro, 8px); }
+  .firework-dock__buttons { grid-template-columns: repeat(auto-fit, minmax(44px, 1fr)); gap: var(--space-control-gap, 5px); }
+  .firework-button { min-width: 44px; min-height: 44px; padding: var(--firework-button-padding, 6px); gap: 0; align-items: center; }
+  .firework-button svg { width: 24px; height: 24px; }
+  .firework-button__label { display: none; }
+  .firework-button .firework-button__index { top: 6px; right: 6px; font-size: var(--countdown-caption-font-size, 7px); }
+  .firework-dock__hint { display: none; }
+  .firework-dock__show { gap: var(--footer-gap, 8px); margin-bottom: var(--firework-dock-show-margin-bottom-2, 6px); flex-wrap: nowrap; }
+  .firework-dock__actions { width: auto; justify-content: flex-end; gap: var(--space-control-gap, 5px); }
+  .firework-dock__status { gap: var(--space-control-gap, 5px); font-size: var(--countdown-caption-font-size, 7px); letter-spacing: var(--header-sound-letter-spacing, .3px); }
+  .firework-dock__timer { font-size: var(--firework-dock-timer-font-size, 17px); margin-left: var(--firework-dock-timer-margin-left-2, 3px); }
+  .firework-dock__play { min-width: 44px; min-height: 44px; justify-content: center; padding: var(--wish-list-button-padding, 8px); }
+  .firework-dock__play svg { width: 21px; height: 21px; }
+  .sky-writing__row { gap: var(--firework-dock-buttons-gap, 7px); flex-wrap: wrap; }
+  .sky-writing__input { flex: 1; width: auto; }
+  .sky-writing__submit { min-width: 44px; width: 44px; padding: var(--firework-dock-padding, 10px); }
+  .sky-writing__help { font-size: var(--text-caption, 9px); }
 }
 
 @media (max-height: 750px) and (min-width: 700px) {
@@ -291,16 +294,16 @@ button svg { flex-shrink: 0; }
   .welcome__description { display: none; }
   .chapter { top: 100px; }
   .chapter__title { font-size: var(--chapter-title-font-size-2, 25px); }
-  .firework-dock { bottom: 90px; max-height: 42svh; }
+  .firework-dock { bottom: var(--firework-dock-bottom, max(12px, env(safe-area-inset-bottom))); max-height: 42svh; }
   .firework-button { min-height: 44px; padding: var(--firework-button-padding, 6px); gap: 0; }
 }
 
-.firework-dock--mobile { left: 16px; right: 16px; top: auto; bottom: max(90px, calc(env(safe-area-inset-bottom) + 70px)); width: auto; padding: var(--firework-dock-padding, 10px); }
-.firework-dock--mobile .firework-dock__buttons { grid-template-columns: repeat(auto-fit, minmax(44px, 1fr)); gap: var(--dock-position-gap, 5px); }
+.firework-dock--mobile { left: 16px; right: 16px; top: auto; bottom: var(--firework-dock-bottom, max(12px, env(safe-area-inset-bottom))); width: auto; padding: var(--firework-dock-padding, 10px); }
+.firework-dock--mobile .firework-dock__buttons { grid-template-columns: repeat(auto-fit, minmax(44px, 1fr)); gap: var(--space-control-gap, 5px); }
 .firework-dock--mobile .firework-button { min-width: 44px; min-height: 44px; padding: var(--firework-button-padding, 6px); gap: 0; }
 .firework-dock--mobile .firework-button svg { width: 24px; height: 24px; }
 .firework-dock--mobile .firework-dock__show { gap: var(--footer-gap, 8px); flex-wrap: nowrap; margin-bottom: var(--firework-dock-show-margin-bottom-2, 6px); }
-.firework-dock--mobile .firework-dock__actions { width: auto; flex-direction: row; justify-content: flex-end; gap: var(--dock-position-gap, 5px); }
+.firework-dock--mobile .firework-dock__actions { width: auto; flex-direction: row; justify-content: flex-end; gap: var(--space-control-gap, 5px); }
 .firework-dock--mobile .firework-dock__play { min-width: 44px; min-height: 44px; padding: var(--wish-list-button-padding, 8px); justify-content: center; }
 .firework-dock--mobile .firework-dock__play svg { width: 21px; height: 21px; }
 .firework-dock--mobile .firework-dock__hint { display: none; }
@@ -312,8 +315,13 @@ button svg { flex-shrink: 0; }
 .firework-dock__play { min-width: 44px; min-height: 44px; padding: var(--wish-list-button-padding, 8px); justify-content: center; }
 .experience--fireworks .chapter__description { display: none; }
 
-.firework-dock__presets { display: flex; gap: var(--firework-dock-buttons-gap, 7px); margin-top: var(--firework-dock-presets-margin-top, 7px); }
-.firework-dock__presets .firework-button { width: 44px; color: var(--welcome-title-color, #ffd579); }
+.firework-dock__presets { display: contents; }
+.firework-dock__presets .firework-button { color: var(--welcome-title-color, #ffd579); }
+.firework-dock__choices { display: contents; }
+.firework-dock__notice { position: fixed; z-index: 20; top: max(100px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); width: max-content; max-width: min(480px, calc(100vw - 32px)); margin: 0; padding: var(--firework-notice-padding, 10px 16px); border-radius: var(--firework-notice-radius, 10px); background: var(--firework-notice-background, #37111ae6); color: var(--firework-notice-color, #ffe1a0); box-shadow: var(--firework-notice-shadow, 0 4px 18px #16071244); font-size: var(--text-small, 11px); line-height: var(--eyebrow-line-height, 1.7); text-align: center; pointer-events: none; }
+.firework-dock--mobile.firework-dock--collapsed .firework-dock__choices { display: flex; flex-wrap: nowrap; gap: var(--space-control-gap, 5px); padding: var(--language-gap, 4px); overflow-x: auto; overflow-y: hidden; max-width: 100%; min-width: 0; overscroll-behavior-inline: contain; scrollbar-width: thin; }
+.firework-dock--mobile.firework-dock--collapsed .firework-dock__buttons, .firework-dock--mobile.firework-dock--collapsed .firework-dock__presets { display: contents; }
+.firework-dock--mobile.firework-dock--collapsed .firework-button { flex: 0 0 44px; width: 44px; }
 .firework-dock--text-active .firework-dock__presets { display: none; }
 
 .firework-dock__progress { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
@@ -324,29 +332,14 @@ button svg { flex-shrink: 0; }
 }
 
 @media (min-width: 700px) {
-  .firework-dock.firework-dock--left, .firework-dock.firework-dock--right { top: clamp(180px, 23svh, 240px); bottom: auto; width: 208px; max-height: calc(100svh - 280px); padding: var(--firework-dock-padding-2, 12px); border-radius: var(--firework-dock-border-radius, 18px); border-color: var(--firework-dock-color, #efc77945); background: var(--firework-dock-background-2, linear-gradient(155deg, #4d1724f2, #230e1aeb)); box-shadow: var(--firework-dock-shadow, 0 16px 48px #12051066, inset 0 1px #ffe4ac12); scrollbar-width: thin; scrollbar-color: #bf855b66 transparent; }
-  .firework-dock.firework-dock--left { left: 20px; right: auto; }
-  .firework-dock.firework-dock--right { right: 20px; left: auto; }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .dock-position { justify-content: center; gap: var(--language-gap, 4px); padding: var(--firework-dock-padding-3, 4px); margin-bottom: var(--firework-dock-margin-bottom, 10px); background: var(--firework-dock-background-3, #16091466); border: var(--firework-dock-border-2, 1px solid #efc7791c); border-radius: var(--firework-dock-border-radius-2, 11px); }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .dock-position__button { flex: 1; min-height: 40px; border-radius: var(--firework-dock-border-radius-3, 7px); }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-dock__buttons { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--volume-control-gap, 6px); }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-button { min-height: 48px; padding: var(--wish-list-button-padding, 8px); border-radius: var(--firework-dock-border-radius-4, 10px); border-color: var(--firework-dock-color-2, #e6bb6829); background: var(--firework-dock-background-4, #77253340); box-shadow: var(--firework-dock-shadow-2, inset 0 1px #ffe4ac09); transition: background .15s, border-color .15s; }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-button:hover:not(:disabled), .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-button--selected { background: var(--firework-dock-background-5, #a4413c99); border-color: var(--firework-dock-color-3, #ffd57999); }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-button__label { font-size: var(--text-micro, 8px); }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-button svg { width: 24px; height: 24px; }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-dock__show { flex-direction: column; align-items: stretch; gap: var(--footer-gap, 8px); margin-bottom: var(--firework-dock-margin-bottom-2, 12px); padding-bottom: var(--firework-dock-padding-bottom, 12px); border-bottom: var(--firework-dock-border-bottom, 1px solid #efc77922); }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-dock__status { justify-content: center; gap: var(--footer-gap, 8px); letter-spacing: var(--firework-dock-letter-spacing, .2px); }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-dock__timer { margin-left: 0; font: var(--firework-dock-font, 21px 'Tet Sans', sans-serif); font-variant-numeric: tabular-nums; letter-spacing: var(--countdown-caption-letter-spacing, 2px); }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-dock__actions { flex-direction: row; justify-content: center; gap: var(--volume-control-gap, 6px); }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-dock__play { min-width: 44px; min-height: 44px; padding: var(--wish-list-button-padding, 8px); border: var(--firework-dock-border-3, 1px solid #e6bb6829); border-radius: var(--firework-dock-border-radius-4, 10px); background: var(--firework-dock-background-6, #16091440); }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-dock__play[aria-pressed=true], .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-dock__play[aria-expanded=true] { background: var(--firework-dock-background-7, #a4413c66); border-color: var(--firework-dock-color-4, #ffd57966); }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-dock__play svg { width: 20px; height: 20px; }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-dock__presets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--volume-control-gap, 6px); margin-top: var(--tree-panel-tools-margin-top, 10px); padding-top: var(--firework-dock-padding-top, 10px); border-top: var(--firework-dock-border-top, 1px solid #efc77922); }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-dock__presets .firework-button { width: auto; color: var(--welcome-title-color, #ffd579); background: var(--firework-dock-background-8, #95612b26); }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) button:focus-visible { outline: var(--button-focus-visible-a-focus-visible-outline, 2px solid #ffe0a1); outline-offset: 2px; }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .sky-writing__row { flex-wrap: wrap; gap: var(--footer-gap, 8px); }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .sky-writing__input { width: 100%; flex-basis: 100%; }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .sky-writing__submit { flex: 1; padding: var(--firework-dock-padding, 10px); }
+  .firework-dock--bottom:not(.firework-dock--mobile) { left: max(4%, calc(50% - 640px)); right: max(4%, calc(50% - 640px)); bottom: var(--firework-dock-bottom, max(12px, env(safe-area-inset-bottom))); display: grid; grid-template-columns: repeat(20, minmax(0, 1fr)); gap: var(--firework-dock--bottom-gap, 8px 6px); padding: var(--firework-dock-padding-2, 12px); border-radius: var(--firework-dock--bottom-border-radius, 14px); }
+  .firework-dock--bottom:not(.firework-dock--mobile) .firework-dock__show { grid-column: 1 / -1; grid-row: 1; margin: 0; gap: var(--footer-gap, 8px); }
+  .firework-dock--bottom:not(.firework-dock--mobile) .firework-dock__buttons, .firework-dock--bottom:not(.firework-dock--mobile) .firework-dock__presets { display: contents; }
+  .firework-dock--bottom:not(.firework-dock--mobile) .firework-button { grid-column: span 2; width: auto; min-width: 0; min-height: 44px; border-radius: var(--firework-dock-border-radius-3, 7px); }
+  .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing { grid-column: 1 / -1; margin: var(--firework-dock--bottom-margin, 2px 0 0); padding-top: var(--firework-dock-padding-top, 10px); }
+  .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing__input { flex: 1; width: auto; max-width: none; }
+  .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing__submit { width: 44px; min-width: 44px; padding: var(--firework-dock-padding, 10px); }
+  .firework-dock--bottom:not(.firework-dock--mobile) > .sky-writing__error { grid-column: 1 / -1; margin: 0; }
 }
 @media (min-width: 1000px) {
   .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: var(--firework-dock--bottom-gap-2, 4px 14px); align-items: center; }
@@ -359,22 +352,4 @@ button svg { flex-shrink: 0; }
 }
 .header__sound { gap: var(--header-sound-gap, 10px); font-size: var(--text-label, 10px); letter-spacing: var(--header-sound-letter-spacing, .3px); }
 .header__sound svg { width: 19px; }
-.dock-position { display: flex; align-items: center; justify-content: flex-end; gap: var(--dock-position-gap, 5px); margin-bottom: var(--dock-position-margin-bottom, 4px); }
-.dock-position__label { color: var(--dock-position-label-color, #dab981); font-size: var(--text-micro, 8px); letter-spacing: var(--dock-position-label-letter-spacing, 1.2px); margin-right: auto; }
-.dock-position__button { display: grid; place-items: center; width: 38px; height: 36px; color: var(--dock-position-button-color, #d6b7a0); border: var(--button-border, 1px solid transparent); }
-.dock-position__button svg { width: 21px; height: 21px; }
-.dock-position__button:hover, .dock-position__button[aria-pressed=true] { color: var(--color-focus, #ffe0a1); border-color: var(--dock-position-button-color-2, #e6bb6880); background: var(--dock-position-button-background, #9a2b34); }
-.live-dot { width: 5px; height: 5px; background: var(--live-dot-background, #e2c184); border-radius: var(--live-dot-border-radius, 100%); box-shadow: var(--live-dot-shadow, 0 0 9px #eccb7d66); }
 .experience--fireworks .header__sound span { display: none; }
-
-@media (min-width: 700px) {
-  .firework-dock--bottom:not(.firework-dock--mobile) { left: max(4%, calc(50% - 640px)); right: max(4%, calc(50% - 640px)); bottom: 80px; display: grid; grid-template-columns: repeat(20, minmax(0, 1fr)); gap: var(--firework-dock--bottom-gap, 8px 6px); padding: var(--firework-dock-padding-2, 12px); border-radius: var(--firework-dock--bottom-border-radius, 14px); }
-  .firework-dock--bottom:not(.firework-dock--mobile) .dock-position { grid-column: 15 / -1; grid-row: 1; margin: 0; }
-  .firework-dock--bottom:not(.firework-dock--mobile) .firework-dock__show { grid-column: 1 / 15; grid-row: 1; margin: 0; gap: var(--footer-gap, 8px); }
-  .firework-dock--bottom:not(.firework-dock--mobile) .firework-dock__buttons, .firework-dock--bottom:not(.firework-dock--mobile) .firework-dock__presets { display: contents; }
-  .firework-dock--bottom:not(.firework-dock--mobile) .firework-button { grid-column: span 2; width: auto; min-width: 0; min-height: 44px; border-radius: var(--firework-dock-border-radius-3, 7px); }
-  .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing { grid-column: 1 / -1; margin: var(--firework-dock--bottom-margin, 2px 0 0); padding-top: var(--firework-dock-padding-top, 10px); }
-  .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing__input { flex: 1; width: auto; max-width: none; }
-  .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing__submit { width: 44px; min-width: 44px; padding: var(--firework-dock-padding, 10px); }
-  .firework-dock--bottom:not(.firework-dock--mobile) > .sky-writing__error { grid-column: 1 / -1; margin: 0; }
-}

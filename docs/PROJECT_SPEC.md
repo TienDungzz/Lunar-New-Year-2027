@@ -11,11 +11,11 @@ Ngôi nhà Việt ấm áp dưới bầu trời đêm, đèn lồng và cây mai
 - **LOADING:** che Canvas đến khi môi trường/GPU sẵn sàng; lỗi có Retry.
 - **COUNTDOWN:** tính ngày/giờ/phút/giây từ thời gian thực, nhà hiện phía sau; có bật âm thanh và “Xem trước giao thừa”.
 - **3 giây cuối:** visual phase COUNTDOWN_PREPARE ngẩng camera lên bầu trời, countdown tiếp tục. Tại 0 giây chuyển thẳng FIREWORKS, bắn lượt đầu ngay; lời chúc năm mới hiện đồng thời dưới dạng overlay không chặn tương tác, không có pha reveal trì hoãn màn diễn.
-- **FIREWORKS:** màn tự bắn 5 phút có tạm dừng/phát lại; vẫn bắn thêm bằng 17 icon hình/cơ chế hoặc nhập pháo chữ tối đa 24 ký tự tiếng Việt. Không tự rời cảnh; có “Khám phá cây mai”. Chi tiết tại FIREWORKS_SPEC.md.
+- **FIREWORKS:** màn tự bắn 5 phút có tạm dừng/phát lại; vẫn bắn thêm bằng 17 icon hình/cơ chế hoặc nhập pháo chữ tối đa 24 ký tự tiếng Việt. Không tự rời cảnh; có navigation “Pháo hoa / Lời chúc”. Chi tiết tại FIREWORKS_SPEC.md.
 - **TREE_TRANSITION:** camera về cây; khóa điều khiển trong transition, ánh trời dịu đi.
 - **TREE_EXPLORE:** xoay cây, chọn 8 vật trang trí treo có ID cố định để mở thiệp VI/EN, lưu tiến độ; có danh sách DOM thay thế.
 
-Từ cây, “Quay lại pháo hoa” đi qua `FIREWORKS_TRANSITION → FIREWORKS`, không lặp countdown/reveal hoặc xóa tiến độ; tiếp tục thời lượng tự bắn còn lại (giữ trạng thái tạm dừng nếu người dùng đã dừng). Không cần đọc đủ 8 thiệp mới được quay lại.
+Từ cây, chọn “Pháo hoa” trong navigation đi qua `FIREWORKS_TRANSITION → FIREWORKS`, không lặp countdown/reveal hoặc xóa tiến độ; tiếp tục thời lượng tự bắn còn lại (giữ trạng thái tạm dừng nếu người dùng đã dừng). Không cần đọc đủ 8 thiệp mới được quay lại.
 
 ## Trước/sau giao thừa và lưu trạng thái
 - Trước mốc: countdown thật; preview 10 giây có nhãn rõ, không sửa đồng hồ thật; sau preview khám phá đầy đủ pháo hoa/cây.
@@ -45,3 +45,5 @@ Cho phép agent sử dụng Blender MCP để dựng/chỉnh môi trường và 
 
 
 Nút xem trước trước giao thừa chỉ hiển thị khi query mode=preview (khớp chính xác giá trị). Khi countdown thật đã kết thúc, luôn hiện nút Thắp sáng bầu trời kể cả không có mode=preview; bấm để vào màn diễn. Tham số mode không thay đổi mốc Tết thật, không can thiệp content ID i và không tự bật âm thanh.
+
+Điều hướng hai cảnh nằm trên tiêu đề cảnh: Pháo hoa và Lời chúc luôn hiện, mục hiện tại được nhấn sáng/vạch trượt và aria-current=page. Không điều hướng lại khi chọn cảnh đang xem, khóa cả hai trong camera transition; không reset show, form/tiến độ khi quay lại. Navigation chỉ xuất hiện sau khi vào trải nghiệm, không mở đường bỏ qua countdown hoặc điều kiện mode=preview.

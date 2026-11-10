@@ -8,6 +8,20 @@ vi.mock('../../src/lib/fireworkText', async importOriginal => ({ ...(await impor
 afterEach(() => { cleanup(); vi.clearAllMocks(); });
 const show = { playing: true, remaining: 300, complete: false, toggle: vi.fn(), restart: vi.fn() };
 
+it('shows a rejected launch as a detached notice that expires without changing the control grid', async () => {
+  vi.useFakeTimers();
+  try {
+    render(<FireworksControls lang="en" show={show} cooldown={false} lastType="goat" onShoot={() => true} onText={() => false} />);
+    const dock = screen.getByRole('region', { name: 'Firework controls' });
+    await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Launch 2027' })));
+    const notice = screen.getByRole('alert');
+    expect(dock.contains(notice)).toBe(false);
+    expect(document.querySelectorAll('.firework-dock__choices button')).toHaveLength(20);
+    await act(async () => { vi.advanceTimersByTime(4000); });
+    expect(screen.queryByRole('alert')).toBeNull();
+  } finally { vi.useRealTimers(); }
+});
+
 it('launches both fixed greetings directly without opening the custom text form and respects cooldown', async () => {
   const onText = vi.fn(() => true);
   const props = { lang: 'vi' as const, show, cooldown: false, lastType: 'burst', onShoot: () => true, onText };
@@ -24,15 +38,13 @@ it('launches both fixed greetings directly without opening the custom text form 
 
 it('exposes seventeen named icon buttons and allows manual shots during the auto show', () => {
   const onShoot = vi.fn(() => true);
-  const onSound = vi.fn();
-  render(<FireworksControls lang="vi" show={show} cooldown={false} lastType="burst" onShoot={onShoot} onText={() => true} onToggleSound={onSound} />);
+  render(<FireworksControls lang="vi" show={show} cooldown={false} lastType="burst" onShoot={onShoot} onText={() => true} />);
   for (const type of fireworkTypes.filter(t => t.id !== 'text')) fireEvent.click(screen.getByRole('button', { name: `Bắn ${type.vi}` }));
   expect(onShoot).toHaveBeenCalledTimes(17);
   expect(screen.getByText('05:00')).toBeTruthy();
   fireEvent.click(screen.getByRole('button', { name: 'Tạm dừng tự bắn' }));
   expect(show.toggle).toHaveBeenCalledTimes(1);
-  fireEvent.click(screen.getByRole('button', { name: 'Bật âm thanh pháo hoa' }));
-  expect(onSound).toHaveBeenCalledTimes(1);
+  expect(screen.queryByRole('button', { name: 'Bật âm thanh pháo hoa' })).toBeNull();
 });
 
 it('validates the twenty-four-character limit before generating and launching actual particle targets', async () => {
