@@ -86,3 +86,5 @@ Bảng bắn pháo trên desktop có nút chọn phía dưới/bên trái/bên p
 
 
 Logo đỏ–vàng kim kết hợp đầu dê và 2027 dùng ở header; favicon chỉ có đầu dê. PNG nền trong suốt, bản gốc và hướng dẫn xuất kích thước nằm trong [art/branding](art/branding/README.md).
+
+Project structure, asset budgets and executable quality gates are configured in project-standards.json. Run npm.cmd run check:standards for static checks or npm.cmd run check:project for the configured commands.

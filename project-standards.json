@@ -1,0 +1,197 @@
+{
+  "version": 1,
+  "project": {
+    "reference": "example-standash/",
+    "standardsVersion": "1.0.0-project",
+    "name": "Xuân An Yên — Tết Đinh Mùi 2027",
+    "adoptedOn": "2026-11-10",
+    "kind": "frontend-3d"
+  },
+  "checks": [
+    "docs",
+    "structure",
+    "assets",
+    "quality"
+  ],
+  "documentation": {
+    "scan": [
+      "README.md",
+      "docs",
+      "art/branding"
+    ],
+    "required": [
+      "README.md",
+      "docs/PROJECT_SPEC.md",
+      "docs/ARCHITECTURE.md",
+      "docs/CONTENT_API.md",
+      "docs/FIREWORKS_SPEC.md",
+      "docs/TREE_WISHES.md",
+      "docs/PERFORMANCE.md",
+      "docs/TESTING_AND_ACCEPTANCE.md",
+      "docs/LANGUAGES.md"
+    ]
+  },
+  "structure": [
+    {
+      "root": "src",
+      "components": [
+        {
+          "paths": [
+            "main.tsx"
+          ],
+          "name": "bootstrap",
+          "required": true
+        },
+        {
+          "paths": [
+            "App.tsx"
+          ],
+          "name": "orchestration",
+          "required": true
+        },
+        {
+          "paths": [
+            "components"
+          ],
+          "name": "ui",
+          "required": true
+        },
+        {
+          "paths": [
+            "hooks"
+          ],
+          "name": "lifecycle",
+          "required": true
+        },
+        {
+          "paths": [
+            "lib"
+          ],
+          "name": "domain",
+          "required": true
+        },
+        {
+          "paths": [
+            "scenes"
+          ],
+          "name": "scenes",
+          "required": true
+        },
+        {
+          "paths": [
+            "data/wishes.json"
+          ],
+          "name": "wishes",
+          "required": true
+        },
+        {
+          "paths": [
+            "styles"
+          ],
+          "name": "styles",
+          "required": true
+        }
+      ],
+      "name": "frontend",
+      "enabled": true
+    },
+    {
+      "name": "backend",
+      "reason": "Static frontend; optional read-only content API is owned externally. No server, database, auth or workers in this repository.",
+      "enabled": false
+    },
+    {
+      "root": "tests",
+      "components": [
+        {
+          "paths": [
+            "fireworks.test.mjs"
+          ],
+          "name": "domain-tests",
+          "required": true
+        },
+        {
+          "paths": [
+            "content.test.mjs"
+          ],
+          "name": "content-tests",
+          "required": true
+        },
+        {
+          "paths": [
+            "integration"
+          ],
+          "name": "integration-tests",
+          "required": true
+        }
+      ],
+      "name": "verification",
+      "enabled": true
+    },
+    {
+      "root": "art",
+      "components": [
+        {
+          "paths": [
+            "blender/build_environment.py"
+          ],
+          "name": "environment-generator",
+          "required": true
+        },
+        {
+          "paths": [
+            "branding"
+          ],
+          "name": "branding",
+          "required": true
+        }
+      ],
+      "name": "source-art",
+      "enabled": true
+    }
+  ],
+  "code": {
+    "maxFunctionLines": 60,
+    "adoption": "Target for new and refactored functions; existing violations are reported by audit:functions, not silently waived or claimed compliant."
+  },
+  "assets": {
+    "forbiddenExtensions": [
+      ".blend",
+      ".fbx",
+      ".psd",
+      ".obj"
+    ],
+    "allowedExtensions": [
+      ".glb",
+      ".svg",
+      ".png",
+      ".ttf",
+      ".txt",
+      ".json"
+    ],
+    "roots": [
+      "public"
+    ],
+    "maxFileBytes": 5242880,
+    "maxTotalBytes": 15728640,
+    "enabled": true
+  },
+  "quality": {
+    "commands": {
+      "type-and-tests": "npm run check",
+      "asset-manifest": "npm run check:assets",
+      "documentation": "npm run check:docs",
+      "bem": "npm run check:bem",
+      "build": "npm run build",
+      "bundle": "npm run check:build"
+    },
+    "required": [
+      "type-and-tests",
+      "asset-manifest",
+      "documentation",
+      "bem",
+      "build",
+      "bundle"
+    ]
+  }
+}
