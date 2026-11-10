@@ -77,10 +77,12 @@ function CameraRig({ phase, reduced, onTransition, reset, modalOpen }: Pick<Prop
   const [animating, setAnimating] = useState(true);
   const tree = phase.includes('TREE');
   const narrow = size.width < 700;
+  const mobileHome = narrow && size.height > size.width;
+  const homeDistance = Math.max(30, 39*(size.height/size.width)/(857/425));
   useEffect(() => {
     setAnimating(true);
-    const position = tree ? [TREE_POSITION[0]+(narrow ? 0 : .7), 2.8, TREE_POSITION[2]+(narrow ? 12 : 7.2)] : phase === 'COUNTDOWN' || phase === 'LOADING' ? (narrow ? [12.8, 8.2, 23.5] : [10.8, 6.5, 15.5]) : [0, 3.8, 17];
-    const look = tree ? [TREE_POSITION[0], 2.25, TREE_POSITION[2]] : phase === 'COUNTDOWN' || phase === 'LOADING' ? [.7, 1.65, -2.5] : [0, 11, -9];
+    const position = tree ? [TREE_POSITION[0]+(narrow ? 0 : .7), 2.8, TREE_POSITION[2]+(narrow ? 12 : 7.2)] : phase === 'COUNTDOWN' || phase === 'LOADING' ? (mobileHome ? [11, 13, homeDistance] : narrow ? [12.8, 8.2, 23.5] : [10.8, 6.5, 15.5]) : [0, 3.8, 17];
+    const look = tree ? [TREE_POSITION[0], 2.25, TREE_POSITION[2]] : phase === 'COUNTDOWN' || phase === 'LOADING' ? (mobileHome ? [3, 0, -2.5] : [.7, 1.65, -2.5]) : [0, 11, -9];
     const timeline = gsap.timeline({ onComplete: () => {
       setAnimating(false);
       if (controls.current) { controls.current.target.copy(target.current); controls.current.update(); }
@@ -89,7 +91,7 @@ function CameraRig({ phase, reduced, onTransition, reset, modalOpen }: Pick<Prop
     timeline.to(camera.position, { x: position[0], y: position[1], z: position[2], duration: reduced ? .05 : 1.8, ease: 'power2.inOut' }, 0);
     timeline.to(target.current, { x: look[0], y: look[1], z: look[2], duration: reduced ? .05 : 1.8, ease: 'power2.inOut' }, 0);
     return () => { timeline.kill(); };
-  }, [phase, reduced, camera, narrow, reset, onTransition]);
+  }, [phase, reduced, camera, narrow, mobileHome, homeDistance, reset, onTransition]);
   useFrame(() => { if (animating || phase !== 'TREE_EXPLORE') camera.lookAt(target.current); });
   // Mount controls only after the camera animation. Disabled OrbitControls still
   // call update(), which would otherwise clamp and fight the transition camera.

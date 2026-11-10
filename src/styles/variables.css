@@ -279,6 +279,7 @@
   --firework-dock--bottom-margin: 2px 0 0;
   --firework-dock--bottom-gap-2: 4px 14px;
   --firework-dock-bottom: max(12px, env(safe-area-inset-bottom));
+  --tree-panel-mobile-bottom: max(64px, calc(env(safe-area-inset-bottom) + 44px));
   --firework-progress-line: #ffdb83;
   --firework-progress-glow: drop-shadow(0 0 4px #f3c96999);
   --firework-progress-radius: 12px;
@@ -305,4 +306,19 @@
   --firework-notice-background: #37111ae6;
   --firework-notice-color: #ffe1a0;
   --firework-notice-shadow: 0 4px 18px #16071244;
+  --home-mobile-content-margin: 12px 24px 16px;
+  --home-mobile-digits-margin: 0 auto;
+  --home-mobile-title-size: 32px;
+  --home-mobile-title-height: 1.2;
+  --home-mobile-title-margin: 10px 0;
+  --home-mobile-description-margin: 0;
+  --home-mobile-description-height: 1.7;
+  --home-mobile-countdown-margin: 16px;
+  --home-mobile-countdown-label-margin: 0 0 10px;
+  --home-mobile-caption-margin: 5px;
+  --home-mobile-date-margin: 10px 0 0;
+  --home-mobile-cta-margin: 14px;
+  --home-mobile-note-margin: 8px 0 0;
+  --home-mobile-footer-padding: 8px 24px max(8px, env(safe-area-inset-bottom));
+  --home-mobile-vignette: linear-gradient(180deg, #4b111b55, transparent 60%, #240d1755);
 }
