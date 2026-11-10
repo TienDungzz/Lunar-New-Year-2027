@@ -18,7 +18,9 @@
     "check:standards": "node scripts/standards/check-project.mjs",
     "check:project": "node scripts/standards/check-project.mjs --run",
     "audit:functions": "node scripts/audit-functions.mjs",
-    "check:css": "node scripts/standards/check-css.mjs"
+    "check:css": "node scripts/standards/check-css.mjs",
+    "check:responsive": "vitest run tests/integration/responsive.test.tsx",
+    "check:functions": "node scripts/audit-functions.mjs --strict"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

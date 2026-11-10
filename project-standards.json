@@ -169,7 +169,7 @@
   ],
   "code": {
     "maxFunctionLines": 60,
-    "adoption": "Target for new and refactored functions; existing violations are reported by audit:functions, not silently waived or claimed compliant."
+    "adoption": "Enforced for all scanned functions by the strict function-audit quality gate."
   },
   "assets": {
     "forbiddenExtensions": [
@@ -200,7 +200,8 @@
       "documentation": "npm run check:docs",
       "bem": "npm run check:bem",
       "build": "npm run build",
-      "bundle": "npm run check:build"
+      "bundle": "npm run check:build",
+      "function-audit": "npm run check:functions"
     },
     "required": [
       "type-and-tests",
@@ -208,7 +209,8 @@
       "documentation",
       "bem",
       "build",
-      "bundle"
+      "bundle",
+      "function-audit"
     ]
   },
   "css": {

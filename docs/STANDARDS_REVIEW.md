@@ -40,7 +40,7 @@ TypeScript strict hiện không tương đương lint Hooks/unused exports. Cầ
 
 Tiêu chí nghiệp vụ phải giữ khi refactor: [PROJECT_SPEC](PROJECT_SPEC.md), [FIREWORKS_SPEC](FIREWORKS_SPEC.md), [CONTENT_API](CONTENT_API.md), [TREE_WISHES](TREE_WISHES.md). Phần chưa kiểm chứng không được đánh dấu đạt chỉ vì các gate tự động trả mã 0.
 
-## Kết quả chạy ngày 2026-11-10
+## Kết quả lịch sử trước đợt refactor
 
 - check:project: đạt toàn bộ 6 quality gate đã cấu hình; 27 Node tests và 31 React integration tests, tổng 58.
 - Budget runtime: 12 file, 4.963.467 byte; initial JavaScript 276.565 byte, giữ lazy scene.
@@ -57,3 +57,9 @@ Theme light/dark/system không áp dụng do sản phẩm dùng một cảnh đ�
 Bổ sung 13 regression test CSS từ bộ mẫu và 2 test i18n; tổng 73 test (40 Node + 33 React), đã chạy đạt qua check:project. Audit hàm vẫn có 4 mục vượt ngưỡng; chưa có ngoại lệ đã duyệt hoặc QA browser. Snapshot 58 test ở phần trên thuộc đợt trước.
 
 Kết quả profile 1.1.0-project: checker CSS và toàn bộ 6 quality gate đạt; README lập chỉ mục 19 tài liệu. Initial JavaScript 284.961 byte dưới ngưỡng 400.000; CSS production 53,26 kB (gzip 9,93 kB), tăng do token và fallback tường minh. Npm install với lockfile đã cập nhật báo 0 advisory tại thời điểm chạy; không thay review bảo mật/runtime. Audit hiện quét 65 file và vẫn có 4 finding. Chưa kiểm tra giao diện trong browser.
+
+## Kết quả hiện tại — rà soát ngày 2026-11-10
+
+Đã tách App theo lifecycle countdown/visibility, audio, admission/show, fallback và UI; tách cấp buffer/tạo burst khỏi cập nhật frame của Fireworks. Suite trải nghiệm dùng test cấp file thay callback describe quá dài. Audit AST strict không có finding, ngưỡng giữ 60 dòng và là gate bắt buộc thứ bảy. Các snapshot finding/bundle/test phía trên là lịch sử, không phải trạng thái hiện tại.
+
+94 kiểm thử (41 Node + 55 React) đạt. Bổ sung check:responsive cho DOM bốn kích thước, kiểm tra retry lazy import, giữ form/bản nháp qua navigation, notice tự ẩn, tab ẩn qua giao thừa và hình học cây mai. Manifest có họa tiết thiệp và checker phát hiện asset runtime bị bỏ sót. JSX cũ còn một số dòng dài; chưa có lint Hooks toàn diện, QA browser, đánh giá âm thanh hoặc benchmark GPU.

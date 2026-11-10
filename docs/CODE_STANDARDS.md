@@ -17,8 +17,8 @@ Dự án là một SPA tĩnh React 19 + TypeScript + Vite, Three.js/R3F/Drei, GS
 | `src/data/` | 8 lời chúc VI/EN cục bộ và kiểu nội dung |
 | `src/styles/` | variables.css sở hữu token/font, global.css chỉ dùng var có fallback; BEM/responsive/focus |
 | `public/` | Asset runtime có manifest, font/license, logo và favicon |
-| `art/` | Nguồn Blender, script dựng cảnh, PNG master; không deploy cùng `dist/` |
-| `tests/`, `scripts/` | Kiểm thử và công cụ xác minh; tách khỏi logic runtime |
+| `art/` | Nguồn Blender trong `blender/`, ảnh tham chiếu trong `images/previews/`; không lưu ảnh gốc branding, không deploy cùng `dist/` |
+| `tests/`, `scripts/` | Kiểm thử, công cụ xác minh và script dựng cảnh trong `scripts/blender/`; tách khỏi logic runtime |
 
 Component PascalCase, hook `useCamelCase`, hàm/biến camelCase, hằng dùng chung UPPER_SNAKE_CASE. Asset kebab-case; giữ tên tài liệu hiện có, liên kết đúng chữ hoa/thường. Dùng UTF-8. Module `.mjs` giữ cho logic thuần có thể kiểm thử trực tiếp bằng Node; không đổi đuôi hàng loạt chỉ vì hình thức.
 
@@ -33,7 +33,7 @@ Logic thuần không import React hoặc renderer. WebGL, Canvas2D và audio dù
 - Dispose resource do component sở hữu; không dispose material/GLTF cache vẫn được consumer khác dùng. Không tạo geometry, material hoặc AudioContext liên tục theo frame.
 - Chỉ xóa code/asset khi xác nhận không dùng, kể cả dynamic import, R3F ref và nguồn tái tạo Blender. Không xóa file làm việc của người dùng chỉ vì tên chưa đẹp.
 
-Hiện còn hàm vượt 60 dòng và code viết dồn dòng. Đây là **nợ cần xử lý**, không phải ngoại lệ đã được duyệt. `audit:functions` báo cáo bằng AST TypeScript; `--strict` trả lỗi khi còn vi phạm. Audit không thay ESLint/Rules of Hooks, không chứng minh hết dead code. Chưa bật gate lint vì repo chưa có cấu hình lint phù hợp TSX; không sử dụng ESLint mẫu chỉ đọc JavaScript để tuyên bố đã kiểm tra TypeScript.
+Gate check:functions hiện không có hàm vượt 60 dòng. Một số JSX cũ vẫn viết dồn dòng và cần cải thiện độ dễ đọc; kết quả AST không thay thế review code. `audit:functions` báo cáo bằng AST TypeScript; `--strict` trả lỗi khi còn vi phạm. Audit không thay ESLint/Rules of Hooks, không chứng minh hết dead code. Chưa bật gate lint vì repo chưa có cấu hình lint phù hợp TSX; không sử dụng ESLint mẫu chỉ đọc JavaScript để tuyên bố đã kiểm tra TypeScript.
 
 ## Hợp đồng sản phẩm phải giữ
 
@@ -49,9 +49,9 @@ Chi tiết nghiệp vụ nằm trong [PROJECT_SPEC](PROJECT_SPEC.md), [FIREWORKS
 
 Giữ đỏ Tết/vàng kim, logo đầu dê + 2027, favicon chỉ đầu dê. CSS theo [BEM](BEM.md) và [CSS_TOKENS](CSS_TOKENS.md); custom properties tập trung, mọi var có fallback. Theme hiện cố định đêm đỏ–vàng; không thêm light/dark/system khi sản phẩm chưa yêu cầu. Nhãn UI dùng catalog và placeholder theo [LANGUAGES](LANGUAGES.md). Icon có tên truy cập và tooltip; trạng thái không chỉ phân biệt bằng màu. Dialog quản lý focus, Escape và keyboard; có danh sách lời chúc DOM. Kiểm tra responsive, touch tối thiểu 44px, safe area, reduced motion và fallback 2D.
 
-Desktop có dock dưới/trái/phải, ghi nhớ lựa chọn. Dock dưới tối đa 1280px, dàn ngang khi mở text; dock bên 208px. Mobile cố định phía dưới, icon gọn và âm lượng mở khi cần. Không để panel hoặc greeting chặn bầu trời/nút bắn. Xem [FRAMING_AND_LIGHTING](FRAMING_AND_LIGHTING.md).
+Bảng pháo hoa cố định dưới đáy trên mọi thiết bị, cách đáy max(12px, safe-area-inset-bottom), không có bộ chọn vị trí hoặc preference dock. Desktop tối đa 1280px, dàn ngang khi mở text; mobile icon gọn và âm lượng mở khi cần. Navigation hai cảnh ở trên tiêu đề, chỉ rõ mục hiện tại và không chồng bảng. Xem [FRAMING_AND_LIGHTING](FRAMING_AND_LIGHTING.md).
 
-Blender MCP là công cụ tác giả, không phải dependency runtime. Giữ nguồn `.blend` và script trong `art/blender/`; GLB trong `public/models/`, export active scene và selection để tránh nhân đôi. Nhà chính/nhà phụ, sân gạch, đèn và nồi bánh chưng là đạo cụ môi trường; không có rig/skinned character. Dùng instancing/batch material cho hình lặp. Cập nhật manifest sau export hoặc đổi asset.
+Blender MCP là công cụ tác giả, không phải dependency runtime. Giữ nguồn `.blend` trong `art/blender/`, script trong `scripts/blender/`, ảnh nguồn/tham chiếu trong `art/images/`; GLB trong `public/models/`, export active scene và selection để tránh nhân đôi. Nhà chính/nhà phụ, sân gạch, đèn và nồi bánh chưng là đạo cụ môi trường; không có rig/skinned character. Dùng instancing/batch material cho hình lặp. Cập nhật manifest sau export hoặc đổi asset.
 
 | Ngân sách kiểm tra tĩnh | Ngưỡng |
 | --- | --- |
@@ -76,9 +76,9 @@ npm.cmd run audit:functions
 npm.cmd run check:project
 ```
 
-`check:standards` kiểm tra JSON, đường dẫn, docs, budget runtime và CSS token/fallback, ghi các command chưa chạy là SKIP/incomplete. `check:project` chạy thêm các gate thật đã khai báo trong [project-standards.json](../project-standards.json), theo thứ tự: type/test, manifest, docs, BEM, build, bundle. Không trỏ quality command ngược vào chính orchestrator gây đệ quy. Các gate hiện tại chưa bao gồm lint, dependency audit, browser QA hoặc benchmark.
+`check:standards` kiểm tra JSON, đường dẫn, docs, budget runtime và CSS token/fallback, ghi các command chưa chạy là SKIP/incomplete. `check:project` chạy thêm các gate thật đã khai báo trong [project-standards.json](../project-standards.json), gồm type/test, manifest, docs, BEM, build, bundle và audit hàm strict. Không trỏ quality command ngược vào chính orchestrator gây đệ quy. Các gate hiện tại chưa bao gồm lint, dependency audit, browser QA hoặc benchmark.
 
-`node scripts/audit-functions.mjs --strict` kiểm tra riêng mục tiêu 60 dòng và **hiện sẽ thất bại** cho đến khi xử lý các mục trong [STANDARDS_REVIEW](STANDARDS_REVIEW.md). Audit thường trả 0 để xuất báo cáo, không dùng nó làm bằng chứng tuân thủ hay thay cho strict gate.
+`npm.cmd run check:functions` kiểm tra mục tiêu 60 dòng bằng AST, hiện đạt và đã được thêm vào gate bắt buộc trong check:project. Snapshot cũ được giữ trong [STANDARDS_REVIEW](STANDARDS_REVIEW.md). Audit thường trả 0 để xuất báo cáo, không dùng nó làm bằng chứng tuân thủ hay thay cho strict gate.
 
 Các script trong `scripts/standards/` được lấy từ bộ mẫu để dùng cấu hình dự án; không ghi đè checker manifest/BEM/build chuyên biệt đã có. Khi sửa engine chung cần thêm regression test tương ứng. Không thêm dependency/backend hoặc yêu cầu approval ngoài phạm vi chỉ vì mẫu có checklist.
 

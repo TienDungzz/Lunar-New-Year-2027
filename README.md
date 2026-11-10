@@ -45,7 +45,7 @@ npm.cmd ci
 npm.cmd run dev
 ```
 
-Mở địa chỉ Vite in ra (mặc định http://127.0.0.1:5173). Trước Tết, mở URL với ?mode=preview (hoặc &mode=preview khi đã có query) rồi chọn “Xem trước giao thừa” để chạy preview 10 giây và khám phá đầy đủ trải nghiệm. Pháo hoa tự bắn trong 5 phút, có tạm dừng/phát lại; vẫn bắn thủ công bằng icon trong lúc màn diễn chạy. Chọn Tên lửa để xem bay lên rồi nổ, Nổ liên hoàn để xem quả mẹ tách thành chùm nổ phụ, hoặc Liễu rủ/Lách tách/Quạt liên thanh. Nhấn “Bật âm thanh pháo hoa” để nghe tiếng rít, nổ trầm và nổ phụ theo từng pha. Âm lượng có thanh kéo 0–100% và nút −/+ mỗi bước 10%, tự ghi nhớ mức đã chọn; mobile mở thanh qua icon âm lượng. Hai icon CM/NM và 20/27 bắn ngay “Chúc mừng năm mới” và “2027”. Icon pháo chữ mở ô nhập tối đa 24 ký tự. Chữ hiện lớn giữa màn hình: mỗi ký tự một quả, bay theo hàng và cùng nổ; pháo tự động và bắn tay vẫn tiếp tục đồng thời. Tự chuyển sang cây mai khi muốn, quay lại tiếp tục thời lượng còn lại. Tại cây, chạm vật treo hoặc mở danh sách lời chúc; kéo để xoay, có nút đặt lại góc nhìn. VI/EN, âm thanh opt-in và tiến độ lời chúc được hỗ trợ. Khi 3D không sẵn sàng, ứng dụng chuyển sang cảnh 2D cùng chức năng chính.
+Mở địa chỉ Vite in ra (mặc định http://127.0.0.1:5173). Trước Tết, mở URL với ?mode=preview (hoặc &mode=preview khi đã có query) rồi chọn “Xem trước giao thừa” để chạy preview 10 giây và khám phá đầy đủ trải nghiệm. Pháo hoa tự bắn trong 5 phút, có tạm dừng/phát lại; vẫn bắn thủ công bằng icon trong lúc màn diễn chạy. Chọn Tên lửa để xem bay lên rồi nổ, Nổ liên hoàn để xem quả mẹ tách thành chùm nổ phụ, hoặc Liễu rủ/Lách tách/Quạt liên thanh. Mở popup từ icon loa trên header và tăng mức âm lượng trên 0 để nghe tiếng rít, nổ trầm và nổ phụ theo từng pha. Âm lượng có thanh kéo 0–100% và nút −/+ mỗi bước 10%, tự ghi nhớ mức đã chọn; desktop rê chuột vào cụm audio trên header để mở popup, mobile chạm icon loa. Hai icon CM/NM và 20/27 bắn ngay “Chúc mừng năm mới” và “2027”. Icon pháo chữ mở ô nhập tối đa 24 ký tự. Chữ hiện lớn giữa màn hình: mỗi ký tự một quả, bay theo hàng và cùng nổ; pháo tự động và bắn tay vẫn tiếp tục đồng thời. Tự chuyển sang cây mai khi muốn, quay lại tiếp tục thời lượng còn lại. Tại cây, chạm vật treo hoặc mở danh sách lời chúc; kéo để xoay, có nút đặt lại góc nhìn. VI/EN, âm thanh opt-in và tiến độ lời chúc được hỗ trợ. Khi 3D không sẵn sàng, ứng dụng chuyển sang cảnh 2D cùng chức năng chính.
 
 ## Kiểm tra và build
 ```powershell
@@ -61,13 +61,13 @@ npm.cmd run check:build
 npm.cmd run preview
 ```
 
-Build tĩnh ở dist/. Có thể phục vụ từ web host hỗ trợ HTTPS. Bản build và 73 kiểm thử tự động đã được kiểm tra; chưa hoàn tất QA hình ảnh trong trình duyệt hoặc benchmark thiết bị thật, chưa coi là release candidate. Three.js vẫn có cảnh báo chunk trên 500 KB.
+Build tĩnh ở dist/. Có thể phục vụ từ web host hỗ trợ HTTPS. Bản build và 94 kiểm thử tự động đã được kiểm tra; chưa hoàn tất QA hình ảnh trong trình duyệt hoặc benchmark thiết bị thật, chưa coi là release candidate. Three.js vẫn có cảnh báo chunk trên 500 KB.
 
 ## Nội dung API
 Sao chép [.env.example](.env.example) thành .env.local nếu cần API. Để trống URL để dùng 8 lời chúc cục bộ; không cần backend để trải nghiệm. Hợp đồng, ID URL, timeout và fallback tại [CONTENT_API](docs/CONTENT_API.md). Chưa xác minh với backend production.
 
 ## Asset và Blender
-- Master: art/blender/xuan-an-yen.blend; script tái tạo: art/blender/build_environment.py. Có thể đặt biến môi trường TET_PROJECT_ROOT trước khi chạy script ở checkout khác.
+- Master: art/blender/tet-environment.blend; script tái tạo: scripts/blender/build_environment.py. Có thể đặt biến môi trường TET_PROJECT_ROOT trước khi chạy script ở checkout khác.
 - GLB web: public/models/tet-house.glb (~1,12 MB) và public/models/tet-courtyard.glb (~1,62 MB). Nhà chính rộng hơn và nhà phụ hai gian, hiên và đèn riêng; nhà có câu đối chữ Việt và biển chúc Tết; sân có nồi bánh chưng/bếp củi, bánh gói lá, cúc, quất, hàng rào, đèn cổng và dây đèn. Vật liệu PBR/emissive không cần texture ngoài; runtime gộp theo material (10 nhóm nhà + 16 nhóm sân).
 - Cây mai, hoa instancing, vật treo và pháo hoa được dựng bằng Three.js; không phụ thuộc kết nối Blender khi người dùng truy cập web.
 - Manifest checksum/nguồn/giấy phép: public/asset-manifest.json; cập nhật bằng node scripts/asset-manifest.mjs sau khi thay asset.
@@ -88,9 +88,9 @@ Trong cảnh pháo hoa và các đoạn chuyển camera liên quan, mặt trăng
 
 
 
-Bảng bắn pháo trên desktop có nút chọn phía dưới/bên trái/bên phải và ghi nhớ lựa chọn. Mobile cố định phía dưới, nút chỉ hiển thị icon (vẫn có nhãn truy cập và vùng chạm 44px); đồng hồ còn lại vẫn hiển thị. Quay lại desktop khôi phục vị trí đã chọn.
+Bảng pháo hoa cố định phía dưới trên desktop/mobile, cách đáy 12px hoặc safe area. Đã bỏ chọn vị trí trái/phải và preference dock; các nút vẫn chỉ hiện icon với nhãn truy cập và vùng chạm 44px. Navigation Pháo hoa / Lời chúc ở trên tiêu đề, desktop có nền/vạch nhấn, mobile chỉ hiện chữ và gạch chân mục đang chọn.
 
 
-Logo đỏ–vàng kim kết hợp đầu dê và 2027 dùng ở header; favicon chỉ có đầu dê. PNG nền trong suốt, bản gốc và hướng dẫn xuất kích thước nằm trong [art/branding](art/branding/README.md).
+Logo đỏ–vàng kim kết hợp đầu dê và 2027 dùng ở header; favicon chỉ có đầu dê. Chỉ giữ bản dùng trên web trong `public/images/` và favicon trong `public/`, không lưu ảnh gốc branding. Script `scripts/prepare-branding.ps1` tạo lại favicon từ `public/images/goat-mark.png`.
 
-Quy chuẩn riêng dự án: [CODE_STANDARDS](docs/CODE_STANDARDS.md), cấu hình [project-standards.json](project-standards.json) và [báo cáo đối chiếu](docs/STANDARDS_REVIEW.md). Chạy toàn bộ gate bằng npm.cmd run check:project; audit độ dài hàm còn phát hiện các mục cần refactor, không đồng nghĩa lint đã đạt.
+Quy chuẩn riêng dự án: [CODE_STANDARDS](docs/CODE_STANDARDS.md), cấu hình [project-standards.json](project-standards.json) và [báo cáo đối chiếu](docs/STANDARDS_REVIEW.md). Chạy toàn bộ gate bằng npm.cmd run check:project; gate check:functions kiểm tra tối đa 60 dòng/hàm bằng AST và hiện không có finding; không thay thế lint hoặc QA trình duyệt.

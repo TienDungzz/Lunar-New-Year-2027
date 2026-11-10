@@ -1,11 +1,11 @@
 # Kế hoạch QA và tiêu chí nghiệm thu
 
-## Automated checks đề xuất
+## Automated checks hiện có
 - `npm run build`: TypeScript/Vite.
 - `npm run check:content`: 8 wish IDs, 8 ornament IDs liên kết một-một với lời chúc/anchor; đủ VI/EN; 17 preset hình/cơ chế và giới hạn/rasterize chữ hợp lệ.
 - `npm run check:assets`: file tồn tại, license, kích thước, texture, GLB decode.
 - `npm run check:flow`: countdown/preview, đồng hồ show 5 phút/pause/replay, bắn pháo, qua lại cây/pháo hoa và lỗi asset.
-- `npm run check:responsive`: DOM tại 360/390/768/1440px.
+- `npm run check:responsive`: DOM theo matchMedia tại 360/390/768/1440px: 20 lựa chọn, preset chung lưới, custom text cuối cùng và navigation. Không đo CSS clipping/hình ảnh.
 
 ## Test matrix
 | Nhóm | Kịch bản | Kết quả mong đợi |
@@ -41,8 +41,8 @@ Không có lỗi chặn luồng; nội dung/bản dịch đủ; countdown chuẩ
 - So sánh camera, bố cục, ánh sáng và hình pháo hoa trong trình duyệt với tham chiếu Blender ở desktop/mobile; duy trì ngân sách hiệu năng.
 
 
-## Kết quả local — 2026-11-07
-- npm.cmd run check: TypeScript, 40 kiểm thử logic/content API/pháo hoa/cảnh và 33 kiểm thử tích hợp React trong jsdom.
+## Kết quả local — 2026-11-10
+- npm.cmd run check: TypeScript, 40 kiểm thử logic/content API/pháo hoa/cảnh và 54 kiểm thử tích hợp React trong jsdom.
 - Tích hợp đã kiểm tra: preview/reveal, màn tự bắn 5 phút/pause/replay, các nút hình/chữ và cooldown, không tự chuyển cảnh, đọc đủ 8 lời chúc, VI/EN, quay lại pháo hoa, storage hỏng, API chậm/timeout và bỏ phản hồi cũ khi đổi ID.
 - npm.cmd run check:assets: checksum, nguồn/giấy phép, GLB header, giải mã bằng Three.js, gộp geometry theo material và tỷ lệ/trục xuất.
 - npm.cmd run check:docs: liên kết cục bộ và đủ danh mục README; check:bem: cú pháp tên class CSS.
@@ -55,7 +55,7 @@ Bộ nội dung hiện có 8 lời chúc. Kiểm thử tích hợp bao gồm vò
 
 
 ## Bổ sung kiểm tra pháo hoa
-Đã kiểm tra đồng hồ đúng 300.000ms đang xem, dừng phát sau kết thúc, replay và không phát dồn khi tab ẩn hoặc quay lại cây. Kiểm tra 17 preset và timeline, giới hạn điểm chữ, NFC/grapheme tiếng Việt, từ chối chữ rỗng/quá 24 ký tự/emoji/markup; giao diện truyền điểm chữ vào renderer và bỏ thao tác chuẩn bị chữ nếu rời cảnh. jsdom mock phần rasterize UI; kiểm tra bitmap dùng dữ liệu alpha tổng hợp. Vẫn cần QA thực tế chữ tiếng Việt, clipping, shader, nhịp sáng, layout 18 icon/ô nhập và GPU xuyên suốt 5 phút trên desktop/mobile.
+Đã kiểm tra đồng hồ đúng 300.000ms đang xem, dừng phát sau kết thúc, replay và không phát dồn khi tab ẩn hoặc quay lại cây. Kiểm tra 17 preset và timeline, giới hạn điểm chữ, NFC/grapheme tiếng Việt, từ chối chữ rỗng/quá 24 ký tự/emoji/markup; giao diện truyền điểm chữ vào renderer và bỏ thao tác chuẩn bị chữ nếu rời cảnh. jsdom mock phần rasterize UI; kiểm tra bitmap dùng dữ liệu alpha tổng hợp. Vẫn cần QA thực tế chữ tiếng Việt, clipping, shader, nhịp sáng, layout 20 icon/ô nhập và GPU xuyên suốt 5 phút trên desktop/mobile.
 
 
 
@@ -77,3 +77,7 @@ Kiểm tra tự động sceneVisibility cho reveal/pháo hoa/chuyển cảnh; in
 
 
 Kiểm tra quy chuẩn: npm.cmd run check:standards chỉ chạy tĩnh và ghi quality commands chưa thực thi là incomplete; npm.cmd run check:project chạy đủ gate trong project-standards.json. Audit hàm bằng TypeScript AST có 3 regression test; hiện còn 4 mục vượt 60 dòng trong STANDARDS_REVIEW.md, chưa coi là tuân thủ toàn bộ quy chuẩn code.
+
+## Rà soát quy chuẩn và hồi quy ngày 2026-11-10
+
+94 kiểm thử (41 Node + 55 React) bao gồm retry sau lazy import bị reject, giữ bản nháp/form khi đổi cảnh, tab ẩn qua giao thừa thật không có mode, notice lỗi tách khỏi lưới và tự ẩn sau 4 giây, vị trí custom text cuối cùng tại bốn kích thước DOM và dữ liệu hình học cây mai hữu hạn/tái lập. Gate check:functions không có finding; manifest kiểm tra cả độ phủ file runtime, số byte, checksum, nguồn và license. Không coi các kiểm tra này là QA hình ảnh hoặc benchmark GPU.
