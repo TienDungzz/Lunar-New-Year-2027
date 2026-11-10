@@ -42,7 +42,7 @@ npm.cmd ci
 npm.cmd run dev
 ```
 
-Mở địa chỉ Vite in ra (mặc định http://127.0.0.1:5173). Trước Tết, chọn “Xem trước giao thừa” để chạy preview 10 giây và khám phá đầy đủ trải nghiệm. Pháo hoa tự bắn trong 5 phút, có tạm dừng/phát lại; vẫn bắn thủ công bằng icon trong lúc màn diễn chạy. Chọn Tên lửa để xem bay lên rồi nổ, Nổ liên hoàn để xem quả mẹ tách thành chùm nổ phụ, hoặc Liễu rủ/Lách tách/Quạt liên thanh. Nhấn “Bật âm thanh pháo hoa” để nghe tiếng rít, nổ trầm và nổ phụ theo từng pha. Âm lượng có thanh kéo 0–100% và nút −/+ mỗi bước 10%, tự ghi nhớ mức đã chọn; mobile mở thanh qua icon âm lượng. Hai icon CM/NM và 20/27 bắn ngay “Chúc mừng năm mới” và “2027”. Icon pháo chữ mở ô nhập tối đa 24 ký tự. Chữ hiện lớn giữa màn hình: mỗi ký tự một quả, bay theo hàng và cùng nổ; pháo tự động và bắn tay vẫn tiếp tục đồng thời. Tự chuyển sang cây mai khi muốn, quay lại tiếp tục thời lượng còn lại. Tại cây, chạm vật treo hoặc mở danh sách lời chúc; kéo để xoay, có nút đặt lại góc nhìn. VI/EN, âm thanh opt-in và tiến độ lời chúc được hỗ trợ. Khi 3D không sẵn sàng, ứng dụng chuyển sang cảnh 2D cùng chức năng chính.
+Mở địa chỉ Vite in ra (mặc định http://127.0.0.1:5173). Trước Tết, mở URL với ?mode=preview (hoặc &mode=preview khi đã có query) rồi chọn “Xem trước giao thừa” để chạy preview 10 giây và khám phá đầy đủ trải nghiệm. Pháo hoa tự bắn trong 5 phút, có tạm dừng/phát lại; vẫn bắn thủ công bằng icon trong lúc màn diễn chạy. Chọn Tên lửa để xem bay lên rồi nổ, Nổ liên hoàn để xem quả mẹ tách thành chùm nổ phụ, hoặc Liễu rủ/Lách tách/Quạt liên thanh. Nhấn “Bật âm thanh pháo hoa” để nghe tiếng rít, nổ trầm và nổ phụ theo từng pha. Âm lượng có thanh kéo 0–100% và nút −/+ mỗi bước 10%, tự ghi nhớ mức đã chọn; mobile mở thanh qua icon âm lượng. Hai icon CM/NM và 20/27 bắn ngay “Chúc mừng năm mới” và “2027”. Icon pháo chữ mở ô nhập tối đa 24 ký tự. Chữ hiện lớn giữa màn hình: mỗi ký tự một quả, bay theo hàng và cùng nổ; pháo tự động và bắn tay vẫn tiếp tục đồng thời. Tự chuyển sang cây mai khi muốn, quay lại tiếp tục thời lượng còn lại. Tại cây, chạm vật treo hoặc mở danh sách lời chúc; kéo để xoay, có nút đặt lại góc nhìn. VI/EN, âm thanh opt-in và tiến độ lời chúc được hỗ trợ. Khi 3D không sẵn sàng, ứng dụng chuyển sang cảnh 2D cùng chức năng chính.
 
 ## Kiểm tra và build
 ```powershell
@@ -55,7 +55,7 @@ npm.cmd run check:build
 npm.cmd run preview
 ```
 
-Build tĩnh ở dist/. Có thể phục vụ từ web host hỗ trợ HTTPS. Bản build và 50 kiểm thử tự động đã được kiểm tra; chưa hoàn tất QA hình ảnh trong trình duyệt hoặc benchmark thiết bị thật, chưa coi là release candidate. Three.js vẫn có cảnh báo chunk trên 500 KB.
+Build tĩnh ở dist/. Có thể phục vụ từ web host hỗ trợ HTTPS. Bản build và 55 kiểm thử tự động đã được kiểm tra; chưa hoàn tất QA hình ảnh trong trình duyệt hoặc benchmark thiết bị thật, chưa coi là release candidate. Three.js vẫn có cảnh báo chunk trên 500 KB.
 
 ## Nội dung API
 Sao chép [.env.example](.env.example) thành .env.local nếu cần API. Để trống URL để dùng 8 lời chúc cục bộ; không cần backend để trải nghiệm. Hợp đồng, ID URL, timeout và fallback tại [CONTENT_API](docs/CONTENT_API.md). Chưa xác minh với backend production.

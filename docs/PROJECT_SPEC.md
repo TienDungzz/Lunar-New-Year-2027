@@ -11,7 +11,7 @@ Ngôi nhà Việt ấm áp dưới bầu trời đêm, đèn lồng và cây mai
 - **LOADING:** che Canvas đến khi môi trường/GPU sẵn sàng; lỗi có Retry.
 - **COUNTDOWN:** tính ngày/giờ/phút/giây từ thời gian thực, nhà hiện phía sau; có bật âm thanh và “Xem trước giao thừa”.
 - **3 giây cuối:** visual phase COUNTDOWN_PREPARE ngẩng camera lên bầu trời, countdown tiếp tục. Tại 0 giây chuyển thẳng FIREWORKS, bắn lượt đầu ngay; lời chúc năm mới hiện đồng thời dưới dạng overlay không chặn tương tác, không có pha reveal trì hoãn màn diễn.
-- **FIREWORKS:** màn tự bắn 5 phút có tạm dừng/phát lại; vẫn bắn thêm bằng 11 icon hình hoặc nhập pháo chữ tối đa 12 ký tự tiếng Việt. Không tự rời cảnh; có “Khám phá cây mai”. Chi tiết tại FIREWORKS_SPEC.md.
+- **FIREWORKS:** màn tự bắn 5 phút có tạm dừng/phát lại; vẫn bắn thêm bằng 17 icon hình/cơ chế hoặc nhập pháo chữ tối đa 24 ký tự tiếng Việt. Không tự rời cảnh; có “Khám phá cây mai”. Chi tiết tại FIREWORKS_SPEC.md.
 - **TREE_TRANSITION:** camera về cây; khóa điều khiển trong transition, ánh trời dịu đi.
 - **TREE_EXPLORE:** xoay cây, chọn 8 vật trang trí treo có ID cố định để mở thiệp VI/EN, lưu tiến độ; có danh sách DOM thay thế.
 
@@ -43,3 +43,5 @@ Cho phép agent sử dụng Blender MCP để dựng/chỉnh môi trường và 
 
 
 
+
+Nút xem trước trước giao thừa chỉ hiển thị khi query mode=preview (khớp chính xác giá trị). Khi countdown thật đã kết thúc, luôn hiện nút Thắp sáng bầu trời kể cả không có mode=preview; bấm để vào màn diễn. Tham số mode không thay đổi mốc Tết thật, không can thiệp content ID i và không tự bật âm thanh.

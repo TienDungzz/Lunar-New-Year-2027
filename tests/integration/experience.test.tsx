@@ -18,6 +18,20 @@ async function enterFireworks() {
 }
 
 describe('complete experience with the 2D fallback', () => {
+  it.each(['/', '/?mode=normal', '/?mode=Preview', '/?mode='])('hides preview before midnight without exact mode=preview (%s)', url => {
+    window.history.replaceState({},'',url);
+    render(<App />);
+    expect(screen.queryByRole('button', { name: /Xem trước giao thừa/ })).toBeNull();
+    expect(screen.queryByRole('button', { name: /Thắp sáng bầu trời/ })).toBeNull();
+    expect(screen.getByText('CÙNG ĐẾM NGƯỢC ĐẾN GIAO THỪA')).toBeTruthy();
+  });
+  it('shows entry after midnight even without preview mode', () => {
+    window.history.replaceState({},'','/');
+    vi.setSystemTime(new Date('2027-02-06T00:01:00+07:00'));
+    render(<App />);
+    fireEvent.click(screen.getByRole('button', { name: /Thắp sáng bầu trời/ }));
+    expect(screen.getByRole('region', { name: 'Điều khiển pháo hoa' })).toBeTruthy();
+  });
   it.each(['preview','real'])('prepares the sky at three seconds and launches exactly at zero (%s)', async mode => {
     vi.setSystemTime(new Date(mode === 'real' ? '2027-02-05T23:59:50+07:00' : '2026-11-07T10:00:00+07:00'));
     const shots = vi.spyOn(audio,'playLaunch');
@@ -41,7 +55,7 @@ describe('complete experience with the 2D fallback', () => {
   });
   beforeEach(() => {
     localStorage.clear(); sessionStorage.clear();
-    window.history.replaceState({}, '', '/');
+    window.history.replaceState({}, '', '/?mode=preview');
     vi.useFakeTimers(); vi.setSystemTime(new Date('2026-11-07T10:00:00+07:00'));
     vi.spyOn(window, 'requestAnimationFrame').mockReturnValue(1);
     vi.spyOn(window, 'cancelAnimationFrame').mockImplementation(() => {});
@@ -144,7 +158,7 @@ describe('complete experience with the 2D fallback', () => {
   it('keeps fireworks usable while content loads and rejects stale content after URL changes', async () => {
     vi.setSystemTime(new Date('2027-02-06T00:01:00+07:00'));
     vi.stubEnv('VITE_CONTENT_API_URL', '/api/{id}');
-    window.history.replaceState({}, '', '/?i=first');
+    window.history.replaceState({}, '', '/?i=first&mode=preview');
     const requests = new Map<string, (value: Response) => void>();
     // Deliberately emulate a transport that delivers after cancellation.
     vi.stubGlobal('fetch', vi.fn((url: string) => new Promise<Response>(resolve => requests.set(url, resolve))));
@@ -173,7 +187,7 @@ describe('complete experience with the 2D fallback', () => {
   it('releases the wish buttons after an API timeout', async () => {
     vi.setSystemTime(new Date('2027-02-06T00:01:00+07:00'));
     vi.stubEnv('VITE_CONTENT_API_URL', '/api/{id}');
-    window.history.replaceState({}, '', '/?i=timeout');
+    window.history.replaceState({}, '', '/?i=timeout&mode=preview');
     vi.stubGlobal('fetch', vi.fn((_url: string, options: RequestInit) => new Promise<Response>((_resolve, reject) => {
       options.signal!.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')));
     })));

@@ -53,6 +53,7 @@ export default function App() {
   const phase = flow.phase, tree = phase === 'TREE_EXPLORE', fireworks = phase === 'FIREWORKS', transition = phase.endsWith('TRANSITION');
   const remaining = getRemaining(now), preview = previewTarget !== null && !remaining.done;
   const display = preview ? getRemaining(now, previewTarget) : remaining;
+  const showFireworksEntry = remaining.done || new URLSearchParams(window.location.search).get('mode') === 'preview';
   const preparingSky = phase === 'COUNTDOWN' && !display.done && !display.days && !display.hours && !display.minutes && display.seconds <= 3;
   const visualPhase = preparingSky ? 'COUNTDOWN_PREPARE' : phase;
   const ready = useCallback(() => dispatch({ type: 'READY' }), []);
@@ -175,8 +176,8 @@ export default function App() {
         </div>}
         <p className="countdown__date">06.02.2027 <span>·</span> 00:00 <span>·</span> {t('GIỜ VIỆT NAM', 'VIETNAM TIME')}</p>
       </div>
-      <button className="button button--primary welcome__cta" disabled={preview} onClick={remaining.done ? () => dispatch({ type: 'OPEN_FIREWORKS' }) : startPreview}><Icon name="burst" />{preview ? t('Khoảnh khắc đang đến…', 'The moment is coming…') : remaining.done ? t('Thắp sáng bầu trời', 'Light up the sky') : t('Xem trước giao thừa', 'Preview New Year’s Eve')}<Icon name="arrow" /></button>
-      <p className="welcome__note">{t('Không cần chờ đến Tết để cảm nhận mùa xuân.', 'You don’t have to wait for spring to feel it.')}</p>
+      {showFireworksEntry && <button className="button button--primary welcome__cta" disabled={preview} onClick={remaining.done ? () => dispatch({ type: 'OPEN_FIREWORKS' }) : startPreview}><Icon name="burst" />{preview ? t('Khoảnh khắc đang đến…', 'The moment is coming…') : remaining.done ? t('Thắp sáng bầu trời', 'Light up the sky') : t('Xem trước giao thừa', 'Preview New Year’s Eve')}<Icon name="arrow" /></button>}
+      {showFireworksEntry && <p className="welcome__note">{t('Không cần chờ đến Tết để cảm nhận mùa xuân.', 'You don’t have to wait for spring to feel it.')}</p>}
     </section>}
     {flow.revealing && <section className="reveal" role="status"><p className="eyebrow">XUÂN ĐINH MÙI · 2027</p><h1 aria-label={t('Chúc Mừng Năm Mới', 'Happy Lunar New Year')}>{t('Chúc Mừng', 'Happy')}<br /><em>{t('Năm Mới', 'Lunar New Year')}</em></h1><p>{t('Mong mọi điều tốt đẹp sẽ nở hoa.', 'May good things blossom.')}</p></section>}
     {(fireworks || tree || transition) && <>
@@ -201,8 +202,3 @@ export default function App() {
     <div className="sr-only" aria-live="polite">{transition ? t('Đang chuyển cảnh', 'Changing scene') : launch?.text ? `${t('Pháo chữ:', 'Sky writing:')} ${launch.text}` : ''}</div>
   </main>;
 }
-
-
-
-
-
