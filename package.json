@@ -16,7 +16,8 @@
     "check:bem": "node scripts/check-bem.mjs",
     "check:build": "node scripts/check-build.mjs",
     "check:standards": "node scripts/standards/check-project.mjs",
-    "check:project": "node scripts/standards/check-project.mjs --run"
+    "check:project": "node scripts/standards/check-project.mjs --run",
+    "audit:functions": "node scripts/audit-functions.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
