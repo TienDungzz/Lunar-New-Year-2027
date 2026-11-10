@@ -1,4 +1,4 @@
-﻿# API nội dung lời chúc — Xuân An Yên
+# API nội dung lời chúc — Xuân An Yên
 
 _Cập nhật: 2026-11-06. Frontend đã triển khai đọc API tùy chọn; dự án không tạo backend. Chưa xác minh với API production._
 
@@ -62,7 +62,7 @@ Khi ID URL thay đổi (kể cả Back/Forward), hủy request cũ và bỏ ph�
 
 `tet-wishes-seen` lưu dữ liệu có version, phân theo bộ nội dung: `default` khi không gọi API, `api:<id>` khi có ID hợp lệ và API được cấu hình hợp lệ. Trong namespace API, lưu thêm endpoint chuẩn hóa để không dùng nhầm tiến độ nếu đổi nguồn API. ID được validate trước khi tạo namespace; chỉ lưu wishId hợp lệ. Đổi bộ nội dung khôi phục tiến độ của bộ đó hoặc bắt đầu rỗng, không mang tiến độ bộ trước sang. API lỗi vẫn dùng namespace đã chọn với nội dung fallback; Retry thành công giữ ID đã xem. Định dạng storage cũ là mảng ID được chuyển vào default, không áp cho mọi ID API.
 
-Chỉ lưu ngôn ngữ, tùy chọn âm thanh/vị trí bảng pháo hoa và tiến độ ID như [ARCHITECTURE](ARCHITECTURE.md); không lưu payload API vào localStorage. Storage bị chặn/hỏng vẫn đọc được toàn bộ nội dung trong phiên. Frontend không gửi lời nhắn hay tiến độ lên backend. Người giữ URL có thể gửi ID đến API; backend chịu trách nhiệm quyền truy cập, hết hạn và tính riêng tư.
+Chỉ lưu ngôn ngữ, tùy chọn âm thanh và tiến độ ID như [ARCHITECTURE](ARCHITECTURE.md); không lưu payload API vào localStorage. Storage bị chặn/hỏng vẫn đọc được toàn bộ nội dung trong phiên. Frontend không gửi lời nhắn hay tiến độ lên backend. Người giữ URL có thể gửi ID đến API; backend chịu trách nhiệm quyền truy cập, hết hạn và tính riêng tư.
 
 ## Mã nguồn và kiểm tra
 - [contentApi.mjs](../src/lib/contentApi.mjs): parse ID/config, dựng URL, validate/merge, giới hạn body và timeout.
