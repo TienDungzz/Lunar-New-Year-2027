@@ -9,6 +9,7 @@ let output: GainNode | null = null;
 let volume = DEFAULT_VOLUME;
 let noise: AudioBuffer | null = null;
 let enabled = false;
+let enableRequest = 0;
 const voices = new Set<{ stop: () => void }>();
 const MAX_VOICES = 80;
 
@@ -38,9 +39,10 @@ export function setAudioVolume(value: number) {
   output.gain.linearRampToValueAtTime(volume/100,at+.04);
 }
 export async function setAudioEnabled(value: boolean) {
+  const request = ++enableRequest;
   if (!value) { enabled = false; stopFireworkAudio(); await context?.suspend(); return; }
-  try { initialize(); await context!.resume(); enabled = true; }
-  catch (error) { enabled = false; throw error; }
+  try { initialize(); await context!.resume(); if (request === enableRequest) enabled = true; }
+  catch (error) { if (request === enableRequest) enabled = false; throw error; }
 }
 function startVoice(source: AudioBufferSourceNode | OscillatorNode, nodes: AudioNode[], at: number, end: number) {
   const cleanup = () => { source.disconnect(); nodes.forEach(node => node.disconnect()); voices.delete(voice); };

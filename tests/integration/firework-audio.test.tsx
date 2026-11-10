@@ -35,6 +35,18 @@ let instances: Context[];
 beforeEach(() => { vi.resetModules(); instances = []; vi.stubGlobal('AudioContext',Context); });
 afterEach(() => vi.unstubAllGlobals());
 
+it('does not let a delayed resume turn audio back on after a newer mute request', async () => {
+  let finish!: () => void;
+  vi.spyOn(Context.prototype,'resume').mockImplementationOnce(() => new Promise<void>(resolve => { finish = resolve; }));
+  const audio = await import('../../src/lib/audio');
+  const enabling = audio.setAudioEnabled(true), ctx = instances[0];
+  await audio.setAudioEnabled(false);
+  ctx.state = 'running';
+  finish(); await enabling;
+  audio.playLaunch('rocket');
+  expect(ctx.sources).toHaveLength(0);
+});
+
 it('applies saved volume without starting audio and ramps to silence independently of mute', async () => {
   const audio = await import('../../src/lib/audio');
   audio.setAudioVolume(25);
