@@ -56,8 +56,8 @@ export function createFireworkPlan(type, seed, count = 420, reduced = false, tex
   const rng = seededRandom(seed);
   const mechanics = ['rocket', 'cluster', 'willow', 'crackle', 'fan'].includes(type);
   const stages = getFireworkTimeline(type, reduced, glyphs).map((stage, stageIndex) => {
-    const n = Math.max(6, Math.floor(count*stage.share));
-    const points = stage.shape === 'goat' ? Array.from({ length: 420 }, (_, i) => sampleShape('goat',i,420,rng)) : stage.glyph?.points ?? textPoints ?? Array.from({ length: n }, (_, i) => {
+    const n = type === 'goat' ? Math.max(640, count) : Math.max(6, Math.floor(count*stage.share));
+    const points = stage.shape === 'goat' ? Array.from({ length: 640 }, (_, i) => sampleShape('goat',i,640,rng)) : stage.glyph?.points ?? textPoints ?? Array.from({ length: n }, (_, i) => {
       const p = sampleShape(mechanics ? 'burst' : type, i, n, rng);
       return type === 'willow' ? [p[0], Math.abs(p[1])*.6+.5, p[2]*.5] : p;
     });

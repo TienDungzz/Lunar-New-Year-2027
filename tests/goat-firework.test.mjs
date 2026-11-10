@@ -12,6 +12,8 @@ test('goat outline has horns, head and separated legs, stays planar and readable
   assert.ok(points.some(([x,y]) => y < -1.8 && x < -.8), 'hind legs');
   assert.ok(points.some(([x,y]) => y < -1.8 && x > .6), 'front legs');
   const stage = createFireworkPlan('goat',27).stages[0];
+  assert.ok(stage.points.length >= 600 && stage.points.length <= 720);
+  assert.ok(stage.points.some(([x,y]) => x > -.6 && x < .7 && y > -.35 && y < .1), 'interior coat ornament remains visible');
   const early = sampleSpark(stage,stage.at+1,0), later = sampleSpark(stage,stage.at+1.8,0);
   assert.ok(Math.abs(early.y-later.y) < .01, 'shape must not fall apart while being recognized');
   assert.ok(later.alpha > .65);

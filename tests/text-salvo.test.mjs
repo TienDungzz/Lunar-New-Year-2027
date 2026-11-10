@@ -21,7 +21,7 @@ test('opening combines a goat above the greeting with simultaneous ignition and 
     const plan = createFireworkPlan('opening',27,2400,reduced,undefined,glyphs);
     assert.equal(plan.stages.length,3);
     const goat = plan.stages.find(s => s.shape === 'goat');
-    assert.equal(goat.points.length,420);
+    assert.ok(goat.points.length >= 600 && goat.points.length <= 720, 'detailed goat stays within a bounded particle budget');
     assert.ok(goat.center[1] > plan.stages[0].center[1]);
     assert.ok(plan.stages.every(s => s.launchAt === 0 && s.at === (reduced ? 0 : 1.5)));
     assert.ok(plan.pointCount <= 6000);
