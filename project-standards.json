@@ -92,6 +92,13 @@
           ],
           "name": "styles",
           "required": true
+        },
+        {
+          "name": "i18n",
+          "paths": [
+            "i18n"
+          ],
+          "required": true
         }
       ],
       "name": "frontend",
