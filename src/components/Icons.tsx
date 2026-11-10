@@ -3,11 +3,12 @@ import { GOAT_STROKES } from '../lib/goatShape.mjs';
 export default function Icon({ name, className = '' }: { name: string; className?: string }) {
   const common = { width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.4, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, className, 'aria-hidden': true as const };
   if (name === 'minus') return <svg {...common}><path d="M5 12h14" /></svg>;
+  if (name === 'collapse') return <svg {...common}><path d="m5 9 7 7 7-7" /></svg>;
+  if (name === 'expand') return <svg {...common}><path d="m5 15 7-7 7 7" /></svg>;
   if (name === 'greeting') return <svg {...common}><path d="M3 4h18v16H3zM6 2v4m12-4v4" /><text x="12" y="12" textAnchor="middle" fill="currentColor" stroke="none" fontSize="6">CM</text><text x="12" y="18" textAnchor="middle" fill="currentColor" stroke="none" fontSize="6">NM</text></svg>;
   if (name === 'year') return <svg {...common}><text x="12" y="11" textAnchor="middle" fill="currentColor" stroke="none" fontSize="10">20</text><text x="12" y="21" textAnchor="middle" fill="currentColor" stroke="none" fontSize="10">27</text></svg>;
   if (name === 'plus') return <svg {...common}><path d="M5 12h14M12 5v14" /></svg>;
   if (name === 'volume') return <svg {...common}><path d="M5 3v18m7-18v18m7-18v18" /><path d="M2 8h6m1 8h6m1-10h6" strokeWidth="3" /></svg>;
-  if (name.startsWith('dock-')) return <svg {...common}><rect x="3" y="4" width="18" height="16" rx="1" />{name === 'dock-bottom' ? <path d="M3 15h18M7 18h1m3 0h1m3 0h1" /> : name === 'dock-left' ? <path d="M9 4v16M6 8v1m0 3v1m0 3v1" /> : <path d="M15 4v16m3-12v1m0 3v1m0 3v1" />}</svg>;
   if (name === 'goat') return <svg {...common}><g transform="translate(12 13) scale(4 -4)" strokeWidth={.27}>{GOAT_STROKES.map((points,i) => <polyline key={i} points={points.map(p => p.join(',')).join(' ')} />)}</g></svg>;
   if (name === 'rocket') return <svg {...common}><path d="M12 14V3m-4 5 4-5 4 5M9 17l-3 5m6-4v5m3-6 3 5" /><circle cx="12" cy="14" r="2" /></svg>;
   if (name === 'cluster') return <svg {...common}><circle cx="12" cy="12" r="2" /><path d="m10 10-4-4m8 4 4-4m-4 8 4 4m-8-4-4 4M5 2v6M2 5h6m11-3v6m-3-3h6M5 16v6m-3-3h6m11-3v6m-3-3h6" /></svg>;
@@ -32,6 +33,7 @@ export default function Icon({ name, className = '' }: { name: string; className
   if (name === 'sound') return <svg {...common}><path d="M11 5 6 9H3v6h3l5 4V5Zm4 3a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14" /></svg>;
   if (name === 'muted') return <svg {...common}><path d="M11 5 6 9H3v6h3l5 4V5Zm5 5 5 5m0-5-5 5" /></svg>;
   if (name === 'close') return <svg {...common}><path d="m6 6 12 12M6 18 18 6" /></svg>;
+  if (name === 'compass') return <svg {...common}><circle cx="12" cy="12" r="9" /><path d="m16 8-2.5 5.5L8 16l2.5-5.5L16 8Z" /><path d="m10.5 10.5 3 3" /></svg>;
   if (name === 'reset') return <svg {...common}><path d="M4 9a8 8 0 1 1 0 7M4 3v6h6" /></svg>;
   if (name === 'check') return <svg {...common}><path d="m5 12 4 4L19 6" /></svg>;
   if (name === 'moon') return <svg {...common}><path d="M20 15A9 9 0 0 1 9 4a9 9 0 1 0 11 11Z" /></svg>;
