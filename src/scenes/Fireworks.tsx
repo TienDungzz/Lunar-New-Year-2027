@@ -7,18 +7,13 @@ import { createFireworkPlan, sampleFlight, sampleSpark } from '../lib/fireworkDy
 import type { TextGlyph } from '../lib/fireworkText';
 import { getTextScale } from '../lib/textSalvo.mjs';
 import { FIREWORK_PALETTE } from '../lib/fireworkPalette.mjs';
+import { createParticleGeometry, flushParticleGeometry } from './fireworkBuffer';
 
 export type Launch = { id: number; type: string; points?: number[][]; glyphs?: TextGlyph[]; text?: string; strength?: number };
 const MAX = 30000;
 type Burst = { born: number; center: THREE.Vector3; plan: ReturnType<typeof createFireworkPlan>; color: THREE.Color; scale: number; text: boolean };
-export default function Fireworks({ launch, active, reduced }: { launch: Launch | null; active: boolean; reduced: boolean }) {
-  const { camera, size } = useThree();
-  const bursts = useRef<Burst[]>([]);
-  const state = useMemo(() => {
-    const geometry = new THREE.BufferGeometry();
-    for (const attribute of ['position', 'color']) geometry.setAttribute(attribute, new THREE.BufferAttribute(new Float32Array(MAX*3), 3));
-    for (const attribute of ['alpha', 'size']) geometry.setAttribute(attribute, new THREE.BufferAttribute(new Float32Array(MAX), 1));
-    geometry.setDrawRange(0, 0);
+function createParticleBuffer() {
+    const geometry = createParticleGeometry(MAX);
     const material = new THREE.ShaderMaterial({
       vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
       vertexShader: `attribute float alpha; attribute float size; varying vec3 vColor; varying float vAlpha;
@@ -28,11 +23,9 @@ export default function Fireworks({ launch, active, reduced }: { launch: Launch 
     return { geometry, material, right: new THREE.Vector3(), up: new THREE.Vector3(), forward: new THREE.Vector3(), point: new THREE.Vector3(),
       flight: [0,0,0], spark: { x: 0, y: 0, z: 0, alpha: 0, size: 0 },
       palette: Object.fromEntries(Object.entries(FIREWORK_PALETTE).map(([name,color]) => [name,new THREE.Color(color)])) };
-  }, []);
-  useEffect(() => () => { state.geometry.dispose(); state.material.dispose(); }, [state]);
-  useEffect(() => { bursts.current = []; state.geometry.setDrawRange(0, 0); }, [active, reduced, state]);
-  useEffect(() => {
-    if (!active || !launch) return;
+}
+
+function createBurst(launch: Launch, camera: THREE.Camera, size: { width: number; height: number }, reduced: boolean): Burst {
     const rng = seededRandom(launch.id*37), count = launch.points?.length ?? (size.width < 700 ? 240 : 420);
     const plan = createFireworkPlan(launch.type, launch.id*37, count, reduced, launch.points, launch.glyphs);
     const text = launch.type === 'text' || launch.type === 'opening';
@@ -41,8 +34,19 @@ export default function Fireworks({ launch, active, reduced }: { launch: Launch 
     const center = camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(20).add(camera.position)
       .addScaledVector(right, text ? 0 : (rng()-.5)*width*.4)
       .addScaledVector(up, text ? 0 : height*(.1+(rng()-.5)*.12));
-    bursts.current.push({ born: performance.now()/1000, center, plan, text, color: new THREE.Color(fireworkTypes.find(x => x.id === launch.type)?.color || '#ffd477'),
-      scale: text ? getTextScale(width,height,plan.halfWidth,plan.halfHeight) : Math.min(width*.25, height*.23)/plan.radius*(launch.strength ?? 1) });
+    return { born: performance.now()/1000, center, plan, text, color: new THREE.Color(fireworkTypes.find(x => x.id === launch.type)?.color || '#ffd477'),
+      scale: text ? getTextScale(width,height,plan.halfWidth,plan.halfHeight) : Math.min(width*.25, height*.23)/plan.radius*(launch.strength ?? 1) };
+}
+
+export default function Fireworks({ launch, active, reduced }: { launch: Launch | null; active: boolean; reduced: boolean }) {
+  const { camera, size } = useThree();
+  const bursts = useRef<Burst[]>([]);
+  const state = useMemo(createParticleBuffer, []);
+  useEffect(() => () => { state.geometry.dispose(); state.material.dispose(); }, [state]);
+  useEffect(() => { bursts.current = []; state.geometry.setDrawRange(0, 0); }, [active, reduced, state]);
+  useEffect(() => {
+    if (!active || !launch) return;
+    bursts.current.push(createBurst(launch, camera, size, reduced));
     bursts.current = bursts.current.slice(-MAX_ACTIVE_BURSTS);
   }, [launch, active]);
   useFrame(() => {
@@ -84,8 +88,7 @@ export default function Fireworks({ launch, active, reduced }: { launch: Launch 
         }
       }
     }
-    state.geometry.setDrawRange(0,index);
-    for (const attribute of ['position','color','alpha','size']) state.geometry.attributes[attribute].needsUpdate = true;
+    flushParticleGeometry(state.geometry, index);
   });
   return <points geometry={state.geometry} material={state.material} frustumCulled={false} />;
 }
