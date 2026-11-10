@@ -277,6 +277,12 @@
   --firework-dock--bottom-border-radius: 14px;
   --firework-dock--bottom-margin: 2px 0 0;
   --firework-dock--bottom-gap-2: 4px 14px;
+  --header-audio-background: #47101b59;
+  --header-audio-border: 1px solid #e6bb6833;
+  --header-audio-radius: 12px;
+  --header-audio-padding: 4px 8px;
+  --header-audio-shadow: 0 6px 18px #16071233;
+  --header-audio-popup-padding: 4px 0 0;
   --scene-navigation-background: #37111a66;
   --scene-navigation-border: 1px solid #f3c96940;
   --scene-navigation-radius: 999px;
@@ -297,7 +303,6 @@
   --dock-position-button-color: #d6b7a0;
   --dock-position-button-color-2: #e6bb6880;
   --dock-position-button-background: #9a2b34;
-  --volume-control-button-border: 1px solid #e6bb6844;
   --firework-dock-border-radius: 18px;
   --firework-dock-color: #efc77945;
   --firework-dock-background-2: linear-gradient(155deg, #4d1724f2, #230e1aeb);

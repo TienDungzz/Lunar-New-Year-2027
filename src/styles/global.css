@@ -33,6 +33,17 @@ button svg { flex-shrink: 0; }
 .brand__name { font: var(--brand-name-font, 24px/1.3 var(--serif, 'Tet Serif', Georgia, 'Times New Roman', serif)); letter-spacing: var(--brand-name-letter-spacing, -.7px); }
 .brand__sub { display: block; font: var(--brand-sub-font, 8px/1.8 'Tet Sans', sans-serif); letter-spacing: var(--brand-sub-letter-spacing, 2.7px); color: var(--brand-sub-color, #dbb87f); margin-top: var(--brand-sub-margin-top, 4px); }
 .header__actions { display: flex; align-items: center; gap: var(--header-actions-gap, 34px); }
+.header-audio { position: relative; display: flex; align-items: center; }
+.header-audio__popup { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); width: min(220px, calc(100vw - 32px)); padding: var(--header-audio-popup-padding, 4px 0 0); z-index: 5; }
+.header-audio__panel { background: var(--header-audio-background, #47101b59); border: var(--header-audio-border, 1px solid #e6bb6833); border-radius: var(--header-audio-radius, 12px); padding: var(--header-audio-padding, 4px 8px); box-shadow: var(--header-audio-shadow, 0 6px 18px #16071233); backdrop-filter: blur(14px); }
+.header-audio .volume-control { display: grid; grid-template-columns: 24px minmax(0, 1fr) 24px; gap: var(--language-gap, 4px); margin: 0; padding: 0; }
+.header-audio .volume-control__button { grid-row: 1; width: 24px; min-height: 44px; padding: 0; }
+.header-audio .volume-control__button:first-child { grid-column: 1; }
+.header-audio .volume-control__button:nth-of-type(2) { grid-column: 3; }
+.header-audio .volume-control__slider { grid-row: 1; grid-column: 2; width: 100%; min-width: 0; min-height: 44px; }
+@media (max-width: 480px) {
+  .header .brand__name { display: none; }
+}
 .icon-button { display: inline-flex; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; padding: var(--icon-button-padding, 9px); color: var(--icon-button-color, #f1d9bb); }
 .icon-button:hover { color: var(--gold, #f3c969); }
 .language { display: flex; align-items: center; gap: var(--language-gap, 4px); font-size: var(--text-small, 11px); }
@@ -182,7 +193,7 @@ button svg { flex-shrink: 0; }
 .firework-dock__play svg { width: 16px; height: 16px; }
 .firework-dock__actions { display: flex; align-items: center; gap: var(--dock-position-gap, 5px); }
 .volume-control { display: flex; align-items: center; gap: var(--volume-control-gap, 6px); margin: var(--volume-control-margin, 0 0 12px); padding: var(--text-button-padding, 5px 0); flex-wrap: wrap; }
-.volume-control__button { width: 32px; min-height: 34px; display: grid; place-items: center; border: var(--volume-control-button-border, 1px solid #e6bb6844); color: var(--firework-dock-status-color, #f4cf8a); }
+.volume-control__button { width: 32px; min-height: 34px; display: grid; place-items: center; border: none; color: var(--firework-dock-status-color, #f4cf8a); }
 .volume-control__button svg { width: 17px; height: 17px; }
 .volume-control__slider { flex: 1; min-width: 48px; max-width: 180px; height: 34px; margin: 0; accent-color: #f3c969; cursor: pointer; }
 .volume-control__slider:focus-visible { outline: var(--button-focus-visible-a-focus-visible-outline, 2px solid #ffe0a1); outline-offset: 3px; }
@@ -323,13 +334,6 @@ button svg { flex-shrink: 0; }
   .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-dock__play { min-width: 44px; min-height: 44px; padding: var(--wish-list-button-padding, 8px); border: var(--firework-dock-border-3, 1px solid #e6bb6829); border-radius: var(--firework-dock-border-radius-4, 10px); background: var(--firework-dock-background-6, #16091440); }
   .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-dock__play[aria-pressed=true], .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-dock__play[aria-expanded=true] { background: var(--firework-dock-background-7, #a4413c66); border-color: var(--firework-dock-color-4, #ffd57966); }
   .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-dock__play svg { width: 20px; height: 20px; }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .volume-control { display: grid; grid-template-columns: 32px minmax(0, 1fr) 32px; gap: var(--firework-dock-gap, 4px 6px); margin: var(--volume-control-margin, 0 0 12px); padding: var(--wish-list-button-padding, 8px); background: var(--firework-dock-background-3, #16091466); border-radius: var(--firework-dock-border-radius-4, 10px); }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .volume-control__button { grid-row: 2; border-radius: var(--firework-dock-border-radius-3, 7px); }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .volume-control__button:first-child { grid-column: 1; }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .volume-control__button:nth-of-type(2) { grid-column: 3; }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .volume-control__slider { grid-row: 2; grid-column: 2; width: 100%; min-width: 0; }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .volume-control__value { grid-row: 1; grid-column: 3; min-width: 0; text-align: right; font-size: var(--text-label, 10px); }
-  .firework-dock:is(.firework-dock--left, .firework-dock--right) .volume-control__muted { grid-row: 1; grid-column: 1 / 3; align-self: center; }
   .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-dock__presets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--volume-control-gap, 6px); margin-top: var(--tree-panel-tools-margin-top, 10px); padding-top: var(--firework-dock-padding-top, 10px); border-top: var(--firework-dock-border-top, 1px solid #efc77922); }
   .firework-dock:is(.firework-dock--left, .firework-dock--right) .firework-dock__presets .firework-button { width: auto; color: var(--welcome-title-color, #ffd579); background: var(--firework-dock-background-8, #95612b26); }
   .firework-dock:is(.firework-dock--left, .firework-dock--right) button:focus-visible { outline: var(--button-focus-visible-a-focus-visible-outline, 2px solid #ffe0a1); outline-offset: 2px; }
@@ -354,12 +358,6 @@ button svg { flex-shrink: 0; }
 .dock-position__button svg { width: 21px; height: 21px; }
 .dock-position__button:hover, .dock-position__button[aria-pressed=true] { color: var(--color-focus, #ffe0a1); border-color: var(--dock-position-button-color-2, #e6bb6880); background: var(--dock-position-button-background, #9a2b34); }
 .live-dot { width: 5px; height: 5px; background: var(--live-dot-background, #e2c184); border-radius: var(--live-dot-border-radius, 100%); box-shadow: var(--live-dot-shadow, 0 0 9px #eccb7d66); }
-.volume-control__button:hover:not(:disabled) { background: var(--dock-position-button-background, #9a2b34); }
-.volume-control__value { min-width: 33px; font-size: var(--text-small, 11px); font-variant-numeric: tabular-nums; color: var(--color-focus, #ffe0a1); }
-.volume-control__muted { font-size: var(--text-caption, 9px); color: var(--volume-control-muted-color, #d8b8a1); }
-.firework-dock--mobile .volume-control { margin-bottom: var(--sky-writing-label-margin-bottom, 8px); }
-.firework-dock--mobile .volume-control__button { min-width: 44px; min-height: 44px; }
-.firework-dock--mobile .volume-control__slider { max-width: none; min-height: 44px; }
 .experience--fireworks .header__sound span { display: none; }
 
 @media (min-width: 700px) {
@@ -368,7 +366,6 @@ button svg { flex-shrink: 0; }
   .firework-dock--bottom:not(.firework-dock--mobile) .firework-dock__show { grid-column: 1 / 15; grid-row: 1; margin: 0; gap: var(--footer-gap, 8px); }
   .firework-dock--bottom:not(.firework-dock--mobile) .firework-dock__buttons, .firework-dock--bottom:not(.firework-dock--mobile) .firework-dock__presets { display: contents; }
   .firework-dock--bottom:not(.firework-dock--mobile) .firework-button { grid-column: span 2; width: auto; min-width: 0; min-height: 44px; border-radius: var(--firework-dock-border-radius-3, 7px); }
-  .firework-dock--bottom:not(.firework-dock--mobile) .volume-control { grid-column: 1 / -1; margin: 0; padding: 0; }
   .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing { grid-column: 1 / -1; margin: var(--firework-dock--bottom-margin, 2px 0 0); padding-top: var(--firework-dock-padding-top, 10px); }
   .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing__input { flex: 1; width: auto; max-width: none; }
   .firework-dock--bottom:not(.firework-dock--mobile) .sky-writing__submit { width: 44px; min-width: 44px; padding: var(--firework-dock-padding, 10px); }
