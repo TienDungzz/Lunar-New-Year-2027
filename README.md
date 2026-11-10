@@ -3,7 +3,9 @@
 Website trải nghiệm Tết Đinh Mùi 2027: khung cảnh nhà Việt 3D, pháo hoa tương tác và 8 lời chúc trên cây mai. React 19 + TypeScript + Vite + Three.js/R3F; môi trường nhà dựng bằng Blender MCP. Không sử dụng mô hình nhân vật.
 
 ## Mục lục
+- [docs/CODE_STANDARDS.md](docs/CODE_STANDARDS.md)
 - [docs/CSS_TOKENS.md](docs/CSS_TOKENS.md)
+- [docs/STANDARDS_REVIEW.md](docs/STANDARDS_REVIEW.md)
 - [docs/PROJECT_SPEC.md](docs/PROJECT_SPEC.md)
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - [docs/SCENE_DESIGN.md](docs/SCENE_DESIGN.md)
@@ -48,6 +50,9 @@ Mở địa chỉ Vite in ra (mặc định http://127.0.0.1:5173). Trước T�
 ## Kiểm tra và build
 ```powershell
 npm.cmd run check
+npm.cmd run check:standards
+npm.cmd run check:css
+npm.cmd run audit:functions
 npm.cmd run check:assets
 npm.cmd run check:docs
 npm.cmd run check:bem
@@ -56,7 +61,7 @@ npm.cmd run check:build
 npm.cmd run preview
 ```
 
-Build tĩnh ở dist/. Có thể phục vụ từ web host hỗ trợ HTTPS. Bản build và 55 kiểm thử tự động đã được kiểm tra; chưa hoàn tất QA hình ảnh trong trình duyệt hoặc benchmark thiết bị thật, chưa coi là release candidate. Three.js vẫn có cảnh báo chunk trên 500 KB.
+Build tĩnh ở dist/. Có thể phục vụ từ web host hỗ trợ HTTPS. Bản build và 73 kiểm thử tự động đã được kiểm tra; chưa hoàn tất QA hình ảnh trong trình duyệt hoặc benchmark thiết bị thật, chưa coi là release candidate. Three.js vẫn có cảnh báo chunk trên 500 KB.
 
 ## Nội dung API
 Sao chép [.env.example](.env.example) thành .env.local nếu cần API. Để trống URL để dùng 8 lời chúc cục bộ; không cần backend để trải nghiệm. Hợp đồng, ID URL, timeout và fallback tại [CONTENT_API](docs/CONTENT_API.md). Chưa xác minh với backend production.
@@ -88,4 +93,4 @@ Bảng bắn pháo trên desktop có nút chọn phía dưới/bên trái/bên p
 
 Logo đỏ–vàng kim kết hợp đầu dê và 2027 dùng ở header; favicon chỉ có đầu dê. PNG nền trong suốt, bản gốc và hướng dẫn xuất kích thước nằm trong [art/branding](art/branding/README.md).
 
-Project structure, asset budgets and executable quality gates are configured in project-standards.json. Run npm.cmd run check:standards for static checks or npm.cmd run check:project for the configured commands.
+Quy chuẩn riêng dự án: [CODE_STANDARDS](docs/CODE_STANDARDS.md), cấu hình [project-standards.json](project-standards.json) và [báo cáo đối chiếu](docs/STANDARDS_REVIEW.md). Chạy toàn bộ gate bằng npm.cmd run check:project; audit độ dài hàm còn phát hiện các mục cần refactor, không đồng nghĩa lint đã đạt.

@@ -22,6 +22,8 @@
     ],
     "required": [
       "README.md",
+      "docs/CODE_STANDARDS.md",
+      "docs/STANDARDS_REVIEW.md",
       "docs/PROJECT_SPEC.md",
       "docs/ARCHITECTURE.md",
       "docs/CONTENT_API.md",
@@ -29,8 +31,8 @@
       "docs/TREE_WISHES.md",
       "docs/PERFORMANCE.md",
       "docs/TESTING_AND_ACCEPTANCE.md",
-      "docs/LANGUAGES.md",
-      "docs/CSS_TOKENS.md"
+      "docs/CSS_TOKENS.md",
+      "docs/LANGUAGES.md"
     ]
   },
   "structure": [

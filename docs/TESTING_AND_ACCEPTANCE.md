@@ -42,7 +42,7 @@ Không có lỗi chặn luồng; nội dung/bản dịch đủ; countdown chuẩ
 
 
 ## Kết quả local — 2026-11-07
-- npm.cmd run check: TypeScript, 24 kiểm thử logic/content API/pháo hoa/cảnh và 26 kiểm thử tích hợp React trong jsdom.
+- npm.cmd run check: TypeScript, 40 kiểm thử logic/content API/pháo hoa/cảnh và 33 kiểm thử tích hợp React trong jsdom.
 - Tích hợp đã kiểm tra: preview/reveal, màn tự bắn 5 phút/pause/replay, các nút hình/chữ và cooldown, không tự chuyển cảnh, đọc đủ 8 lời chúc, VI/EN, quay lại pháo hoa, storage hỏng, API chậm/timeout và bỏ phản hồi cũ khi đổi ID.
 - npm.cmd run check:assets: checksum, nguồn/giấy phép, GLB header, giải mã bằng Three.js, gộp geometry theo material và tỷ lệ/trục xuất.
 - npm.cmd run check:docs: liên kết cục bộ và đủ danh mục README; check:bem: cú pháp tên class CSS.
@@ -75,3 +75,5 @@ Kiểm tra tự động sceneVisibility cho reveal/pháo hoa/chuyển cảnh; in
 ## Vị trí bảng bắn pháo
 Đã kiểm tra ba lựa chọn desktop, aria-pressed, lưu/khôi phục và fallback dữ liệu không hợp lệ. Kiểm thử chuyển media sang mobile: bảng luôn bottom, không có nhóm chọn vị trí, các nút chỉ SVG nhưng vẫn có accessible name, nội dung ô chữ được giữ và preference desktop không bị ghi đè; chuyển lại desktop khôi phục cạnh trái. DOM test không thay thế QA clipping, chiều cao vùng cuộn hoặc vùng chạm trên trình duyệt thực tế.
 
+
+Kiểm tra quy chuẩn: npm.cmd run check:standards chỉ chạy tĩnh và ghi quality commands chưa thực thi là incomplete; npm.cmd run check:project chạy đủ gate trong project-standards.json. Audit hàm bằng TypeScript AST có 3 regression test; hiện còn 4 mục vượt 60 dòng trong STANDARDS_REVIEW.md, chưa coi là tuân thủ toàn bộ quy chuẩn code.
