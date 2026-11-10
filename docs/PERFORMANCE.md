@@ -1,5 +1,11 @@
 # Hiệu năng và tài nguyên
 
+## Tối ưu chuyển sang pháo hoa
+
+`World` dùng memo với callback mở thiệp và danh sách đã xem có tham chiếu ổn định, tránh reconcile cảnh 3D theo tick countdown/show nếu props không đổi. `COUNTDOWN_PREPARE` và `FIREWORKS` dùng cùng camera phase, không khởi động lại tween tại mốc 0; các transition qua lại cây vẫn giữ callback hoàn tất riêng.
+
+Buffer pháo hoa vẫn cấp cố định 30.000 điểm. Các attribute dùng DynamicDrawUsage và update range chỉ bao gồm hạt đang hiển thị; khi không có hạt thì không yêu cầu upload. Kiểm thử xác nhận allocation không đổi, range thu hẹp đúng và countdown vẫn bắn tại 0. Đây là giảm tác vụ CPU/GPU, chưa phải kết quả benchmark FPS hoặc xác nhận hết giật trên thiết bị thật.
+
 **Trạng thái:** mục tiêu thiết kế, chưa có benchmark của dự án. Tập trung vào môi trường và pháo hoa tương tác; không có mô hình nhân vật, rig hoặc animation nhân vật.
 
 ## Asset và pipeline
@@ -38,6 +44,6 @@ Màn diễn tự bắn chạy 5 phút đang xem; điểm/vụ nổ vẫn bị gi
 Chữ mesh có thể không có UV; batchScene.mjs chuẩn hóa layout geometry trước khi gộp. Hơi nước dùng một Points 24 điểm; lửa dùng một InstancedMesh 7 ngọn nhỏ. Thêm ba point light không shadow (hai đèn cổng và bếp), không tạo light cho mọi bóng dây đèn. Cần benchmark lại sau khi tăng chi tiết và ánh sáng; dữ liệu asset không thay thế phép đo GPU.
 
 
-Pháo chữ bắn đồng thời với các kiểu khác; không xóa gói đang vẽ hoặc dừng tự bắn. Chỉ cho một gói chữ trong vòng đời 9 giây, cùng ngân sách tám gói/30.000 điểm. Baseline, layout và thời điểm nổ dùng chung giữa WebGL/2D/audio. Cần kiểm tra thực tế độ rõ chữ khi bắn đồng thời nhiều hiệu ứng.
+Pháo chữ bắn đồng thời với các kiểu khác; không xóa gói đang vẽ hoặc dừng tự bắn. Chỉ cho một gói chữ trong vòng đời 6,5 giây, cùng ngân sách tám gói/30.000 điểm. Baseline, layout và thời điểm nổ dùng chung giữa WebGL/2D/audio. Cần kiểm tra thực tế độ rõ chữ khi bắn đồng thời nhiều hiệu ứng.
 
 
