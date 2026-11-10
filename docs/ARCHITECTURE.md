@@ -1,43 +1,39 @@
 # Kiến trúc ứng dụng, dữ liệu và trạng thái
 
-## Stack đề xuất
-React 19 + TypeScript + Vite + Three.js + React Three Fiber + Drei; GSAP cho camera; CSS/HTML cho UI. Đã có triển khai nền tảng trong src/. Chi tiết file thực tế xem cây mã nguồn; đây là kiến trúc định hướng, một số module được gộp trong App.tsx và World.tsx.
+## Stack triển khai
+React 19 + TypeScript + Vite + Three.js + React Three Fiber + Drei; GSAP cho camera; CSS/HTML cho UI. Đã có triển khai nền tảng trong src/. App.tsx chỉ ghép các vùng UI; lifecycle được tách thành hook theo trách nhiệm.
 
-## Cây thư mục dự kiến
-```text
-src/
-  main.tsx
-  App.tsx
-  components/{Countdown,SceneLoading,LanguageSelect,WishCard,FireworksControls,SoundToggle}.tsx
-  hooks/{useExperienceFlow,useCountdown,useReducedMotion,useQualityProfile}.ts
-  scenes/{TetEnvironment,House,Porch,ApricotTree,TreeOrnament,Fireworks,Sky,CameraRig}.tsx
-  data/{wishes.vi,wishes.en,ornaments,fireworkPresets,sceneLayout}.ts
-  lib/{time,storage,random}.ts
-  i18n.tsx
-  styles/global.css
-public/models/ public/textures/ public/audio/ public/images/
-scripts/{check-content,check-assets,check-flow,check-responsive}.mjs
-art/blender/
-```
+## Các module chính
+- App.tsx và hooks/useExperience.ts: ghép UI, điều phối nội dung và tiến độ.
+- hooks/useExperienceClock.ts: countdown thật/preview, visibility, chuyển cảnh tại 0.
+- hooks/useExperienceAudio.ts: volume và lifecycle audio.
+- hooks/useFireworkLaunches.ts và useFireworkShow.ts: admission, cooldown, lịch tự bắn.
+- hooks/useSceneFallback.ts và components/ExperienceScene.tsx: tải 3D, timeout, fallback và retry lazy import.
+- components/ExperienceContent.tsx: header, welcome/countdown và bảng lời chúc.
+- hooks/useSkyWriting.ts: bản nháp chữ và trạng thái form trong phiên, giữ khi đổi cảnh.
+- scenes/World.tsx, ApricotTree.tsx, ApricotBotany.tsx, apricotStructure.ts, Fireworks.tsx: camera, môi trường, cây và renderer.
+- lib/experience.mjs, fireworkDynamics.mjs, textSalvo.mjs: reducer, hình dạng và timeline dùng chung.
+- components/FallbackScene.tsx: Canvas2D/SVG; components/WishDialog.tsx: dialog native.
+- i18n/{vi,en}.json và styles/{variables,global}.css: nhãn VI/EN và token tập trung.
 
 ## State machine
 `LOADING`, `COUNTDOWN`, `FIREWORKS`, `TREE_TRANSITION`, `TREE_EXPLORE`, `FIREWORKS_TRANSITION`.
 
-Sự kiện: `ASSETS_READY`, `MIDNIGHT_REACHED`, `PREVIEW_START`, `LAUNCH_FIREWORK(typeId)`, `OPEN_TREE`, `OPEN_FIREWORKS`, `TRANSITION_FINISHED`, `OPEN_WISH(wishId)`, `CLOSE_WISH`, `RESET_VIEW`.
+Sự kiện: `READY`, `MIDNIGHT`, `PREVIEW`, `REVEAL_DONE`, `OPEN_TREE`, `OPEN_FIREWORKS`, `TRANSITION_DONE`. Bắn pháo và mở/đóng thiệp được xử lý bởi hook riêng, không phải event của reducer.
 
-FIREWORKS có đồng hồ tự bắn độc lập useFireworkShow, 300.000ms đang xem. Có pause/resume/replay; không khóa bắn thủ công. Rời cảnh hoặc ẩn tab thì dừng đồng hồ và dọn vụ nổ, quay lại tiếp tục. Hết giờ ở lại cảnh, chỉ dừng tự bắn. Khóa điều hướng trùng trong transition; không phát dồn lượt đã lỡ. Bộ chọn có 17 hình/cơ chế và pháo chữ, validate/rasterize cục bộ tối đa 12 ký tự.
+FIREWORKS có đồng hồ tự bắn độc lập useFireworkShow, 300.000ms đang xem. Có pause/resume/replay; không khóa bắn thủ công. Rời cảnh hoặc ẩn tab thì dừng đồng hồ và dọn vụ nổ, quay lại tiếp tục. Hết giờ ở lại cảnh, chỉ dừng tự bắn. Khóa điều hướng trùng trong transition; không phát dồn lượt đã lỡ. Bộ chọn có 17 hình/cơ chế và pháo chữ, validate/rasterize cục bộ tối đa 24 grapheme.
 
 Chuyển trạng thái idempotent; dọn timer khi unmount/tab ẩn. Tách `clockMode: real|preview` khỏi `scenePhase`. Khi trở lại tab tính lại thời gian, không phát dồn hiệu ứng.
 
 ## Nguồn sự thật
 - `TET_INSTANT = '2027-02-06T00:00:00+07:00'`, timezone `Asia/Ho_Chi_Minh`.
-- `wishes`: 8 ID ổn định, `title`, `body`, `theme`, `anchorId`; VI/EN cùng ID.
-- `ornaments`: 8 ID, `wishId`, `anchorId`, loại hình và transform; mỗi vật treo gắn một lời chúc, không phụ thuộc thứ tự mảng.
+- `wishes`: 8 ID ổn định, `title`, `body`; VI/EN cùng ID.
+- `ornaments`: 8 anchor tại ApricotTree.tsx gắn thứ tự ổn định wish-01…wish-08; API merge theo ID, không đổi thứ tự cục bộ.
 - `fireworkPresets`: 17 kiểu hình/cơ chế và text (xem FIREWORKS_SPEC), nhãn VI/EN, shape sampler, màu, lifetime, budget và cooldown theo quality profile.
 - `sceneLayout`: transform, camera presets, vùng trời an toàn và hit targets.
 
 ## Lưu trữ
-localStorage: `tet-language`, `tet-sound-volume` (0–100, mặc định 70), `tet-sound-enabled` (preference, audio vẫn cần user gesture), `tet-wishes-seen`. sessionStorage: `tet-preview-played` và trạng thái điều hướng nếu cần. Validate JSON/ID; storage bị chặn/hỏng không làm app ngừng chạy. Không lưu hàng đợi pháo hoa để phát lại sau refresh.
+localStorage: `tet-language`, `tet-sound-volume` (0–100, mặc định 70), `tet-wishes-seen`. Audio luôn tắt khi tải trang, không khôi phục trạng thái bật; preview và bản nháp chỉ giữ trong bộ nhớ phiên. Validate JSON/ID; storage bị chặn/hỏng không làm app ngừng chạy. Không lưu hàng đợi pháo hoa để phát lại sau refresh.
 
 ## Countdown và điều khiển
 Tính remaining từ `Math.max(0, Math.ceil((Date.parse(TET_INSTANT) - Date.now()) / 1000))`, không cộng trừ theo tick. Cập nhật mỗi 250–1000ms và trên visibilitychange. MVP dùng giờ hệ thống.
@@ -55,7 +51,7 @@ tet-wishes-seen dùng định dạng có version, phân namespace default hoặc
 
 
 ## Cấu trúc triển khai hiện tại
-App.tsx điều phối state machine, UI và timer; lib/experience.mjs chứa countdown/reducer/shape sampler; scenes/World.tsx tải GLB và điều khiển camera; ApricotTree.tsx và Fireworks.tsx dựng nội dung procedural. hooks/useWishContent.ts và lib/contentApi.mjs thực hiện API. components/FallbackScene.tsx dùng Canvas2D và SVG khi WebGL2 lỗi. components/WishDialog.tsx dùng dialog native. Chi tiết chưa qua browser QA và benchmark thực tế.
+App.tsx ghép UI, hooks/useExperience.ts điều phối các hook lifecycle; lib/experience.mjs chứa countdown/reducer/shape sampler; scenes/World.tsx tải GLB và điều khiển camera; ApricotTree.tsx và Fireworks.tsx dựng nội dung procedural. hooks/useWishContent.ts và lib/contentApi.mjs thực hiện API. components/FallbackScene.tsx dùng Canvas2D và SVG khi WebGL2 lỗi. components/WishDialog.tsx dùng dialog native. Chi tiết chưa qua browser QA và benchmark thực tế.
 
 
 
@@ -65,5 +61,5 @@ fireworkDynamics.mjs là nguồn timeline dùng chung giữa Fireworks.tsx, Fall
 
 
 
-FireworksControls lưu preference vị trí bảng tại tet-firework-dock (bottom|left|right), validate trước khi dùng. useMedia áp vị trí hiệu lực bottom cho mobile; không thay đổi giá trị desktop đã lưu. Chỉ thay layout của cùng component, không remount/reset đồng hồ hoặc ô nhập chữ.
+FireworksControls cố định dưới đáy, useMedia chỉ điều chỉnh bố cục mobile; không còn đọc/ghi tet-firework-dock hoặc selector đổi vị trí. Đổi viewport không remount/reset đồng hồ hoặc ô nhập chữ.
 
