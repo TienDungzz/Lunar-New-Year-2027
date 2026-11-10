@@ -9,7 +9,7 @@ import random
 from mathutils import Vector
 
 ROOT = os.environ.get('TET_PROJECT_ROOT', r'C:\Users\trant\Desktop\Source\Lunar-New-Year')
-scene = bpy.data.scenes.new('XuanAnYen_Environment')
+scene = bpy.data.scenes.new('Tet_Environment')
 bpy.context.window.scene = scene
 
 def material(name, color, emission=0):
@@ -351,6 +351,6 @@ scene.camera = cam
 scene.render.resolution_x = 1000
 scene.render.resolution_y = 800
 scene.render.resolution_percentage = 100
-bpy.ops.wm.save_as_mainfile(filepath=os.path.join(ROOT, 'art', 'blender', 'xuan-an-yen.blend'))
-print('Exported tet-house.glb and tet-courtyard.glb; saved source .blend; preserved existing scenes.')
+bpy.data.libraries.write(os.path.join(ROOT, 'art', 'blender', 'tet-environment.blend'), {scene}, fake_user=True, compress=True)
+print('Exported tet-house.glb and tet-courtyard.glb; saved only the generated environment in tet-environment.blend; preserved existing live scenes.')
 

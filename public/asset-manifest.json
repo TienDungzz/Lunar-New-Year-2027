@@ -33,7 +33,7 @@
       "path": "models/tet-house.glb",
       "bytes": 1116824,
       "sha256": "544b8018ae5e28489d31ad6522187cbd95140de577c9bcabb93ac658549c070a",
-      "source": "art/blender/build_environment.py",
+      "source": "scripts/blender/build_environment.py",
       "license": "Original project asset; generated with Blender MCP",
       "triangles": 17816,
       "textureBytes": 0
@@ -42,7 +42,7 @@
       "path": "models/tet-courtyard.glb",
       "bytes": 1617964,
       "sha256": "6121cb7cba40d3d9c5eec3208d308f433522a86cf0b4b40332f29497a04f2c72",
-      "source": "art/blender/build_environment.py",
+      "source": "scripts/blender/build_environment.py",
       "license": "Original project courtyard and Tet props; generated with Blender MCP",
       "triangles": 16932,
       "textureBytes": 0

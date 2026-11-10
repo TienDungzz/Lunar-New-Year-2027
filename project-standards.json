@@ -144,21 +144,35 @@
       "components": [
         {
           "paths": [
-            "blender/build_environment.py"
-          ],
-          "name": "environment-generator",
-          "required": true
-        },
-        {
-          "paths": [
             "branding"
           ],
           "name": "branding",
+          "required": true
+        },
+        {
+          "name": "blender-master",
+          "paths": [
+            "blender/tet-environment.blend"
+          ],
           "required": true
         }
       ],
       "name": "source-art",
       "enabled": true
+    },
+    {
+      "root": "scripts",
+      "name": "tooling",
+      "enabled": true,
+      "components": [
+        {
+          "name": "environment-generator",
+          "paths": [
+            "blender/build_environment.py"
+          ],
+          "required": true
+        }
+      ]
     }
   ],
   "code": {

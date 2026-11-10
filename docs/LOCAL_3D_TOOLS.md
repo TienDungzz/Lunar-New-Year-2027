@@ -16,7 +16,7 @@ Quyền này là phạm vi làm việc của dự án, không tự cài đặt M
 1. Chốt blockout, tỷ lệ và camera từ các docs cảnh; có thể dựng thử trong Blender hoặc Three.js.
 2. Dùng Blender MCP dựng môi trường và đạo cụ; kiểm tra silhouette, chiều sâu, vật liệu, ánh sáng ấm/lạnh và chỗ trống cho UI.
 3. Tạo mẫu chùm/trái tim/vòng tròn/thác sáng; lưu tham số hình dạng, màu, mật độ, lifetime, timing và ảnh tham chiếu. Hình trái tim/vòng tròn phải rõ từ camera mục tiêu.
-4. Lưu master tại `art/blender/*.blend`, script tái tạo/export và ảnh tham chiếu trong `art/blender/`. Không chỉ giữ GLB.
+4. Lưu master tại `art/blender/*.blend`, script tái tạo/export trong `scripts/blender/` và ảnh tham chiếu tại `art/images/previews/`. Logo chỉ giữ bản dùng trên web trong `public/`, không lưu ảnh gốc branding. Không chỉ giữ GLB của môi trường.
 5. Xuất asset web sang `public/models/*.glb`, texture tương thích; kiểm tra đơn vị, trục Y-up, transform, normal, mặt trước/sau và anchor vật treo.
 6. Tái tạo hiệu ứng bằng particle/shader web, so với ảnh tham chiếu; kiểm tra tone mapping, độ sáng, hình dạng trên desktop/mobile và reduced motion.
 7. Nén theo pipeline đã kiểm chứng; tạo manifest checksum, triangles, texture bytes, nguồn/license; chạy build/check khi đã có triển khai.
